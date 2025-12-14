@@ -1,28 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Dial from './Dial';
-import NavigationRing from './NavigationRing';
+import Hologram from './Hologram'; // Import Hologram
 import anime from 'animejs/lib/anime.es.js';
 import { cn } from '../../lib/utils';
 import useSound from '../../hooks/useSound';
+import { Code, User, Brain, Mail, FileText } from 'lucide-react'; // Import icons here
 
 const Omnitrix = ({ onTransform }) => {
   const [isActive, setIsActive] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [masterControl, setMasterControl] = useState(false);
+  
   const clickCountRef = useRef(0);
   const lastClickTimeRef = useRef(0);
+  const lastScrollTimeRef = useRef(0); // For scroll debounce
   
   const omnitrixRef = useRef(null);
   const containerRef = useRef(null);
   const { playSound } = useSound();
 
   const sections = [
-    { id: 'projects', label: 'Projects' },
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'contact', label: 'Contact' },
-    { id: 'resume', label: 'Resume' },
+    { id: 'projects', label: 'Projects', icon: Code },
+    { id: 'about', label: 'About', icon: User },
+    { id: 'skills', label: 'Skills', icon: Brain },
+    { id: 'contact', label: 'Contact', icon: Mail },
+    { id: 'resume', label: 'Resume', icon: FileText },
   ];
 
   const handleMouseEnter = () => {
@@ -50,39 +53,27 @@ const Omnitrix = ({ onTransform }) => {
     }
   };
 
-  const handleMouseMove = (e) => {
-    if (!isActive || isTransforming || !containerRef.current) return;
+  // Replace MouseMove with Wheel event for scrolling
+  const handleWheel = (e) => {
+    if (!isActive || isTransforming) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Calculate angle from center to mouse
-    const x = e.clientX - centerX;
-    const y = e.clientY - centerY;
-    
-    // Atan2 returns -PI to PI. We want 0 to 360 starting from top.
-    // Standard atan2 is 0 at right (3 o'clock).
-    // We want 0 at top (12 o'clock).
-    let angle = Math.atan2(y, x) * (180 / Math.PI);
-    
-    // Adjust so 0 is at top (subtract -90 or add 90)
-    angle = angle + 90;
-    
-    // Normalize to 0-360
-    if (angle < 0) angle += 360;
+    const now = Date.now();
+    // Debounce scroll to avoid rapid spinning
+    if (now - lastScrollTimeRef.current < 250) return;
+    lastScrollTimeRef.current = now;
 
-    // Calculate index based on 5 sections (72 degrees each)
-    // We want the "top" section to be centered around 0 degrees.
-    // So section 0 is -36 to 36 degrees (or 324 to 36).
-    // Let's shift angle by half a segment (36 degrees) so 0 starts at 0.
-    const segmentAngle = 360 / sections.length;
-    const index = Math.floor(((angle + segmentAngle / 2) % 360) / segmentAngle);
+    // Determine direction
+    const direction = e.deltaY > 0 ? 1 : -1;
     
-    if (index !== activeIndex) {
-      setActiveIndex(index);
-      playSound('tick');
-    }
+    // Update index (cycling)
+    setActiveIndex((prev) => {
+      let next = prev + direction;
+      if (next >= sections.length) next = 0;
+      if (next < 0) next = sections.length - 1;
+      return next;
+    });
+
+    playSound('tick');
   };
 
   const handleClick = () => {
@@ -136,7 +127,7 @@ const Omnitrix = ({ onTransform }) => {
       className="relative flex items-center justify-center w-64 h-64 md:w-96 md:h-96"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseMove={handleMouseMove}
+      onWheel={handleWheel} // Attach scroll handler
     >
       <div 
         ref={omnitrixRef}
@@ -150,7 +141,13 @@ const Omnitrix = ({ onTransform }) => {
         <Dial isActive={isActive} isTransforming={isTransforming} activeIndex={activeIndex} masterControl={masterControl} />
       </div>
       
-      <NavigationRing isActive={isActive} activeIndex={activeIndex} masterControl={masterControl} />
+      {/* Replaced NavigationRing with Hologram */}
+      <Hologram 
+        icon={sections[activeIndex].icon} 
+        label={sections[activeIndex].label} 
+        isActive={isActive && !isTransforming} 
+        masterControl={masterControl}
+      />
       
       {/* Base Strap (Visual only) */}
       <div className="absolute w-full h-32 bg-gray-800 -z-10 transform -rotate-45 rounded-xl opacity-80"></div>
