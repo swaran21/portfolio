@@ -4,6 +4,9 @@ import { cn } from '../../lib/utils';
 import { X } from 'lucide-react';
 
 import SciFiLayout from './SciFiLayout';
+import ProjectsSection from './ProjectsSection';
+import AboutSection from './AboutSection';
+
 
 const SectionOverlay = ({ activeSection, onClose }) => {
   const overlayRef = useRef(null);
@@ -35,6 +38,42 @@ const SectionOverlay = ({ activeSection, onClose }) => {
 
   if (!activeSection) return null;
 
+  const renderContent = () => {
+    switch(activeSection) {
+        case 'projects':
+            return <ProjectsSection />;
+        case 'about':
+            return <AboutSection />;
+        case 'skills':
+            // return <SkillsSection />;
+        default:
+            return (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+                    <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10 backdrop-blur-md">
+                        <h3 className="text-2xl font-bold mb-4 font-mono uppercase text-green-400">
+                        // FILE: {activeSection}_DATA
+                        </h3>
+                        <p className="text-lg text-green-300/80 font-mono leading-relaxed">
+                            Accessing Plumber Database... <br/>
+                            Retrieved records for <span className="text-green-100 font-bold">{activeSection}</span>.
+                        </p>
+                        <div className="mt-4 h-32 bg-green-500/5 animate-pulse rounded border border-green-500/20"></div>
+                    </div>
+
+                    <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10 backdrop-blur-md">
+                        <h3 className="text-2xl font-bold mb-4 font-mono uppercase text-green-400">
+                        // STATUS: CLASSIFIED
+                        </h3>
+                        <p className="text-lg text-green-300/80 font-mono leading-relaxed">
+                            Level 5 Clearance Required. <br/>
+                            Decrypting additional modules...
+                        </p>
+                    </div>
+                </div>
+            );
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       {/* 
@@ -60,29 +99,7 @@ const SectionOverlay = ({ activeSection, onClose }) => {
         </button>
 
         <SciFiLayout title={activeSection}>
-           {/* Placeholder Content for now, passing children */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-                <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10 backdrop-blur-md">
-                    <h3 className="text-2xl font-bold mb-4 font-mono uppercase text-green-400">
-                      // FILE: {activeSection}_DATA
-                    </h3>
-                    <p className="text-lg text-green-300/80 font-mono leading-relaxed">
-                        Accessing Plumber Database... <br/>
-                        Retrieved records for <span className="text-green-100 font-bold">{activeSection}</span>.
-                    </p>
-                    <div className="mt-4 h-32 bg-green-500/5 animate-pulse rounded border border-green-500/20"></div>
-                </div>
-
-                <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10 backdrop-blur-md">
-                    <h3 className="text-2xl font-bold mb-4 font-mono uppercase text-green-400">
-                      // STATUS: CLASSIFIED
-                    </h3>
-                    <p className="text-lg text-green-300/80 font-mono leading-relaxed">
-                        Level 5 Clearance Required. <br/>
-                        Decrypting additional modules...
-                    </p>
-                </div>
-            </div>
+           {renderContent()}
         </SciFiLayout>
       </div>
     </div>
