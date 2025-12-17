@@ -3,6 +3,8 @@ import anime from 'animejs/lib/anime.es.js';
 import { cn } from '../../lib/utils';
 import { X } from 'lucide-react';
 
+import SciFiLayout from './SciFiLayout';
+
 const SectionOverlay = ({ activeSection, onClose }) => {
   const overlayRef = useRef(null);
   const contentRef = useRef(null);
@@ -16,17 +18,17 @@ const SectionOverlay = ({ activeSection, onClose }) => {
 
       tl.add({
         targets: overlayRef.current,
-        scale: [0, 1],
+        scale: [0, 1.5], // Scale up large enough to cover screen
         opacity: [0, 1],
-        duration: 500,
+        duration: 400,
         easing: 'easeInExpo'
       })
       .add({
         targets: contentRef.current,
         opacity: [0, 1],
-        translateY: [20, 0],
-        duration: 800,
-        delay: 200
+        scale: [0.95, 1],
+        duration: 600,
+        delay: 100 // Overlap slightly
       });
     }
   }, [activeSection]);
@@ -34,46 +36,54 @@ const SectionOverlay = ({ activeSection, onClose }) => {
   if (!activeSection) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-      {/* Green Flash Overlay */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
+      {/* 
+         Green Flash Overlay 
+         (The "Transformation" burst)
+      */}
       <div 
         ref={overlayRef}
-        className="absolute inset-0 bg-green-500 origin-center rounded-full pointer-events-auto"
+        className="absolute inset-0 bg-green-500 origin-center rounded-full pointer-events-none mix-blend-screen"
         style={{ transform: 'scale(0)' }}
       ></div>
 
-      {/* Content Container */}
+      {/* Content Container (Full Screen Dialog) */}
       <div 
         ref={contentRef}
-        className="relative w-full h-full bg-black/90 text-green-500 p-8 overflow-y-auto pointer-events-auto opacity-0"
+        className="relative w-full h-full bg-black text-green-500 opacity-0"
       >
         <button 
           onClick={onClose}
-          className="absolute top-8 right-8 p-2 rounded-full border border-green-500 hover:bg-green-500 hover:text-black transition-colors z-50"
+          className="absolute top-6 right-6 p-2 rounded-full border border-green-500 hover:bg-green-500 hover:text-black transition-colors z-[60] cursor-pointer"
         >
           <X size={24} />
         </button>
 
-        <div className="max-w-6xl mx-auto mt-16">
-          <h2 className="text-6xl font-bold mb-8 uppercase tracking-tighter">{activeSection}</h2>
-          
-          {/* Placeholder Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10">
-              <h3 className="text-2xl font-bold mb-4">Content for {activeSection}</h3>
-              <p className="text-lg text-green-400/80">
-                This is where the content for the {activeSection} section will go.
-                We will implement specific components for each section shortly.
-              </p>
+        <SciFiLayout title={activeSection}>
+           {/* Placeholder Content for now, passing children */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+                <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10 backdrop-blur-md">
+                    <h3 className="text-2xl font-bold mb-4 font-mono uppercase text-green-400">
+                      // FILE: {activeSection}_DATA
+                    </h3>
+                    <p className="text-lg text-green-300/80 font-mono leading-relaxed">
+                        Accessing Plumber Database... <br/>
+                        Retrieved records for <span className="text-green-100 font-bold">{activeSection}</span>.
+                    </p>
+                    <div className="mt-4 h-32 bg-green-500/5 animate-pulse rounded border border-green-500/20"></div>
+                </div>
+
+                <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10 backdrop-blur-md">
+                    <h3 className="text-2xl font-bold mb-4 font-mono uppercase text-green-400">
+                      // STATUS: CLASSIFIED
+                    </h3>
+                    <p className="text-lg text-green-300/80 font-mono leading-relaxed">
+                        Level 5 Clearance Required. <br/>
+                        Decrypting additional modules...
+                    </p>
+                </div>
             </div>
-            <div className="p-6 border border-green-500/30 rounded-lg bg-green-900/10">
-              <h3 className="text-2xl font-bold mb-4">More Details</h3>
-              <p className="text-lg text-green-400/80">
-                Additional information and interactive elements will be placed here.
-              </p>
-            </div>
-          </div>
-        </div>
+        </SciFiLayout>
       </div>
     </div>
   );
