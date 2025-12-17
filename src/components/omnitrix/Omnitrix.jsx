@@ -31,8 +31,8 @@ const Omnitrix = ({ onTransform }) => {
   // Initial Prop Tilt
   useEffect(() => {
     anime.set(omnitrixRef.current, {
-        rotateX: 20,
-        rotateY: -20,
+        rotateX: 30,
+        rotateY: -15,
         scale: 0.9
     });
   }, []);
@@ -44,8 +44,8 @@ const Omnitrix = ({ onTransform }) => {
       anime({
         targets: omnitrixRef.current,
         scale: 1,
-        // Perfection: Perpendicular to the viewer
-        rotateX: 0,
+        // Tilt BACK to show off the vertical hologram projection
+        rotateX: 45,
         rotateY: 0,
         duration: 800,
         easing: 'easeOutElastic(1, .8)'
@@ -145,7 +145,7 @@ const Omnitrix = ({ onTransform }) => {
         </BadgeCylinder>
         
         {/* Hologram - Outside Cylinder to float independent of stacks, but inside tilt container */}
-        <div className="absolute inset-0 pointer-events-none" style={{ transform: 'translateZ(20px)' }}>
+        <div className="absolute inset-0 pointer-events-none z-50" style={{ transform: 'translateZ(30px)' }}>
              <Hologram 
                 icon={sections[activeIndex].icon} 
                 label={sections[activeIndex].label} 
