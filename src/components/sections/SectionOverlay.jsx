@@ -6,6 +6,9 @@ import { X } from 'lucide-react';
 import SciFiLayout from './SciFiLayout';
 import ProjectsSection from './ProjectsSection';
 import AboutSection from './AboutSection';
+import SkillsSection from './SkillsSection';
+import ContactSection from './ContactSection';
+import ResumeSection from './ResumeSection';
 
 
 const SectionOverlay = ({ activeSection, onClose }) => {
@@ -45,7 +48,11 @@ const SectionOverlay = ({ activeSection, onClose }) => {
         case 'about':
             return <AboutSection />;
         case 'skills':
-            // return <SkillsSection />;
+            return <SkillsSection />;
+        case 'contact':
+            return <ContactSection />;
+        case 'resume':
+            return <ResumeSection />;
         default:
             return (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">

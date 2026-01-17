@@ -31,8 +31,8 @@ const Omnitrix = ({ onTransform }) => {
   // Initial Prop Tilt
   useEffect(() => {
     anime.set(omnitrixRef.current, {
-        rotateX: 30,
-        rotateY: -15,
+        rotateX: 0,  // Perfectly flat/straight
+        rotateY: 0,
         scale: 0.9
     });
   }, []);
@@ -44,7 +44,7 @@ const Omnitrix = ({ onTransform }) => {
       anime({
         targets: omnitrixRef.current,
         scale: 1,
-        // Tilt BACK to show off the vertical hologram projection
+        // Tilt to 45 degrees to show off the vertical hologram projection
         rotateX: 45,
         rotateY: 0,
         duration: 800,
@@ -59,8 +59,8 @@ const Omnitrix = ({ onTransform }) => {
       anime({
         targets: omnitrixRef.current,
         scale: 0.9,
-        rotateX: 20,
-        rotateY: -20,
+        rotateX: 0,  // Return to flat position
+        rotateY: 0,
         duration: 600,
         easing: 'easeOutQuad'
       });
