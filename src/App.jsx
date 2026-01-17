@@ -1,6 +1,7 @@
 import React from 'react';
 import Omnitrix from './components/omnitrix/Omnitrix';
 import SectionOverlay from './components/sections/SectionOverlay';
+import SpaceBackground from './components/ui/SpaceBackground';
 import './App.css';
 
 const App = () => {
@@ -16,7 +17,10 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-black text-green-500 overflow-hidden font-sans selection:bg-green-500 selection:text-black">
-      <main className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      {/* Space Environment Background */}
+      <SpaceBackground />
+      
+      <main className="relative w-full h-screen flex items-center justify-center overflow-hidden z-10">
         <Omnitrix onTransform={handleTransform} />
       </main>
       
