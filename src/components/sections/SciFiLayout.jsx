@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 import Scanline from '../ui/Scanline';
 
-const SciFiLayout = ({ children, title, className }) => {
+const SciFiLayout = ({ title, children, className, sectionId }) => {
   return (
     <div className={cn("relative w-full h-full flex flex-col overflow-hidden", className)}>
       {/* Background Grid */}
@@ -25,12 +25,14 @@ const SciFiLayout = ({ children, title, className }) => {
 
       {/* Header */}
       <div className="relative z-10 p-8 border-b border-green-500/30 flex items-center justify-between bg-green-900/10 backdrop-blur-sm">
-        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-green-500 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]">
+        <div>
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-green-500 drop-shadow-[0_0_20px_rgba(74,222,128,0.5)]">
             {title}
-        </h2>
-        <div className="flex flex-col items-end text-green-400/60 text-xs font-mono">
-            <span>SYS.VER.10.0</span>
-            <span>SECURE CONNECTION</span>
+          </h2>
+        </div>
+        <div className="hidden md:flex flex-col items-end text-right font-mono text-xs text-green-400/70">
+            <div className="mb-1">OMNITRIX v10.0</div>
+            <div>SECURITY: <span className="text-green-500">■■■■■</span></div>
         </div>
       </div>
 
@@ -44,6 +46,10 @@ const SciFiLayout = ({ children, title, className }) => {
       
       {/* Scanlines Overlay */}
       <Scanline />
+
+      {/* Animated accents */}
+      <div className="absolute top-20 right-20 w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 20px rgba(74, 222, 128, 0.8)' }}></div>
+      <div className="absolute bottom-20 left-20 w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ boxShadow: '0 0 20px rgba(74, 222, 128, 0.8)', animationDelay: '300ms' }}></div>
     </div>
   );
 };

@@ -105,7 +105,7 @@ const SectionOverlay = ({ activeSection, onClose }) => {
           <X size={24} />
         </button>
 
-        <SciFiLayout title={activeSection}>
+        <SciFiLayout title={activeSection} sectionId={activeSection}>
            {renderContent()}
         </SciFiLayout>
       </div>

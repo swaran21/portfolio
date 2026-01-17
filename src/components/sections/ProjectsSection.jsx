@@ -48,6 +48,28 @@ const ProjectsSection = () => {
                   className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500 scale-100 group-hover:scale-110"
               />
               
+              {/* DNA Scanning Animation (on hover) */}
+              <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                {/* Scanning line */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-400/50 to-transparent animate-dna-scan"></div>
+                
+                {/* DNA Strands */}
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex gap-1">
+                  {[...Array(3)].map((_, i) => (
+                    <div 
+                      key={i}
+                      className="w-1 h-6 bg-green-400 rounded-full animate-dna-pulse"
+                      style={{ animationDelay: `${i * 0.15}s` }}
+                    ></div>
+                  ))}
+                </div>
+                
+                {/* Scanning text */}
+                <div className="absolute top-2 left-2 text-xs font-mono text-green-400 animate-pulse">
+                  SCANNING...
+                </div>
+              </div>
+              
               {/* ID Badge */}
               <div className="absolute top-2 right-2 z-20 bg-black/80 border border-green-500/50 px-2 py-1 text-xs font-mono text-green-400">
                   {project.id}
@@ -117,6 +139,24 @@ const ProjectsSection = () => {
           </div>
         );
       })}
+
+      {/* DNA Scanning Animations */}
+      <style>{`
+        @keyframes dna-scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+        @keyframes dna-pulse {
+          0%, 100% { transform: scaleY(1); opacity: 0.5; }
+          50% { transform: scaleY(1.8); opacity: 1; }
+        }
+        .animate-dna-scan {
+          animation: dna-scan 2s ease-in-out infinite;
+        }
+        .animate-dna-pulse {
+          animation: dna-pulse 1s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 };

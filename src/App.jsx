@@ -1,22 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Omnitrix from './components/omnitrix/Omnitrix';
 import SectionOverlay from './components/sections/SectionOverlay';
 import SpaceBackground from './components/ui/SpaceBackground';
+import LoadingScreen from './components/ui/LoadingScreen';
+import CursorTrail from './components/ui/CursorTrail';
+import GlitchTransition from './components/ui/GlitchTransition';
 import './App.css';
 
 const App = () => {
-  const [activeSection, setActiveSection] = React.useState(null);
+  const [activeSection, setActiveSection] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showGlitch, setShowGlitch] = useState(false);
 
   const handleTransform = (sectionId) => {
-    setActiveSection(sectionId);
+    // Trigger glitch transition
+    setShowGlitch(true);
+    
+    // Set active section after glitch
+    setTimeout(() => {
+      setActiveSection(sectionId);
+    }, 300);
   };
 
   const handleClose = () => {
-    setActiveSection(null);
+    setShowGlitch(true);
+    setTimeout(() => {
+      setActiveSection(null);
+    }, 300);
   };
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
+  const handleGlitchComplete = () => {
+    setShowGlitch(false);
+  };
+
+  if (isLoading) {
+    return <LoadingScreen onComplete={handleLoadingComplete} />;
+  }
 
   return (
     <div className="min-h-screen bg-black text-green-500 overflow-hidden font-sans selection:bg-green-500 selection:text-black">
+      {/* Visual Effects */}
+      <CursorTrail />
+      <GlitchTransition isActive={showGlitch} onComplete={handleGlitchComplete} />
+      
       {/* Space Environment Background */}
       <SpaceBackground />
       
