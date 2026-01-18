@@ -15,14 +15,81 @@ const AsmuthTower = () => {
 
   return (
     <group position={[0, -20, 0]}>
-      {/* Base Platform - Wide and sturdy */}
-      <mesh position={[0, 0, 0]}>
-        <cylinderGeometry args={[25, 35, 10, 8]} />
-        <meshStandardMaterial
-          color="#05261c"
-          metalness={0.7}
-          roughness={0.3}
-        />
+      {/* --- ADVANCED FUTURE CITY ISLAND --- */}
+      
+      {/* 1. Deep Foundation (Massive Industrial Base) */}
+      <mesh position={[0, -25, 0]}>
+        <cylinderGeometry args={[130, 160, 50, 32]} /> 
+        <meshStandardMaterial color="#02100d" metalness={0.9} roughness={0.7} />
+      </mesh>
+
+      {/* 2. Main Tech Concourse (The City Level) */}
+      <mesh position={[0, 5, 0]}>
+        <cylinderGeometry args={[110, 130, 10, 32]} /> 
+        <meshStandardMaterial color="#05261c" metalness={0.8} roughness={0.4} />
+      </mesh>
+
+      {/* 3. Glowing Circuit Rings (Energy Lines) */}
+      {[135, 145, 155].map((radius, i) => (
+         <mesh key={i} position={[0, -30 + i*5, 0]} rotation={[Math.PI/2, 0, 0]}>
+            <torusGeometry args={[radius, 0.8, 8, 64]} />
+            <meshBasicMaterial color="#00ff88" transparent opacity={0.3} />
+         </mesh>
+      ))}
+
+      {/* 4. Peripheral Building Structures (Procedural City Look) */}
+      {[...Array(16)].map((_, i) => {
+         const angle = (i / 16) * Math.PI * 2;
+         const dist = 100;
+         return (
+            <group key={i} rotation={[0, angle, 0]} position={[Math.sin(angle)*dist, 10, Math.cos(angle)*dist]}>
+               {/* Building Block */}
+               <mesh position={[0, 0, 0]}>
+                  <boxGeometry args={[15, 20 + Math.random() * 20, 15]} />
+                  <meshStandardMaterial color="#0a3d2e" metalness={0.8} />
+               </mesh>
+               {/* Glowing Top */}
+               <mesh position={[0, 10 + Math.random() * 10, 0]}>
+                  <boxGeometry args={[12, 1, 12]} />
+                  <meshBasicMaterial color="#00ff88" />
+               </mesh>
+            </group>
+         )
+      })}
+
+      {/* 5. Advanced Docking Bays with Runways */}
+      {[0, 90, 180, 270].map((angle, i) => (
+         <group key={i} rotation={[0, (angle * Math.PI) / 180, 0]}>
+            {/* The Arm */}
+            <mesh position={[180, 0, 0]}>
+               <boxGeometry args={[200, 8, 40]} /> 
+               <meshStandardMaterial color="#021a15" metalness={0.9} />
+            </mesh>
+            {/* The Runway Strip */}
+            <mesh position={[180, 4.1, 0]} rotation={[-Math.PI/2, 0, 0]}>
+               <planeGeometry args={[190, 10]} />
+               <meshBasicMaterial color="#00ff88" transparent opacity={0.8} />
+            </mesh>
+            {/* Floating Landing Lights */}
+            {[50, 100, 150].map((x, j) => (
+               <mesh key={j} position={[100 + x, 6, 18]}>
+                  <sphereGeometry args={[1, 8, 8]} />
+                  <meshBasicMaterial color="#ff0000" />
+               </mesh>
+            ))}
+            {[50, 100, 150].map((x, j) => (
+               <mesh key={j} position={[100 + x, 6, -18]}>
+                  <sphereGeometry args={[1, 8, 8]} />
+                  <meshBasicMaterial color="#ff0000" />
+               </mesh>
+            ))}
+         </group>
+      ))}
+
+      {/* 6. Base Connection */}
+      <mesh position={[0, 25, 0]}>
+        <cylinderGeometry args={[30, 45, 30, 16]} />
+        <meshStandardMaterial color="#05261c" metalness={0.7} />
       </mesh>
 
       {/* Main Tower Shaft - Split into two to reveal internal Omnitrix Core */}
