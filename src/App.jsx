@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Omnitrix from './components/omnitrix/Omnitrix';
 import SectionOverlay from './components/sections/SectionOverlay';
 import SpaceBackground from './components/ui/SpaceBackground';
-import LoadingScreen from './components/ui/LoadingScreen';
+import GalvanJourney3D from './components/ui/GalvanJourney3D';
 import CursorTrail from './components/ui/CursorTrail';
 import GlitchTransition from './components/ui/GlitchTransition';
 import './App.css';
@@ -38,7 +38,7 @@ const App = () => {
   };
 
   if (isLoading) {
-    return <LoadingScreen onComplete={handleLoadingComplete} />;
+    return <GalvanJourney3D onJourneyComplete={handleLoadingComplete} />;
   }
 
   return (

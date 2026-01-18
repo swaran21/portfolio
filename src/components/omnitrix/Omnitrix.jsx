@@ -28,10 +28,10 @@ const Omnitrix = ({ onTransform }) => {
     { id: 'resume', label: 'Resume', icon: FileText },
   ];
 
-  // Initial Prop Tilt
+  // Initial Prop Tilt - show off the 3D depth
   useEffect(() => {
     anime.set(omnitrixRef.current, {
-        rotateX: 0,  // Perfectly flat/straight
+        rotateX: 15,  // Slight tilt to show depth
         rotateY: 0,
         scale: 0.9
     });
@@ -44,8 +44,8 @@ const Omnitrix = ({ onTransform }) => {
       anime({
         targets: omnitrixRef.current,
         scale: 1,
-        // Tilt to 45 degrees to show off the vertical hologram projection
-        rotateX: 45,
+        // Enhanced tilt to show off the 3D layers and vertical hologram
+        rotateX: 50,
         rotateY: 0,
         duration: 800,
         easing: 'easeOutElastic(1, .8)'
@@ -59,7 +59,7 @@ const Omnitrix = ({ onTransform }) => {
       anime({
         targets: omnitrixRef.current,
         scale: 0.9,
-        rotateX: 0,  // Return to flat position
+        rotateX: 15,  // Return to initial tilt
         rotateY: 0,
         duration: 600,
         easing: 'easeOutQuad'
@@ -71,7 +71,7 @@ const Omnitrix = ({ onTransform }) => {
     if (!isActive || isTransforming) return;
 
     const now = Date.now();
-    if (now - lastScrollTimeRef.current < 250) return;
+    if (now - lastScrollTimeRef.current < 500) return;
     lastScrollTimeRef.current = now;
 
     const direction = e.deltaY > 0 ? 1 : -1;
@@ -130,15 +130,21 @@ const Omnitrix = ({ onTransform }) => {
   return (
     <div 
       ref={containerRef}
-      className="relative flex items-center justify-center w-full h-full perspective-[1500px] overflow-visible"
+      className="relative flex items-center justify-center w-full h-full perspective-[2500px] overflow-visible"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onWheel={handleWheel}
     >
+      {/* Ambient glow layer */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
       <div 
         ref={omnitrixRef}
         className="relative preserve-3d cursor-pointer"
         onClick={handleClick}
+        style={{ filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5))' }}
       >
         <BadgeCylinder isActive={isActive}>
             <Dial isActive={isActive} isTransforming={isTransforming} activeIndex={activeIndex} masterControl={masterControl} />

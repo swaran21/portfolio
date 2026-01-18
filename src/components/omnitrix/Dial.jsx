@@ -23,13 +23,14 @@ const Dial = ({ isActive, isTransforming, activeIndex, masterControl }) => {
     return () => pulse.pause();
   }, []);
 
-  // Rotate ring based on active index
+  // Rotate ring based on active index - enhanced visibility
   useEffect(() => {
     anime({
       targets: ringRef.current,
       rotate: activeIndex * 72,
-      duration: 600,
-      easing: 'spring(1, 80, 10, 0)'
+      scale: [0.95, 1],  // Pulse effect for visibility
+      duration: 800,  // Increased from 600ms for more visible rotation
+      easing: 'easeOutElastic(1, 0.6)'  // Elastic bounce for visibility
     });
   }, [activeIndex]);
 
@@ -39,16 +40,24 @@ const Dial = ({ isActive, isTransforming, activeIndex, masterControl }) => {
       {/* --- TOP SURFACE RING --- */}
       <div 
         ref={ringRef}
-        className="absolute w-full h-full rounded-full flex items-center justify-center transform transition-transform duration-500 preserve-3d shadow-xl"
+        className="absolute w-full h-full rounded-full flex items-center justify-center transform transition-transform duration-500 preserve-3d"
         style={{
-             // The Brushed Metal Surface
-             background: 'conic-gradient(from 180deg, #52525b, #e4e4e7 10%, #a1a1aa 20%, #52525b 30%, #27272a 45%, #52525b 60%, #e4e4e7 70%, #a1a1aa 80%, #3f3f46 95%, #52525b)',
-             border: '1px solid #71717a'
+             // Enhanced Brushed Metal Surface
+             background: 'conic-gradient(from 180deg, #3f3f46, #fafafa 8%, #d4d4d8 18%, #52525b 28%, #18181b 42%, #52525b 58%, #f4f4f5 68%, #d4d4d8 78%, #52525b 92%, #3f3f46)',
+             border: '2px solid #a1a1aa',
+             boxShadow: `
+               0 8px 16px rgba(0, 0, 0, 0.4),
+               inset 0 2px 4px rgba(255, 255, 255, 0.3),
+               inset 0 -2px 4px rgba(0, 0, 0, 0.3)
+             `
         }}
       >
         {/* Inner Bevel Detail */}
-        <div className="absolute w-[88%] h-[88%] rounded-full shadow-[inset_2px_2px_5px_rgba(0,0,0,0.8)]"
-             style={{ background: 'linear-gradient(135deg, #27272a, #52525b)' }}
+        <div className="absolute w-[88%] h-[88%] rounded-full"
+             style={{ 
+               background: 'linear-gradient(145deg, #3f3f46, #71717a, #52525b)',
+               boxShadow: 'inset 3px 3px 8px rgba(0,0,0,0.9), inset -2px -2px 6px rgba(255,255,255,0.1)'
+             }}
         ></div>
       </div>
 
