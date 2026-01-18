@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera } from '@react-three/drei';
 import StarField from '../3d/StarField';
@@ -41,7 +41,7 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
     // Stage 2: MANUAL ORBIT (51-70) - REQUESTED RANGE
     // Distance/Height controlled by scroll, Angle by USER
     const t = (progress - 51) / 19;
-    const dist = 150 - t * 110; // Spiral In Distance
+    const dist = 150 - t * 100; // Spiral In Distance (Starts 150, Ends 50)
     
     // Use manual rotation offset
     // User can spin 360 freely
@@ -49,7 +49,7 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
     
     return new THREE.Vector3(
       Math.sin(angle) * dist, 
-      15 + t * 10, 
+      15 + t * 5, 
       Math.cos(angle) * dist
     );
   } else if (progress < 92) {
@@ -61,16 +61,16 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
     // Let's just USE the rotationOffset + spiral
     const spiral = t * Math.PI * 1.5;
     const angle = rotationOffset + spiral + Math.PI; 
-    const radius = 40 - t * 25; 
+    const radius = 50 - t * 35; // Radius 50 -> 15
     return new THREE.Vector3(
       Math.sin(angle) * radius,
-      25 + t * 35, 
+      20 + t * 5, // Target Y=25 (Scaled Top is near 25)
       Math.cos(angle) * radius
     );
   } else {
     // Stage 4: ENTER CORE
     const t = (progress - 92) / 8;
-    return new THREE.Vector3(0, 60, 15 - t * 15);
+    return new THREE.Vector3(0, 15, 15 - t * 15); // Target is Y=15 (Scaled Middle Hourglass) 
   }
 };
 
@@ -83,10 +83,10 @@ const CameraRig = ({ progress, rotation }) => {
     
     let target = new THREE.Vector3(0, 0, 0);
     if (progress > 92) {
-       target.set(0, 60, 0);
+       target.set(0, 15, 0); // Look at Scaled Core (Y=15)
     } else if (progress > 70) {
        const t = (progress - 70) / 22;
-       target.set(0, 25 + t * 35, 0);
+       target.set(0, 20 + t * 5, 0); // Look at Ascent
     } else if (progress > 51) {
        target.set(0, 20, 0);
     } else {
@@ -128,20 +128,26 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
     return () => window.removeEventListener('pointerup', handlePointerUp);
   }, []);
 
-  // ... (Lenis setup same as before) ...
+  // Initialize smooth scrolling (Item 8: Lenis)
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.5,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.5, // Slower duration for heavier feel
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth exponential easing
       smoothWheel: true,
-      wheelMultiplier: 1.2,
+      wheelMultiplier: 1.2, // Slightly faster response
     });
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
+    
     requestAnimationFrame(raf);
-    return () => lenis.destroy();
+
+    // Initial scroll handler is fine as Lenis updates window scroll
+    return () => {
+      lenis.destroy();
+    };
   }, []);
 
   useEffect(() => {
@@ -174,14 +180,8 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   return (
     <>
       <div style={{ height: '600vh', position: 'relative' }}>
-        {/* Fixed 3D scene with POINTER EVENTS ENABLED for dragging */}
-        <div 
-          className="fixed inset-0 z-[10000] bg-black"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={handlePointerUp}
-          style={{ cursor: scrollProgress >= 51 && scrollProgress < 70 ? 'grab' : 'auto' }}
-        >
+        {/* Fixed 3D scene */}
+        <div className="fixed inset-0 z-[10000] bg-black">
           <Canvas>
             <PerspectiveCamera makeDefault fov={60} />
             <CameraRig progress={scrollProgress} rotation={viewRotation} />
@@ -192,14 +192,32 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             <color attach="background" args={[scrollProgress > 40 ? '#001a1a' : '#000000']} />
             {scrollProgress < 45 && <GalvanPlanet />}
             {scrollProgress > 45 && <GreenSea />}
-            {scrollProgress > 50 && <AsmuthTower />}
+            
+            {/* WRAP TOWER IN SUSPENSE TO FIX LOADING ISSUES */}
+            {scrollProgress > 50 && (
+               <Suspense fallback={null}>
+                  <AsmuthTower scale={[0.2, 0.2, 0.2]} />
+               </Suspense>
+            )}
+            
             <EffectComposer>
               <Bloom intensity={1.5} luminanceThreshold={0.4} luminanceSmoothing={0.9} mipmapBlur />
             </EffectComposer>
           </Canvas>
 
+          {/* DEDICATED DRAG OVERLAY - High Z-Index to Ensure Capture */}
+          {scrollProgress >= 51 && scrollProgress < 70 && (
+             <div 
+                className="absolute inset-0 z-[10010] cursor-grab active:cursor-grabbing"
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerLeave={handlePointerUp}
+                onPointerUp={handlePointerUp}
+             ></div>
+          )}
+
           {/* UI Overlay - Pointer changes */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none z-[10020]">
             <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center">
               <p className="text-green-400 text-3xl font-bold tracking-widest animate-pulse drop-shadow-[0_0_20px_rgba(0,255,136,0.8)]">
                 {getSceneText(scrollProgress)}
@@ -208,18 +226,22 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             {scrollProgress < 100 && (
               <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
                 <div className="flex flex-col items-center">
-                   {/* ... UI ... */}
                    {scrollProgress >= 51 && scrollProgress < 70 && (
                       <p className="text-green-300 text-xs font-mono mb-1 animate-bounce">
                         &larr; DRAG TO ROTATE &rarr;
                       </p>
                    )}
-                   <p className="text-green-400 text-sm font-mono mb-2">SCROLL TO CONTINUE</p>
-                   {/* ... Bar ... */}
-                   <div className="mt-4 w-64 h-2 bg-green-900/30 rounded-full">
-                     <div className="h-full bg-green-500 rounded-full transition-all duration-300" style={{ width: `${scrollProgress}%` }}></div>
-                   </div>
-                   <p className="text-green-500 text-xs font-mono mt-1">{Math.round(scrollProgress)}%</p>
+                  <p className="text-green-400 text-sm font-mono mb-2">SCROLL TO CONTINUE</p>
+                  <svg className="w-6 h-6 text-green-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                  <div className="mt-4 w-64 h-2 bg-green-900/30 rounded-full">
+                    <div 
+                      className="h-full bg-green-500 rounded-full transition-all duration-300"
+                      style={{ width: `${scrollProgress}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-green-500 text-xs font-mono mt-1">{Math.round(scrollProgress)}%</p>
                 </div>
               </div>
             )}
