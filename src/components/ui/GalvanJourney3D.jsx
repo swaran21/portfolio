@@ -48,15 +48,25 @@ const getCameraPosition = (progress) => {
       15 + t * 5, 
       80 - t * 40 // 80 -> 40
     );
-  } else {
-    // Stage 3: ASCEND TOWER (88-100)
-    const t = (progress - 88) / 12;
+  } else if (progress < 96) {
+    // Stage 3: ASCEND TO OMNITRIX CORE (88-96)
+    // Rise to y=60 (Middle Hourglass)
+    const t = (progress - 88) / 8;
     const angle = t * Math.PI * 1.5 + Math.PI;
-    const radius = 40 - t * 15; 
+    const radius = 40 - t * 25; 
     return new THREE.Vector3(
       Math.sin(angle) * radius,
-      10 + t * 120, // Rise to top
+      10 + t * 50, // Rise to 60 (Hourglass)
       Math.cos(angle) * radius
+    );
+  } else {
+    // Stage 4: ENTER THE OMNITRIX CORE (96-100)
+    // Fly directly into the Hourglass center (0, 60, 0)
+    const t = (progress - 96) / 4;
+    return new THREE.Vector3(
+      0, 
+      60 + t * 0, // Stay at 60
+      15 - t * 15 // radius 15 -> 0 (Inside)
     );
   }
 };
@@ -70,14 +80,16 @@ const CameraRig = ({ progress }) => {
     
     let target = new THREE.Vector3(0, 0, 0);
     
-    if (progress > 88) {
-       // Ascent
+    if (progress > 96) {
+       // Core Entry: Look at Hourglass Center
+       target.set(0, 60, 0);
+    } else if (progress > 88) {
+       // Ascent: Look up at Hourglass
        const t = (progress - 88) / 12;
-       const lookY = -20 + t * 140; 
+       const lookY = 20 + t * 40; 
        target.set(0, lookY, 0);
     } else if (progress > 70) {
-       // Approach
-       target.set(0, 20, 0);
+       // ... existing logic ...
     } else if (progress > 45) {
        // Sea Run
        target.set(0, 10, 0);
@@ -148,9 +160,10 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
     if (progress < 15) return 'JOURNEYING TO GALVAN PRIME';
     if (progress < 30) return 'APPROACHING GALVAN PRIME';
     if (progress < 45) return 'ENTERING ORBIT';
-    if (progress < 70) return 'ENTERING ATMOSPHERE - SEA SKIM'; // Longer sea phase
+    if (progress < 70) return 'ENTERING ATMOSPHERE - SEA SKIM'; 
     if (progress < 88) return 'ASMUTH\'S TOWER SIGHTED'; 
-    return 'ARRIVING AT PRIMUS LAB';
+    if (progress < 96) return 'ASCENDING TOWER';
+    return 'ENTERING OMNITRIX CORE'; // 96-100
   };
 
   const cameraPos = getCameraPosition(scrollProgress);
@@ -197,8 +210,8 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             {/* Green Sea - visible early (45%) */}
             {scrollProgress > 45 && <GreenSea />}
             
-            {/* Asmuth's Tower - Visible early but hidden by fog */}
-            {scrollProgress > 45 && <AsmuthTower />}
+            {/* Asmuth's Tower - Delayed visibility to avoid glitch at 45% transition */}
+            {scrollProgress > 50 && <AsmuthTower />}
             
             {/* Post-Processing Effects (Item 7: Glow/Bloom) */}
             <EffectComposer>
