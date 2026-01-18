@@ -6,10 +6,10 @@ const GreenSea = () => {
   const seaRef = useRef();
   const time = useRef(0);
   
-  // Create large sea geometry
-  const seaGeometry = new THREE.PlaneGeometry(800, 800, 100, 100);
+  // Create large sea geometry - More segments for smoother big waves
+  const seaGeometry = new THREE.PlaneGeometry(800, 800, 150, 150);
   
-  // Animate waves
+  // Animate waves with more realism and height
   useFrame((state, delta) => {
     if (!seaRef.current) return;
     
@@ -20,11 +20,18 @@ const GreenSea = () => {
       const x = positions.getX(i);
       const y = positions.getY(i);
       
-      // Create ocean wave pattern
-      const wave1 = Math.sin(x * 0.01 + time.current * 0.5) * 3;
-      const wave2 = Math.sin(y * 0.01 + time.current * 0.3) * 2;
-      const wave3 = Math.sin((x + y) * 0.02 + time.current) * 1.5;
-      const z = wave1 + wave2 + wave3;
+      // BIG Realistic Ocean Waves
+      // Low frequency, high amplitude (Swell)
+      const swell = Math.sin(x * 0.05 + time.current * 0.8) * 6;
+      
+      // Medium frequency (Choppiness)
+      const chop = Math.cos(y * 0.1 + time.current * 1.2) * 3;
+      
+      // High frequency (Surface noise)
+      const noise = Math.sin((x + y) * 0.3 + time.current * 2) * 1.5;
+      
+      // Combine them
+      const z = swell + chop + noise;
       
       positions.setZ(i, z);
     }
@@ -33,7 +40,7 @@ const GreenSea = () => {
   });
   
   return (
-    <group position={[0, -20, 0]}>
+    <group position={[0, -25, 0]}>
       {/* Animated Sea */}
       <mesh
         ref={seaRef}
@@ -42,13 +49,13 @@ const GreenSea = () => {
       >
         <primitive object={seaGeometry} />
         <meshStandardMaterial
-          color="#00cc77"
+          color="#006644" // Darker deep sea base
           emissive="#00ff88"
-          emissiveIntensity={0.6}
-          metalness={0.7}
-          roughness={0.2}
+          emissiveIntensity={0.4}
+          metalness={0.8}
+          roughness={0.1} // Shinier water
           transparent
-          opacity={0.85}
+          opacity={0.9}
         />
       </mesh>
       

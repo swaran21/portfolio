@@ -161,8 +161,22 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             <ambientLight intensity={2.0} color="#88ffcc" />
             <pointLight position={[0, 50, 50]} intensity={3} color="#00ff88" distance={300} />
             
-            {/* Star field */}
-            <StarField />
+            {/* Star field - Fade out when in atmosphere */}
+            <group visible={scrollProgress < 75}>
+               <StarField />
+            </group>
+
+            {/* Dynamic Atmosphere / Fog - Hides space when close to surface */}
+            {scrollProgress > 50 && (
+              <fog 
+                attach="fog" 
+                args={['#001a1a', 10, 300]} // Dark green fog
+                color="#001a1a"
+              />
+            )}
+            
+            {/* Background Color change for immersion */}
+            <color attach="background" args={[scrollProgress > 60 ? '#001a1a' : '#000000']} />
             
             {/* Galvan Prime Planet - hide when on surface */}
             {scrollProgress < 70 && <GalvanPlanet />}
