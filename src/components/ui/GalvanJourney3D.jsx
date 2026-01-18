@@ -3,6 +3,8 @@ import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera } from '@react-three/drei';
 import StarField from '../3d/StarField';
 import GalvanPlanet from '../3d/GalvanPlanet';
+import GreenSea from '../3d/GreenRiver3D';
+import AsmuthTower from '../3d/AsmuthTower';
 import * as THREE from 'three';
 
 const GalvanJourney3D = ({ onJourneyComplete }) => {
@@ -34,32 +36,52 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [onJourneyComplete]);
 
-  // Camera animation based on scroll
+  // Camera animation - simplified
   const getCameraPosition = (progress) => {
-    if (progress < 25) {
-      // Deep space - far away
-      const t = progress / 25;
+    if (progress < 20) {
+      // Deep space
+      const t = progress / 20;
       return new THREE.Vector3(0, 0, 500 - t * 200);
-    } else if (progress < 50) {
+    } else if (progress < 40) {
       // Approaching planet
-      const t = (progress - 25) / 25;
+      const t = (progress - 20) / 20;
       return new THREE.Vector3(0, 0, 300 - t * 180);
-    } else if (progress < 75) {
-      // Getting closer
-      const t = (progress - 50) / 25;
-      return new THREE.Vector3(0, 20 * t, 120 - t * 50);
+    } else if (progress < 60) {
+      // Orbiting planet
+      const t = (progress - 40) / 20;
+      const angle = t * Math.PI;
+      return new THREE.Vector3(
+        Math.sin(angle) * 50,
+        30 - t * 10,
+        120 - t * 50
+      );
+    } else if (progress < 85) {
+      // Entering planet - descending to sea
+      const t = (progress - 60) / 25;
+      return new THREE.Vector3(
+        0,
+        20 - t * 35, // Descend to sea level
+        70 - t * 60 // Move forward
+      );
     } else {
-      // Final approach
-      const t = (progress - 75) / 25;
-      return new THREE.Vector3(0, 20 + t * 10, 70 - t * 40);
+      // Approaching tower - circle and rise
+      const t = (progress - 85) / 15;
+      const angle = t * Math.PI * 2 + Math.PI; // Start from back/side
+      const radius = 120 - t * 70; // Start further away (120) to avoid clipping
+      return new THREE.Vector3(
+        Math.sin(angle) * radius,
+        10 + t * 50, // Start higher (10) to clear base
+        Math.cos(angle) * radius
+      );
     }
   };
 
   const getSceneText = (progress) => {
-    if (progress < 25) return 'JOURNEYING TO GALVAN PRIME';
-    if (progress < 50) return 'APPROACHING GALVAN PRIME';
-    if (progress < 75) return 'ENTERING ORBIT';
-    return 'DESCENDING TO SURFACE';
+    if (progress < 20) return 'JOURNEYING TO GALVAN PRIME';
+    if (progress < 40) return 'APPROACHING GALVAN PRIME';
+    if (progress < 60) return 'ENTERING ORBIT';
+    if (progress < 85) return 'DESCENDING TO SEA';
+    return 'APPROACHING ASMUTH\'S TOWER';
   };
 
   const cameraPos = getCameraPosition(scrollProgress);
@@ -87,8 +109,14 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             {/* Star field */}
             <StarField />
             
-            {/* Galvan Prime Planet */}
-            <GalvanPlanet />
+            {/* Galvan Prime Planet - hide when on surface */}
+            {scrollProgress < 70 && <GalvanPlanet />}
+            
+            {/* Green Sea - visible when descending */}
+            {scrollProgress > 60 && <GreenSea />}
+            
+            {/* Asmuth's Tower - visible only when approaching (85%+) */}
+            {scrollProgress > 85 && <AsmuthTower />}
             
           </Canvas>
 
