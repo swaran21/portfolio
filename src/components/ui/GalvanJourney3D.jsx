@@ -10,41 +10,52 @@ import Lenis from 'lenis';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 
-// Camera animation logic - moved outside for reuse
+// Camera animation logic - Aggressive Zoom & Smooth Entry
 const getCameraPosition = (progress) => {
-  if (progress < 20) {
-    // Deep space
-    const t = progress / 20;
-    return new THREE.Vector3(0, 0, 500 - t * 200);
-  } else if (progress < 40) {
+  if (progress < 15) {
+    // Deep space - Start much closer (Was 600)
+    const t = progress / 15;
+    return new THREE.Vector3(0, 0, 450 - t * 150); // 450 -> 300
+  } else if (progress < 30) {
     // Approaching planet
-    const t = (progress - 20) / 20;
-    return new THREE.Vector3(0, 0, 300 - t * 180);
-  } else if (progress < 60) {
-    // Orbiting planet
-    const t = (progress - 40) / 20;
-    const angle = t * Math.PI;
+    const t = (progress - 15) / 15;
+    return new THREE.Vector3(0, 0, 300 - t * 100); // 300 -> 200
+  } else if (progress < 45) {
+    // DESCENT / ZOOM IN (30-45)
+    // Dive very close to the planet surface (Radius 50)
+    // We go from 200 -> 60 (Extremely close!)
+    const t = (progress - 30) / 15;
+    const angle = t * Math.PI * 0.5; 
     return new THREE.Vector3(
-      Math.sin(angle) * 50,
-      30 - t * 10,
-      120 - t * 50
+      Math.sin(angle) * 30, 
+      50 - t * 40, // Drop: 50 -> 10
+      200 - t * 140 // Zoom: 200 -> 60 (Was 100)
     );
-  } else if (progress < 85) {
-    // Entering planet - descending to sea
-    const t = (progress - 60) / 25;
+  } else if (progress < 70) {
+    // Stage 1: SEA RUN (45-70)
+    // We teleport back to 350 to give a "Vast Sea" feeling after breaking clouds
+    const t = (progress - 45) / 25;
     return new THREE.Vector3(
-      0,
-      20 - t * 35, // Descend to sea level
-      70 - t * 60 // Move forward
+       Math.sin(t * 10) * 15, 
+       15, 
+       350 - t * 270 // Fast Fly: 350 -> 80
+    );
+  } else if (progress < 88) {
+    // Stage 2: SIGHTING THE TOWER (70-88)
+    const t = (progress - 70) / 18;
+    return new THREE.Vector3(
+      0, 
+      15 + t * 5, 
+      80 - t * 40 // 80 -> 40
     );
   } else {
-    // Approaching tower - circle and rise to the top
-    const t = (progress - 85) / 15;
-    const angle = t * Math.PI * 1.5 + Math.PI; // Circle 270 degrees
-    const radius = 130 - t * 80; // Start far (130) and get close (50)
+    // Stage 3: ASCEND TOWER (88-100)
+    const t = (progress - 88) / 12;
+    const angle = t * Math.PI * 1.5 + Math.PI;
+    const radius = 40 - t * 15; 
     return new THREE.Vector3(
       Math.sin(angle) * radius,
-      10 + t * 120, // Rise from base (10) to top beacon (130)
+      10 + t * 120, // Rise to top
       Math.cos(angle) * radius
     );
   }
@@ -54,23 +65,25 @@ const CameraRig = ({ progress }) => {
   const { camera } = useThree();
   
   useFrame(() => {
-    // Update position
     const pos = getCameraPosition(progress);
-    camera.position.lerp(pos, 0.1); // Smooth lerp
+    camera.position.lerp(pos, 0.1); 
     
-    // Update lookAt target
     let target = new THREE.Vector3(0, 0, 0);
     
-    if (progress > 85) {
-       // Tower phase: Look at the tower height corresponding to ascent
-       const t = (progress - 85) / 15;
-       // Tower base is at -20 (y=0 relative). Top is ~120 relative -> 100 world.
-       // We want to look up as we rise.
-       const lookY = -20 + t * 120; 
+    if (progress > 88) {
+       // Ascent
+       const t = (progress - 88) / 12;
+       const lookY = -20 + t * 140; 
        target.set(0, lookY, 0);
-    } else if (progress > 60) {
-       // Sea phase: Look slightly down/forward
-       target.set(0, -20, 0);
+    } else if (progress > 70) {
+       // Approach
+       target.set(0, 20, 0);
+    } else if (progress > 45) {
+       // Sea Run
+       target.set(0, 10, 0);
+    } else if (progress > 30) {
+       // Descent - look down at planet
+       target.set(0, 0, 0); 
     }
     
     camera.lookAt(target);
@@ -132,11 +145,11 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
 
 
   const getSceneText = (progress) => {
-    if (progress < 20) return 'JOURNEYING TO GALVAN PRIME';
-    if (progress < 40) return 'APPROACHING GALVAN PRIME';
-    if (progress < 60) return 'ENTERING ORBIT';
-    if (progress < 85) return 'DESCENDING TO SEA';
-    if (progress < 95) return 'ASCENDING THE TOWER';
+    if (progress < 15) return 'JOURNEYING TO GALVAN PRIME';
+    if (progress < 30) return 'APPROACHING GALVAN PRIME';
+    if (progress < 45) return 'ENTERING ORBIT';
+    if (progress < 70) return 'ENTERING ATMOSPHERE - SEA SKIM'; // Longer sea phase
+    if (progress < 88) return 'ASMUTH\'S TOWER SIGHTED'; 
     return 'ARRIVING AT PRIMUS LAB';
   };
 
@@ -145,7 +158,7 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   return (
     <>
       {/* Scrollable spacer */}
-      <div style={{ height: '500vh', position: 'relative' }}>
+      <div style={{ height: '600vh', position: 'relative' }}> {/* Tuned height */}
         
         {/* Fixed 3D scene */}
         <div className="fixed inset-0 z-[10000] bg-black pointer-events-none">
@@ -161,31 +174,31 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             <ambientLight intensity={2.0} color="#88ffcc" />
             <pointLight position={[0, 50, 50]} intensity={3} color="#00ff88" distance={300} />
             
-            {/* Star field - Fade out when in atmosphere */}
-            <group visible={scrollProgress < 75}>
+            {/* Star field - Fade out when in atmosphere (45%) */}
+            <group visible={scrollProgress < 45}>
                <StarField />
             </group>
 
-            {/* Dynamic Atmosphere / Fog - Hides space when close to surface */}
-            {scrollProgress > 50 && (
+            {/* Dynamic Atmosphere / Fog - Hides space when entering atmosphere (30+) */}
+            {scrollProgress > 30 && ( 
               <fog 
                 attach="fog" 
-                args={['#001a1a', 10, 300]} // Dark green fog
+                args={['#001a1a', 10, 250]} 
                 color="#001a1a"
               />
             )}
             
             {/* Background Color change for immersion */}
-            <color attach="background" args={[scrollProgress > 60 ? '#001a1a' : '#000000']} />
+            <color attach="background" args={[scrollProgress > 40 ? '#001a1a' : '#000000']} />
             
-            {/* Galvan Prime Planet - hide when on surface */}
-            {scrollProgress < 70 && <GalvanPlanet />}
+            {/* Galvan Prime Planet - Visible until transition (45%) */}
+            {scrollProgress < 45 && <GalvanPlanet />}
             
-            {/* Green Sea - visible when descending */}
-            {scrollProgress > 60 && <GreenSea />}
+            {/* Green Sea - visible early (45%) */}
+            {scrollProgress > 45 && <GreenSea />}
             
-            {/* Asmuth's Tower - visible only when approaching (85%+) */}
-            {scrollProgress > 85 && <AsmuthTower />}
+            {/* Asmuth's Tower - Visible early but hidden by fog */}
+            {scrollProgress > 45 && <AsmuthTower />}
             
             {/* Post-Processing Effects (Item 7: Glow/Bloom) */}
             <EffectComposer>
