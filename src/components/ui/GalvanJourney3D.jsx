@@ -64,13 +64,13 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
     const radius = 50 - t * 35; // Radius 50 -> 15
     return new THREE.Vector3(
       Math.sin(angle) * radius,
-      20 + t * 5, // Target Y=25 (Scaled Top is near 25)
+      25 + t * 5, // Target Y=25 (Scaled Top is near 35)
       Math.cos(angle) * radius
     );
   } else {
     // Stage 4: ENTER CORE
     const t = (progress - 92) / 8;
-    return new THREE.Vector3(0, 15, 15 - t * 15); // Target is Y=15 (Scaled Middle Hourglass) 
+    return new THREE.Vector3(0, 20, 15 - t * 15); // Target is Y=20 (Scaled Middle Hourglass) 
   }
 };
 
@@ -83,10 +83,10 @@ const CameraRig = ({ progress, rotation }) => {
     
     let target = new THREE.Vector3(0, 0, 0);
     if (progress > 92) {
-       target.set(0, 15, 0); // Look at Scaled Core (Y=15)
+       target.set(0, 20, 0); // Look at Scaled Core (Y=20)
     } else if (progress > 70) {
        const t = (progress - 70) / 22;
-       target.set(0, 20 + t * 5, 0); // Look at Ascent
+       target.set(0, 25 + t * 5, 0); // Look at Ascent
     } else if (progress > 51) {
        target.set(0, 20, 0);
     } else {
