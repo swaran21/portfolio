@@ -71,25 +71,38 @@ const AlienHologram = ({ imgUrl, position, rotation }) => {
   const texture = useTexture(imgUrl);
   const materialRef = useRef();
   const groupRef = useRef();
-  
+  const [active, setActive] = React.useState(false);
+  const activeLift = useRef(0);
+
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (materialRef.current) {
         materialRef.current.uniforms.uTime.value = t;
     }
-    // Levitation
+    
+    // Smooth Activation Lift
+    const targetLift = active ? 15 : 0;
+    activeLift.current += (targetLift - activeLift.current) * 0.1;
+
+    // Levitation + Activation
     if (groupRef.current) {
-       groupRef.current.position.y = position[1] + Math.sin(t * 2 + position[0]) * 2;
+       groupRef.current.position.y = position[1] + Math.sin(t * 2 + position[0]) * 2 + activeLift.current;
     }
   });
 
   return (
-    <group ref={groupRef} position={position} rotation={rotation}>
-       {/* Hologram Emitter Base */}
-       <mesh position={[0, -20, 0]}>
-          <boxGeometry args={[30, 2, 12]} />
-          <meshStandardMaterial color="#0b3025" metalness={0.9} emissive="#00ff88" emissiveIntensity={0.2} />
-       </mesh>
+    <group 
+      ref={groupRef} 
+      position={position} 
+      rotation={rotation}
+      onClick={(e) => {
+        e.stopPropagation();
+        setActive(!active);
+      }}
+      onPointerOver={() => document.body.style.cursor = 'pointer'}
+      onPointerOut={() => document.body.style.cursor = 'auto'}
+    >
+
        
        {/* Projector Light */}
        <spotLight 
@@ -97,28 +110,39 @@ const AlienHologram = ({ imgUrl, position, rotation }) => {
           target-position={[0, 10, 0]} 
           angle={0.6} 
           penumbra={0.5} 
-          intensity={5} 
-          color="#00ff88" 
+          intensity={active ? 8 : 5} 
+          color={active ? "#ffffff" : "#00ff88"} 
           distance={50}
        />
 
-       {/* Hologram Billboard */}
+       {/* Alien Billboard */}
        <mesh position={[0, 10, 0]}> 
           <planeGeometry args={[40, 60]} />
-          <shaderMaterial
-             ref={materialRef}
-             uniforms={{
-                uTime: { value: 0 },
-                uTexture: { value: texture },
-                uColor: { value: new THREE.Color('#00ff88') } 
-             }}
-             vertexShader={HologramMaterial.vertexShader}
-             fragmentShader={HologramMaterial.fragmentShader}
-             transparent={true}
-             side={THREE.DoubleSide}
-             blending={THREE.AdditiveBlending} 
-             depthWrite={false} 
-          />
+          {active ? (
+            // ACTIVE: Original Color - Use BasicMaterial to ignore lighting/tint
+            <meshBasicMaterial 
+              map={texture} 
+              transparent={true} 
+              side={THREE.DoubleSide} 
+              toneMapped={false} // Ensure colors are vibrant/unaffected by post-processing tone mapping
+            />
+          ) : (
+            // INACTIVE: Green Hologram Shader
+            <shaderMaterial
+                ref={materialRef}
+                uniforms={{
+                    uTime: { value: 0 },
+                    uTexture: { value: texture },
+                    uColor: { value: new THREE.Color('#00ff88') } 
+                }}
+                vertexShader={HologramMaterial.vertexShader}
+                fragmentShader={HologramMaterial.fragmentShader}
+                transparent={true}
+                side={THREE.DoubleSide}
+                blending={THREE.AdditiveBlending} 
+                depthWrite={false} 
+            />
+          )}
        </mesh>
     </group>
   );

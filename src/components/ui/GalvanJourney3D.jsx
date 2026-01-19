@@ -176,8 +176,14 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   return (
     <>
       <div style={{ height: '600vh', position: 'relative' }}>
-        {/* Fixed 3D scene */}
-        <div className="fixed inset-0 z-[10000] bg-black">
+        {/* Fixed 3D scene - Attach drag handlers HERE so Canvas events still fire for specific meshes */}
+        <div 
+           className="fixed inset-0 z-[10000] bg-black"
+           onPointerDown={handlePointerDown}
+           onPointerMove={handlePointerMove}
+           onPointerLeave={handlePointerUp}
+           onPointerUp={handlePointerUp}
+        >
           <Canvas>
             <PerspectiveCamera makeDefault fov={60} />
             <CameraRig progress={scrollProgress} rotation={viewRotation} />
@@ -201,16 +207,7 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             </EffectComposer>
           </Canvas>
 
-          {/* DEDICATED DRAG OVERLAY - High Z-Index to Ensure Capture */}
-          {scrollProgress >= 51 && scrollProgress < 70 && (
-             <div 
-                className="absolute inset-0 z-[10010] cursor-grab active:cursor-grabbing"
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerLeave={handlePointerUp}
-                onPointerUp={handlePointerUp}
-             ></div>
-          )}
+
 
           {/* UI Overlay - Pointer changes */}
           <div className="absolute inset-0 pointer-events-none z-[10020]">
