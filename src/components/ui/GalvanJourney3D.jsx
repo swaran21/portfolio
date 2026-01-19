@@ -21,13 +21,13 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
     const t = (progress - 15) / 15;
     return new THREE.Vector3(0, 0, 300 - t * 100); 
   } else if (progress < 45) {
-    // Zoom In
+    // Zoom In -- RESTORED DIVE (User liked the intensity)
     const t = (progress - 30) / 15;
     const angle = t * Math.PI * 0.5; 
     return new THREE.Vector3(
       Math.sin(angle) * 30, 
-      50 - t * 40,
-      200 - t * 140
+      50 - t * 40, // Dive down to Y=10
+      200 - t * 140 // Dive in to Z=60
     );
   } else if (progress < 51) {
     // Sea Approach -- Pull back and rise
@@ -52,17 +52,19 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
     // Stage 3: ASCEND
     const t = (progress - 70) / 22;
     const spiral = t * Math.PI * 1.5;
-    const angle = rotationOffset + spiral; // Removed +Math.PI jump
+    const angle = rotationOffset + spiral; 
     const radius = 50 - t * 35; // Radius 50 -> 15
     return new THREE.Vector3(
       Math.sin(angle) * radius,
-      25 + t * 10, // Y: 25 -> 35 (smooth continuation)
+      25 + t * 10, // Y: 25 -> 35
       Math.cos(angle) * radius
     );
   } else {
-    // Stage 4: ENTER CORE
+    // Stage 4: ENTER CORE -- FLY INTO THE LIGHT
     const t = (progress - 92) / 8;
-    return new THREE.Vector3(0, 20, 15 - t * 15); // Target is Y=20 (Scaled Middle Hourglass) 
+    // Target Y: 100 (Center of Hourglass)
+    // Target Z: 0 (Inside)
+    return new THREE.Vector3(0, 35 + t * 65, 20 - t * 20); 
   }
 };
 
@@ -75,12 +77,12 @@ const CameraRig = ({ progress, rotation }) => {
     
     let target = new THREE.Vector3(0, 0, 0);
     if (progress > 92) {
-       target.set(0, 20, 0); // Look at Scaled Core (Y=20)
+       target.set(0, 100, 0); // Look at Core Center (Y=100)
     } else if (progress > 70) {
        const t = (progress - 70) / 22;
-       target.set(0, 25 + t * 5, 0); // Look at Ascent
+       target.set(0, 35 + t * 65, 0); // Rise focus towards core
     } else if (progress > 51) {
-       target.set(0, 20, 0);
+       target.set(0, 30, 0);
     } else {
        target.set(0, 10, 0);
     }
@@ -95,7 +97,7 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   const isDragging = useRef(false);
   const lastX = useRef(0);
 
-  // Manual Rotation Handlers
+  // Manual Rotation Handlers attached to parent div
   const handlePointerDown = (e) => {
     if (scrollProgress >= 51 && scrollProgress < 70) {
       isDragging.current = true;
@@ -106,7 +108,7 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   const handlePointerMove = (e) => {
     if (isDragging.current) {
       const deltaX = e.clientX - lastX.current;
-      setViewRotation(prev => prev - deltaX * 0.005); // Adjust sensitivity
+      setViewRotation(prev => prev - deltaX * 0.005); 
       lastX.current = e.clientX;
     }
   };
@@ -123,10 +125,10 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   // Initialize smooth scrolling (Item 8: Lenis)
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.5, // Slower duration for heavier feel
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth exponential easing
+      duration: 2.0, // Increased inertia for "heavier" cinematic feel
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
       smoothWheel: true,
-      wheelMultiplier: 1.2, // Slightly faster response
+      wheelMultiplier: 0.8, // Reduced speed - users must scroll more to move
     });
 
     function raf(time) {
@@ -136,7 +138,6 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
     
     requestAnimationFrame(raf);
 
-    // Initial scroll handler is fine as Lenis updates window scroll
     return () => {
       lenis.destroy();
     };
@@ -173,9 +174,15 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
   const fogDistance = scrollProgress < 45 ? 250 : 
                       scrollProgress < 55 ? 80 + (scrollProgress - 45) * 32 : 400;
 
+  // Dynamic Bloom: Ramps up intensity near core entry
+  // 90% -> 1.5, 95% -> 2.5, 99% -> 3.5 (BLINDING)
+  const bloomIntensity = scrollProgress > 90 ? 1.5 + (scrollProgress - 90) * 0.3 : 1.5;
+  // Threshold drops to 0 at end to make EVERYTHING glow white
+  const bloomLuminance = scrollProgress > 95 ? 0.4 - (scrollProgress - 95) * 0.04 : 0.4;
+
   return (
     <>
-      <div style={{ height: '600vh', position: 'relative' }}>
+      <div style={{ height: '1200vh', position: 'relative' }}>
         {/* Fixed 3D scene - Attach drag handlers HERE so Canvas events still fire for specific meshes */}
         <div 
            className="fixed inset-0 z-[10000] bg-black"
@@ -198,16 +205,19 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             {/* WRAP TOWER IN SUSPENSE TO FIX LOADING ISSUES */}
             {scrollProgress > 50 && (
                <Suspense fallback={null}>
-                  <AsmuthTower scale={[0.2, 0.2, 0.2]} />
+                  <AsmuthTower scale={[0.35, 0.35, 0.35]} />
                </Suspense>
             )}
             
             <EffectComposer>
-              <Bloom intensity={1.5} luminanceThreshold={0.4} luminanceSmoothing={0.9} mipmapBlur />
+              <Bloom 
+                  intensity={bloomIntensity} 
+                  luminanceThreshold={bloomLuminance} 
+                  luminanceSmoothing={0.9} 
+                  mipmapBlur 
+              />
             </EffectComposer>
           </Canvas>
-
-
 
           {/* UI Overlay - Pointer changes */}
           <div className="absolute inset-0 pointer-events-none z-[10020]">
