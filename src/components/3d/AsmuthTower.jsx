@@ -152,62 +152,33 @@ const AsmuthTower = (props) => {
       </mesh>
 
       {/* --- TOWER SHAFT (SPLIT) --- */}
-      {/* Lower Shaft (Stops at Hourglass Bottom) */}
-      <mesh position={[0, 45, 0]}>
-         <cylinderGeometry args={[20, 25, 70, 32]} />
-         <meshStandardMaterial color="#0b3025" metalness={0.8} roughness={0.2} />
-      </mesh>
       
-      {/* Upper Shaft (Starts at Hourglass Top) */}
-      <mesh position={[0, 140, 0]}>
-         <cylinderGeometry args={[15, 20, 50, 32]} />
-         <meshStandardMaterial color="#0b3025" metalness={0.8} roughness={0.2} />
-      </mesh>
       
-      {/* Shaft Rings */}
-      {[40, 60, 80].map((y, i) => (
-         <mesh key={i} position={[0, y, 0]}>
-             <torusGeometry args={[22, 1.5, 16, 64]} rotation={[Math.PI/2, 0, 0]} />
-             <meshStandardMaterial color="#05261c" metalness={0.9} />
-         </mesh>
-      ))}
+      
+      
+
 
       {/* --- HOURGLASS CORE (The Symbol) --- */}
       <group position={[0, 100, 0]} ref={hourglassRef}>
           {/* Top Cone (Points DOWN) */}
-          <mesh position={[0, 10, 0]} rotation={[Math.PI, 0, 0]}> 
-             <coneGeometry args={[25, 20, 64]} /> 
-             <meshBasicMaterial color="#00ff88" transparent opacity={0.6} side={THREE.DoubleSide} />
+          {/* Height 60 -> Pivot at 30 lets Tip touch 0 */}
+          <mesh position={[0, 30, 0]} rotation={[Math.PI, 0, 0]}> 
+             <coneGeometry args={[50, 60, 160]} /> 
+             <meshBasicMaterial color="#00ff88" transparent opacity={1.0} side={THREE.DoubleSide} />
           </mesh>
           {/* Bottom Cone (Points UP) */}
-          <mesh position={[0, -10, 0]} rotation={[0, 0, 0]}> 
-             <coneGeometry args={[25, 20, 64]} /> 
-             <meshBasicMaterial color="#00ff88" transparent opacity={0.6} side={THREE.DoubleSide} />
+          <mesh position={[0, -30, 0]} rotation={[0, 0, 0]}> 
+             <coneGeometry args={[50, 60, 160]} /> 
+             <meshBasicMaterial color="#00ff88" transparent opacity={1.0} side={THREE.DoubleSide} />
           </mesh>
-          {/* Center Ring */}
-          <mesh rotation={[Math.PI/2, 0, 0]}> 
-             <torusGeometry args={[25, 2, 8, 64]} />
-             <meshStandardMaterial color="#111" metalness={1} roughness={0.1} />
-          </mesh>
+          
           {/* Inner Core Light */}
-          <pointLight intensity={3} distance={50} color="#00ff88" />
+          <pointLight intensity={3} distance={100} color="#00ff88" />
       </group>
 
-      {/* Top Deck */}
-      <mesh position={[0, 175, 0]} ref={topSphereRef}>
-          <sphereGeometry args={[25, 64, 64]} />
-          <meshStandardMaterial color="#00ff88" emissive="#00ffaa" emissiveIntensity={0.5} metalness={0.8} />
-      </mesh>
       
-      {/* Floating Crown Rings */}
-      <mesh position={[0, 175, 0]} rotation={[0.2, 0, 0.1]}>
-         <torusGeometry args={[35, 0.5, 8, 64]} />
-         <meshBasicMaterial color="#00ff88" />
-      </mesh>
-      <mesh position={[0, 175, 0]} rotation={[-0.2, 0, -0.1]}>
-         <torusGeometry args={[32, 0.5, 8, 64]} />
-         <meshBasicMaterial color="#00ff88" />
-      </mesh>
+      
+    
 
       {/* --- SURROUNDINGS --- */}
       {[135, 145, 155].map((radius, i) => (

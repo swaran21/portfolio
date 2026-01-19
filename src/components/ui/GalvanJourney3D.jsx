@@ -30,41 +30,33 @@ const getCameraPosition = (progress, rotationOffset = 0) => {
       200 - t * 140
     );
   } else if (progress < 51) {
-    // Sea Approach
+    // Sea Approach -- Pull back and rise
     const t = (progress - 45) / 6;
     return new THREE.Vector3(
-       Math.sin(t * 5) * 10, 
-       15, 
-       350 - t * 200 
+       0, // Centered view
+       10 + t * 15, // Rise: 10 -> 25
+       60 + t * 120 // Pull back: 60 -> 180
     );
   } else if (progress < 70) {
-    // Stage 2: MANUAL ORBIT (51-70) - REQUESTED RANGE
-    // Distance/Height controlled by scroll, Angle by USER
+    // Stage 2: MANUAL ORBIT (51-70)
     const t = (progress - 51) / 19;
-    const dist = 150 - t * 100; // Spiral In Distance (Starts 150, Ends 50)
-    
-    // Use manual rotation offset
-    // User can spin 360 freely
+    const dist = 150 - t * 100; // Spiral In: 150 -> 50
     const angle = rotationOffset; 
     
     return new THREE.Vector3(
       Math.sin(angle) * dist, 
-      15 + t * 5, 
+      15 + t * 10, // Y: 15 -> 25 (matches ascend start)
       Math.cos(angle) * dist
     );
   } else if (progress < 92) {
     // Stage 3: ASCEND
     const t = (progress - 70) / 22;
-    // Blend manual rotation into ascent slightly or just reset?
-    // Let's keep the manual offset but spiral UP from it?
-    // For simplicity, let's lerp back to a standard spiral or just add momentum.
-    // Let's just USE the rotationOffset + spiral
     const spiral = t * Math.PI * 1.5;
-    const angle = rotationOffset + spiral + Math.PI; 
+    const angle = rotationOffset + spiral; // Removed +Math.PI jump
     const radius = 50 - t * 35; // Radius 50 -> 15
     return new THREE.Vector3(
       Math.sin(angle) * radius,
-      25 + t * 5, // Target Y=25 (Scaled Top is near 35)
+      25 + t * 10, // Y: 25 -> 35 (smooth continuation)
       Math.cos(angle) * radius
     );
   } else {
@@ -177,6 +169,10 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
     return 'ENTERING OMNITRIX CORE';
   };
 
+  // Dynamic fog: thick when landing, clears as approaching
+  const fogDistance = scrollProgress < 45 ? 250 : 
+                      scrollProgress < 55 ? 80 + (scrollProgress - 45) * 32 : 400;
+
   return (
     <>
       <div style={{ height: '600vh', position: 'relative' }}>
@@ -188,7 +184,7 @@ const GalvanJourney3D = ({ onJourneyComplete }) => {
             <ambientLight intensity={2.0} color="#88ffcc" />
             <pointLight position={[0, 50, 50]} intensity={3} color="#00ff88" distance={300} />
             <group visible={scrollProgress < 45}><StarField /></group>
-            {scrollProgress > 30 && <fog attach="fog" args={['#001a1a', 10, 250]} color="#001a1a" />}
+            {scrollProgress > 30 && <fog attach="fog" args={['#001a1a', 10, fogDistance]} color="#001a1a" />}
             <color attach="background" args={[scrollProgress > 40 ? '#001a1a' : '#000000']} />
             {scrollProgress < 45 && <GalvanPlanet />}
             {scrollProgress > 45 && <GreenSea />}
