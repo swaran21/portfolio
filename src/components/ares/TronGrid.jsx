@@ -163,7 +163,8 @@ const TronGrid = ({ scrollProgress = 0 }) => {
   return (
     <div className="fixed inset-0 -z-40 pointer-events-none">
       <Canvas
-        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 1.5]} // Restricts max pixel ratio to 1.5x
+  gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 6, 15], fov: 60, near: 0.1, far: 200 }}
         style={{ background: 'transparent' }}
       >
