@@ -5,18 +5,18 @@
   --color-on-primary: #690006;
   --color-on-secondary-fixed: #002022;
   --color-on-surface: #e5e2e1;
-  --color-background: #050505;
+  --color-background: #020202;
   --color-tertiary-container: #229dbc;
-  --color-surface-container: #201f1f;
-  --color-outline: #ae8883;
-  --color-secondary: #d3fbff;
+  --color-surface-container: #0b0b0b;
+  --color-outline: #ff544b;
+  --color-secondary: #ff3b30;
   --color-surface-tint: #ffb4ab;
   --color-inverse-surface: #e5e2e1;
-  --color-surface-variant: #353534;
+  --color-surface-variant: #1a1a1a;
   --color-error-container: #93000a;
   --color-tertiary-fixed-dim: #6ad4f4;
   --color-on-tertiary: #003642;
-  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-lowest: #050505;
   --color-on-primary-container: #5c0005;
   --color-on-primary-fixed-variant: #93000c;
   --color-inverse-primary: #c00014;
@@ -24,20 +24,20 @@
   --color-primary-fixed-dim: #ffb4ab;
   --color-secondary-fixed: #7df4ff;
   --color-error: #ffb4ab;
-  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-high: #151515;
   --color-on-error: #690005;
   --color-secondary-fixed-dim: #00dbe9;
-  --color-surface-bright: #3a3939;
-  --color-primary: #ffb4ab;
-  --color-surface: #131313;
-  --color-inverse-on-surface: #313030;
+  --color-surface-bright: #202020;
+  --color-primary: #ff544b;
+  --color-surface: #0a0a0a;
+  --color-inverse-on-surface: #1e1e1e;
   --color-on-error-container: #ffdad6;
-  --color-surface-container-low: #1c1b1b;
-  --color-surface-dim: #131313;
+  --color-surface-container-low: #0c0c0c;
+  --color-surface-dim: #050505;
   --color-on-background: #e5e2e1;
   --color-on-secondary: #00363a;
   --color-on-tertiary-fixed-variant: #004e5f;
-  --color-surface-container-highest: #353534;
+  --color-surface-container-highest: #1a1a1a;
   --color-tertiary-fixed: #b3ebff;
   --color-on-primary-fixed: #410002;
   --color-on-tertiary-fixed: #001f27;
@@ -56,28 +56,28 @@
 
 @layer utilities {
   .glow-sm {
-    box-shadow: 0 0 15px rgba(255, 180, 171, 0.4);
+    box-shadow: 0 0 15px rgba(255, 84, 75, 0.3);
   }
   .glow-primary {
-    box-shadow: 0 0 20px rgba(255, 84, 75, 0.6);
+    box-shadow: 0 0 20px rgba(255, 84, 75, 0.7);
   }
   .glow-red {
-    box-shadow: 0 0 20px rgba(255, 84, 75, 0.3);
+    box-shadow: 0 0 20px rgba(255, 84, 75, 0.2);
   }
   .glass-panel {
-    background: rgba(19, 19, 19, 0.7);
+    background: rgba(5, 5, 5, 0.85);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 180, 171, 0.1);
+    border: 1px solid rgba(255, 84, 75, 0.2);
   }
   .circuit-grid {
     background-image: 
-      linear-gradient(rgba(255, 84, 75, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 84, 75, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(255, 84, 75, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 84, 75, 0.06) 1px, transparent 1px);
     background-size: 40px 40px;
   }
   .bg-grid {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(255, 84, 75, 0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 84, 75, 0.04) 1px, transparent 1px);
     background-size: 40px 40px;
   }
   .data-grid {
@@ -135,7 +135,7 @@
 body {
   font-family: 'JetBrains Mono', monospace;
   overflow-x: hidden;
-  background-color: #050505;
+  background-color: #020202;
 }
 h1, h2, h3, .font-display {
   font-family: 'Space Grotesk', sans-serif;
