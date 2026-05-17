@@ -88,7 +88,7 @@ const App = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-on-background relative font-body selection:bg-primary selection:text-background" ref={mainRef}>
+    <div className="min-h-screen bg-transparent text-on-background relative isolate font-body selection:bg-primary selection:text-background" ref={mainRef}>
       
       {/* Fallback background image (Properly imported for Vite) */}
       <div className="fixed inset-0 -z-50 pointer-events-none bg-[#020202]">
