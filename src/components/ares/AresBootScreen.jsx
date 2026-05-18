@@ -1,22 +1,41 @@
 import React, { useState } from 'react';
 import useSound from '../../hooks/useSound';
-import firstPageBg from '../../assets/tron-first-page.png';
+import firstPageBgRed from '../../assets/tron-first-page.png';
+import firstPageBgBlue from '../../assets/tron-blue.png';
 
-const AresBootScreen = ({ onComplete }) => {
+const AresBootScreen = ({ onComplete, theme, toggleTheme }) => {
   const { playSound } = useSound();
   const [isInitializing, setIsInitializing] = useState(false);
+  const [isTerminating, setIsTerminating] = useState(false);
 
-  const handleStart = () => {
-    if (isInitializing) return;
+  const handleStart = (target = 'hero') => {
+    if (isInitializing || isTerminating) return;
     setIsInitializing(true);
     playSound('transform');
     setTimeout(() => {
-      onComplete();
+      onComplete(target);
     }, 1200);
   };
 
+  const handleConfig = () => {
+    if (isInitializing || isTerminating) return;
+    playSound('tick');
+    toggleTheme();
+  };
+
+  const handleTerminate = () => {
+    if (isInitializing || isTerminating) return;
+    playSound('transform'); 
+    setIsTerminating(true);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  };
+
+  const firstPageBg = theme === 'blue' ? firstPageBgBlue : firstPageBgRed;
+
   return (
-    <div className="fixed inset-0 z-50 font-body text-on-surface relative h-screen w-screen bg-background overflow-hidden">
+    <div className={`fixed inset-0 z-50 font-body text-on-surface relative h-screen w-screen bg-background overflow-hidden transition-all duration-1000 ${isTerminating ? 'opacity-0 scale-105 blur-xl' : 'opacity-100 scale-100 blur-0'}`}>
       {/* Fixed Background */}
       <div className="absolute inset-0 z-[0] w-full h-full pointer-events-none">
         <img alt="Ares Grid Background" className="w-full h-full object-cover" src={firstPageBg} />
@@ -65,39 +84,39 @@ const AresBootScreen = ({ onComplete }) => {
             
             <nav className="flex flex-col gap-2 mt-4">
               <button 
-                onClick={handleStart}
+                onClick={() => handleStart('hero')}
                 onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-primary text-primary font-label-caps tracking-[0.2em] bg-gradient-to-r from-primary/20 to-transparent hover:bg-primary/30 transition-all duration-300 group flex items-center gap-4 w-64 md:w-72 glow-sm cursor-pointer"
+                className="text-left px-6 py-4 border-l-4 border-primary text-primary font-label-caps tracking-[0.2em] bg-gradient-to-r from-primary/20 to-transparent hover:bg-primary/30 transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 glow-sm cursor-pointer"
               >
                 <span className="opacity-70 text-[10px]">01</span>
-                {isInitializing ? 'INITIALIZING...' : 'INITIATE_SESSION'}
+                {isInitializing ? 'INITIALIZING...' : '[INITIALIZE_COGNITIVE_LINK]'}
               </button>
               
               <button 
-                onClick={() => playSound('tick')}
+                onClick={() => handleStart('projects')}
                 onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-64 md:w-72 cursor-pointer"
+                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 cursor-pointer"
               >
                 <span className="opacity-50 text-[10px]">02</span>
-                ARCHIVE_ACCESS
+                [ACCESS_ARTIFACT_LOGS]
               </button>
               
               <button 
-                onClick={() => playSound('tick')}
+                onClick={handleConfig}
                 onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-64 md:w-72 cursor-pointer"
+                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 cursor-pointer"
               >
                 <span className="opacity-50 text-[10px]">03</span>
-                SYSTEM_SETTINGS
+                [CONFIG_HUD_OVERLAYS]
               </button>
               
               <button 
-                onClick={() => playSound('tick')}
+                onClick={handleTerminate}
                 onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-error hover:text-error hover:bg-gradient-to-r hover:from-[#ffb4ab]/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-64 md:w-72 mt-4 cursor-pointer"
+                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-error hover:text-error hover:bg-gradient-to-r hover:from-[#ffb4ab]/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 mt-4 cursor-pointer"
               >
                 <span className="opacity-50 text-[10px]">04</span>
-                DISCONNECT
+                [TERMINATE_UPLINK]
               </button>
             </nav>
           </div>

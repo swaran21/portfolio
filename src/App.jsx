@@ -25,9 +25,20 @@ const App = () => {
   const [isBooted, setIsBooted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('HERO');
+  const [theme, setTheme] = useState('red');
   
   // Create a ref for the main container to scope GSAP animations
   const mainRef = useRef(null);
+
+  React.useEffect(() => {
+    if (theme === 'blue') {
+      document.body.classList.add('theme-blue');
+    } else {
+      document.body.classList.remove('theme-blue');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'red' ? 'blue' : 'red');
 
   // The useGSAP hook safely handles setup and automatic cleanup!
   useGSAP(() => {
@@ -84,7 +95,21 @@ const App = () => {
 
   // Render boot screen if not initialized
   if (!isBooted) {
-    return <AresBootScreen onComplete={() => setIsBooted(true)} />;
+    return (
+      <AresBootScreen 
+        theme={theme}
+        toggleTheme={toggleTheme}
+        onComplete={(target = 'hero') => {
+          setIsBooted(true);
+          if (target !== 'hero') {
+            // Wait slightly longer for GSAP to settle before scrolling
+            setTimeout(() => {
+              scrollToSection(target);
+            }, 800);
+          }
+        }} 
+      />
+    );
   }
 
   return (
@@ -100,7 +125,7 @@ const App = () => {
       </div>
 
       {/* ─── 3D SUBSTRATE ─── */}
-      <TronGrid scrollProgress={scrollProgress} />
+      <TronGrid scrollProgress={scrollProgress} theme={theme} />
 
       {/* Subtle overlays for text readability against the bright grid */}
       <div className="fixed inset-0 -z-30 pointer-events-none">

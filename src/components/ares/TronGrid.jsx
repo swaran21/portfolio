@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 /* ─── Infinite Red Grid Floor ─── */
-const GridFloor = () => {
+const GridFloor = ({ theme }) => {
   const gridRef = useRef();
 
   useFrame(({ clock }) => {
@@ -15,7 +15,7 @@ const GridFloor = () => {
   const gridMaterial = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
-        uColor: { value: new THREE.Color('#ff3322') },
+        uColor: { value: new THREE.Color(theme === 'blue' ? '#00eefc' : '#ff3322') },
         uTime: { value: 0 },
         uOpacity: { value: 0.4 },
       },
@@ -56,7 +56,7 @@ const GridFloor = () => {
       side: THREE.DoubleSide,
       depthWrite: false,
     });
-  }, []);
+  }, [theme]);
 
   return (
     <group ref={gridRef}>
@@ -70,7 +70,7 @@ const GridFloor = () => {
 
 
 /* ─── Floating Particles ─── */
-const Particles = () => {
+const Particles = ({ theme }) => {
   const particlesRef = useRef();
   const count = 200;
 
@@ -104,7 +104,7 @@ const Particles = () => {
           itemSize={3}
         />
       </bufferGeometry>
-      <pointsMaterial color="#ff4433" size={0.08} transparent opacity={0.6} sizeAttenuation />
+      <pointsMaterial color={theme === 'blue' ? '#00eefc' : '#ff4433'} size={0.08} transparent opacity={0.6} sizeAttenuation />
     </points>
   );
 };
@@ -126,7 +126,7 @@ const CameraController = ({ scrollProgress = 0 }) => {
 };
 
 /* ─── Main Exportable TronGrid Component ─── */
-const TronGrid = ({ scrollProgress = 0 }) => {
+const TronGrid = ({ scrollProgress = 0, theme = 'red' }) => {
   return (
     <div className="fixed inset-0 -z-40 pointer-events-none">
       <Canvas
@@ -137,13 +137,13 @@ const TronGrid = ({ scrollProgress = 0 }) => {
       >
         <fog attach="fog" args={['#020202', 5, 80]} />
         <ambientLight intensity={0.15} />
-        <directionalLight position={[5, 10, 5]} intensity={0.3} color="#ff4433" />
-        <pointLight position={[0, 5, -10]} intensity={1.5} color="#ff2200" distance={40} decay={2} />
-        <pointLight position={[-15, 3, -30]} intensity={0.8} color="#ff0000" distance={30} decay={2} />
+        <directionalLight position={[5, 10, 5]} intensity={0.3} color={theme === 'blue' ? '#00eefc' : '#ff4433'} />
+        <pointLight position={[0, 5, -10]} intensity={1.5} color={theme === 'blue' ? '#00eefc' : '#ff2200'} distance={40} decay={2} />
+        <pointLight position={[-15, 3, -30]} intensity={0.8} color={theme === 'blue' ? '#00eefc' : '#ff0000'} distance={30} decay={2} />
 
         <CameraController scrollProgress={scrollProgress} />
-        <GridFloor />
-        <Particles />
+        <GridFloor theme={theme} />
+        <Particles theme={theme} />
       </Canvas>
     </div>
   );
