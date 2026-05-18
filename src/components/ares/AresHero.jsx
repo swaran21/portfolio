@@ -102,7 +102,7 @@ const AresHero = ({ setActiveTab }) => {
       </div>
       
       {/* (Keep your Active Protocols / Bento Box section down here, just outside the pinned H-Screen container) */}
-      <div className="px-5 md:px-16 max-w-[1400px] mx-auto mt-24 mb-16 grid grid-cols-1 md:grid-cols-12 gap-6 text-left">
+      <div className="ares-section-wrapper px-5 md:px-16 max-w-[1400px] mx-auto mt-24 mb-16 grid grid-cols-1 md:grid-cols-12 gap-6 text-left">
         <div className="md:col-span-8 glass-panel p-8 md:p-10 relative overflow-hidden group border border-primary/20">
           <div className="absolute top-4 right-4 font-label-caps text-[10px] text-primary/30">S/N: 883-CORE</div>
           <span className="material-symbols-outlined text-primary text-5xl mb-8">dynamic_form</span>

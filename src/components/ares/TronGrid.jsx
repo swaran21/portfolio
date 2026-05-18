@@ -67,28 +67,7 @@ const GridFloor = () => {
   );
 };
 
-/* ─── Dark Monolith Columns ─── */
-const Monolith = ({ position, height = 12, width = 1.5 }) => {
-  return (
-    <group position={position}>
-      {/* Main body */}
-      <mesh>
-        <boxGeometry args={[width, height, width]} />
-        <meshStandardMaterial color="#080808" roughness={0.9} metalness={0.1} />
-      </mesh>
-      {/* Red emissive edge lines */}
-      <lineSegments>
-        <edgesGeometry args={[new THREE.BoxGeometry(width, height, width)]} />
-        <lineBasicMaterial color="#ff2200" transparent opacity={0.35} />
-      </lineSegments>
-      {/* Base glow */}
-      <mesh position={[0, -height / 2 + 0.05, 0]}>
-        <boxGeometry args={[width + 0.4, 0.1, width + 0.4]} />
-        <meshBasicMaterial color="#ff2200" transparent opacity={0.4} />
-      </mesh>
-    </group>
-  );
-};
+
 
 /* ─── Floating Particles ─── */
 const Particles = () => {
@@ -136,10 +115,10 @@ const CameraController = ({ scrollProgress = 0 }) => {
 
   useFrame(() => {
     const progress = scrollProgress;
-    // Camera moves forward (into the grid) and slightly down as user scrolls
-    camera.position.z = 15 - progress * 25;
-    camera.position.y = 6 - progress * 3;
-    camera.position.x = Math.sin(progress * Math.PI * 0.5) * 2;
+    // Subtle, slow zoom in instead of flying quickly through the grid
+    camera.position.z = 15 - progress * 8;
+    camera.position.y = 6 - progress * 1.5;
+    camera.position.x = Math.sin(progress * Math.PI * 0.5) * 1;
     camera.lookAt(0, 0, -20);
   });
 
@@ -148,18 +127,6 @@ const CameraController = ({ scrollProgress = 0 }) => {
 
 /* ─── Main Exportable TronGrid Component ─── */
 const TronGrid = ({ scrollProgress = 0 }) => {
-  const monoliths = useMemo(() => {
-    const positions = [];
-    for (let i = 0; i < 16; i++) {
-      const x = (Math.random() - 0.5) * 60;
-      const z = -Math.random() * 60 - 10;
-      const h = 8 + Math.random() * 16;
-      const w = 1 + Math.random() * 2;
-      positions.push({ position: [x, h / 2 - 2, z], height: h, width: w });
-    }
-    return positions;
-  }, []);
-
   return (
     <div className="fixed inset-0 -z-40 pointer-events-none">
       <Canvas
@@ -177,10 +144,6 @@ const TronGrid = ({ scrollProgress = 0 }) => {
         <CameraController scrollProgress={scrollProgress} />
         <GridFloor />
         <Particles />
-
-        {monoliths.map((m, i) => (
-          <Monolith key={i} position={m.position} height={m.height} width={m.width} />
-        ))}
       </Canvas>
     </div>
   );

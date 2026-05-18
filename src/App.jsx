@@ -124,7 +124,7 @@ const App = () => {
       <main className="relative z-10 pt-20">
         
         {/* SECTION: HERO */}
-        <section id="hero" data-section="HERO" className="ares-section-wrapper min-h-screen">
+        <section id="hero" data-section="HERO" className="min-h-screen">
           <AresHero setActiveTab={scrollToSection} />
         </section>
 
