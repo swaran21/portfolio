@@ -239,6 +239,58 @@ const AresIdentity = ({ setActiveTab }) => {
         </div>
       </div>
 
+      {/* Accolades & Certifications Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        {/* Achievements Log */}
+        <div className="glass-panel p-8 border border-primary/30 bg-background/85 text-left">
+          <h3 className="font-label-caps text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
+            <span className="material-symbols-outlined text-[18px]">military_tech</span>
+            Achievements_Log
+          </h3>
+          <div className="space-y-6">
+            <div className="border-l-2 border-primary/40 pl-4 relative group">
+              <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Winner (15,000 INR) — Agentforce Salesforce Hackathon</h4>
+              <span className="font-body text-[10px] text-primary font-bold bg-background/50 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2026</span>
+              <p className="font-body text-xs text-on-surface/90 font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                Led Team 5Z Devs to win 1st place by building an AI-powered preventive healthcare monitoring system using Salesforce Data Cloud and Groq (Llama 3.2 Vision) within an intense 24-hour sprint.
+              </p>
+            </div>
+            <div className="border-l-2 border-primary/40 pl-4 relative group">
+              <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Microsoft Recognition & Azure Subscription Grant</h4>
+              <span className="font-body text-[10px] text-primary font-bold bg-background/50 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2025</span>
+              <p className="font-body text-xs text-on-surface/90 font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                Awarded for outstanding technical participation and innovation at the "Modernize Java Applications Using AI" Microsoft event.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Certifications Registry */}
+        <div className="glass-panel p-8 border border-primary/30 bg-background/85 text-left">
+          <h3 className="font-label-caps text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
+            <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
+            Certification_Registry
+          </h3>
+          <div className="space-y-4">
+            {[
+              "Google Cloud Career Launchpad — Completion Certificate — Google Cloud Skills Boost",
+              "Software Engineering Virtual Experience — JPMorgan Chase & Co. (Spring Boot, Apache Kafka, Spring Data JPA)",
+              "Java Spring Boot (Advanced) & Java Foundation — Infosys SpringBoard",
+              "Certificate of Appreciation (AWS Cloud Architecture) — MassMutual India"
+            ].map((cert, i) => (
+              <div key={i} className="flex items-start gap-3 p-3 bg-background/40 border border-primary/10 hover:border-primary/40 transition-colors group">
+                <span className="material-symbols-outlined text-primary text-[16px] mt-0.5 group-hover:drop-shadow-[0_0_8px_var(--color-primary)] transition-all">verified</span>
+                <p className="font-body text-xs text-on-surface font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                  {cert}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Experience Details Holographic Modal */}
       {selectedExperience && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
