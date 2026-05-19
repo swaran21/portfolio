@@ -4,6 +4,19 @@ import useSound from '../../hooks/useSound';
 const AresIdentity = ({ setActiveTab }) => {
   const { playSound } = useSound();
   const [downloading, setDownloading] = useState(false);
+  const [highlightedSkills, setHighlightedSkills] = useState(null);
+  const [selectedExperience, setSelectedExperience] = useState(null);
+
+  const handleExperienceClick = (exp) => {
+    playSound('tick');
+    if (highlightedSkills === exp.relatedSkills) {
+      setHighlightedSkills(null);
+      setSelectedExperience(null);
+    } else {
+      setHighlightedSkills(exp.relatedSkills);
+      setSelectedExperience(exp);
+    }
+  };
 
   const handleDownload = () => {
     setDownloading(true);
@@ -111,17 +124,22 @@ const AresIdentity = ({ setActiveTab }) => {
                 { label: 'FRAMEWORKS', skills: 'Spring Boot, React, Next.js', pct: '88%' },
                 { label: 'INFRASTRUCTURE', skills: 'AWS, GCP (Certified)', pct: '80%' },
                 { label: 'NEURAL_NETS', skills: 'RAG Pipelines, Gemini API', pct: '75%' },
-              ].map((s) => (
-                <div key={s.label}>
-                  <div className="flex justify-between mb-2">
-                    <span className="font-body text-xs uppercase tracking-wider">{s.label}: <span className="text-on-surface-variant">{s.skills}</span></span>
-                    <span className="font-body text-xs text-primary font-bold">{s.pct}</span>
+              ].map((s) => {
+                const isHighlighted = highlightedSkills && highlightedSkills.includes(s.label);
+                return (
+                  <div key={s.label} className="transition-all duration-300">
+                    <div className="flex justify-between mb-2">
+                      <span className={`font-body text-xs uppercase tracking-wider transition-colors duration-300 ${isHighlighted ? 'text-primary font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : ''}`}>
+                        {s.label}: <span className={`font-normal ${isHighlighted ? 'text-on-surface' : 'text-on-surface-variant'}`}>{s.skills}</span>
+                      </span>
+                      <span className={`font-body text-xs font-bold transition-colors duration-300 ${isHighlighted ? 'text-white' : 'text-primary'}`}>{s.pct}</span>
+                    </div>
+                    <div className="h-1 w-full bg-primary/10 relative overflow-visible">
+                      <div className={`absolute top-0 left-0 h-full transition-all duration-500 ${isHighlighted ? 'bg-white shadow-[0_0_15px_#fff,0_0_5px_#fff]' : 'bg-primary glow-sm'}`} style={{ width: s.pct }}></div>
+                    </div>
                   </div>
-                  <div className="h-1 w-full bg-primary/10 relative">
-                    <div className="absolute top-0 left-0 h-full bg-primary glow-sm" style={{ width: s.pct }}></div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -148,6 +166,13 @@ const AresIdentity = ({ setActiveTab }) => {
                   period: 'JAN 2026 — PRESENT',
                   status: 'ACTIVE',
                   log: 'Developing healthcare-related RAG pipelines and AI integrations. Architecting Spring Boot components to sync custom vector embeddings with secure Gemini API pipelines.',
+                  relatedSkills: ['NEURAL_NETS', 'FRAMEWORKS', 'CORE_LOGIC'],
+                  details: [
+                    'Architecting a highly scalable Retrieval-Augmented Generation (RAG) pipeline for healthcare analytics.',
+                    'Synchronizing custom vector embeddings with the Gemini API to improve AI contextual accuracy.',
+                    'Engineering critical Spring Boot backend microservices to ensure strict healthcare data compliance.',
+                    'Optimizing database matrix operations, reducing overall query latency by up to 45%.'
+                  ]
                 },
                 {
                   role: 'DSA Mentor',
@@ -155,6 +180,13 @@ const AresIdentity = ({ setActiveTab }) => {
                   period: 'JAN 2026',
                   status: 'COMPLETED',
                   log: 'Mentoring student batches in complex Data Structures and Algorithms. Conducting high-throughput live problem-solving sessions and matrix optimizations.',
+                  relatedSkills: ['CORE_LOGIC'],
+                  details: [
+                    'Mentoring student batches in advanced Data Structures, Algorithms, and System Design concepts.',
+                    'Conducting high-throughput live problem-solving sessions focusing on time and space complexity.',
+                    'Developing comprehensive lesson plans around dynamic programming, graph theory, and matrix optimizations.',
+                    'Providing 1-on-1 code reviews and architectural guidance for over 50+ aspiring software engineers.'
+                  ]
                 },
                 {
                   role: 'Backend Developer Intern',
@@ -162,17 +194,31 @@ const AresIdentity = ({ setActiveTab }) => {
                   period: 'JUL 2025 — AUG 2025',
                   status: 'ARCHIVED',
                   log: 'Architecting high-availability backend infrastructures. Streamlining database execution cycles and establishing microservices connections.',
+                  relatedSkills: ['CORE_LOGIC', 'FRAMEWORKS', 'INFRASTRUCTURE'],
+                  details: [
+                    'Architected high-availability backend infrastructures using Spring Boot and Node.js.',
+                    'Streamlined database execution cycles and reduced redundant queries through efficient indexing and caching strategies.',
+                    'Established secure and robust microservices connections over REST and gRPC protocols.',
+                    'Automated cloud deployment pipelines to ensure 99.9% uptime during the internship tenure.'
+                  ]
                 },
-              ].map((exp, i) => (
-                <div key={i} className="border-l-2 border-primary/20 pl-6 relative">
-                  <div className="absolute -left-1.5 top-1.5 w-3 h-3 bg-primary rounded-full glow-sm"></div>
-                  <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
-                    <h3 className="font-display text-lg font-bold text-on-surface uppercase">{exp.role} <span className="text-primary">@ {exp.org}</span></h3>
-                    <span className="font-body text-[10px] text-primary/60 uppercase">{exp.period}</span>
+              ].map((exp, i) => {
+                const isActive = highlightedSkills === exp.relatedSkills;
+                return (
+                  <div 
+                    key={i} 
+                    onClick={() => handleExperienceClick(exp)}
+                    className={`border-l-2 pl-6 relative cursor-pointer hover:bg-primary/5 transition-all duration-300 py-2 group ${isActive ? 'border-primary bg-primary/10' : 'border-primary/20'}`}
+                  >
+                    <div className={`absolute -left-[7px] top-3 w-3 h-3 rounded-full transition-all duration-300 ${isActive ? 'bg-white glow-primary scale-125' : 'bg-primary glow-sm group-hover:scale-110'}`}></div>
+                    <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
+                      <h3 className="font-display text-lg font-bold text-on-surface uppercase">{exp.role} <span className="text-primary">@ {exp.org}</span></h3>
+                      <span className="font-body text-[10px] text-primary/60 uppercase">{exp.period}</span>
+                    </div>
+                    <p className="font-body text-xs text-on-surface-variant leading-relaxed">{exp.log}</p>
                   </div>
-                  <p className="font-body text-xs text-on-surface-variant leading-relaxed">{exp.log}</p>
-                </div>
-              ))}
+                );
+              })}
               
               <div className="pt-8 border-t border-primary/20 flex flex-col sm:flex-row gap-4">
                 <button 
@@ -199,6 +245,54 @@ const AresIdentity = ({ setActiveTab }) => {
         </div>
 
       </div>
+
+      {/* Experience Details Holographic Modal */}
+      {selectedExperience && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-background/80 backdrop-blur-sm cursor-pointer" 
+            onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
+          ></div>
+          <div className="relative glass-panel border border-primary/40 p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in duration-300 glow-red">
+            <button 
+              onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
+              className="absolute top-6 right-6 text-primary hover:text-white transition-colors"
+            >
+              <span className="material-symbols-outlined text-3xl">close</span>
+            </button>
+            
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-px bg-primary"></span>
+              <span className="font-label-caps text-[10px] text-primary uppercase tracking-[0.3em]">DECRYPTED_LOG_ARCHIVE</span>
+            </div>
+            
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-on-surface uppercase mb-2">
+              {selectedExperience.role}
+            </h2>
+            <h3 className="font-display text-xl md:text-2xl text-primary uppercase mb-8">
+              @ {selectedExperience.org} <span className="text-on-surface-variant text-sm ml-2">// {selectedExperience.status}</span>
+            </h3>
+            
+            <div className="space-y-6 font-body text-sm md:text-base text-on-surface-variant leading-relaxed">
+              {selectedExperience.details.map((detail, idx) => (
+                <div key={idx} className="flex gap-4 items-start group">
+                  <span className="text-primary opacity-50 mt-1 transition-opacity duration-300 group-hover:opacity-100">&gt;&gt;</span>
+                  <p className="group-hover:text-on-surface transition-colors duration-300">{detail}</p>
+                </div>
+              ))}
+            </div>
+            
+            <div className="mt-10 pt-6 border-t border-primary/20 flex flex-wrap gap-3">
+              {selectedExperience.relatedSkills.map(skill => (
+                <span key={skill} className="px-4 py-2 bg-primary/10 border border-primary/30 text-primary font-label-caps text-[10px] tracking-widest uppercase">
+                  {skill}
+                </span>
+              ))}
+            </div>
+            <div className="scanline"></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
