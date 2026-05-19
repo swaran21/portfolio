@@ -79,10 +79,10 @@ const AresProjects = ({ setActiveTab, theme = 'red', debrisRef }) => {
 
   const handleShatterComplete = useCallback((debrisData) => {
     setIsAnimating(false);
-    // Send debris to the footer DebrisField
-    if (debrisRef?.current && debrisData) {
-      debrisRef.current.addDebris(debrisData);
-    }
+    // Send debris to the footer DebrisField (commented out for now)
+    // if (debrisRef?.current && debrisData) {
+    //   debrisRef.current.addDebris(debrisData);
+    // }
   }, [debrisRef]);
 
   const closeProject = useCallback(() => {
