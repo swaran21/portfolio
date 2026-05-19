@@ -2,6 +2,8 @@ import React, { useRef, useCallback } from 'react';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 
+// Cached ref so we can restore element opacity on close
+
 /**
  * FractureOverlay — 3D TRON Derez Effect (Full-Screen)
  * ─────────────────────────────────────────────────────
@@ -32,6 +34,9 @@ const FractureOverlay = ({ theme = 'red', onMidpoint, onComplete, children }) =>
 
     const el = targetEl || wrapperRef.current;
     if (!el) { isRunning.current = false; return; }
+
+    // Immediately fade out the source element so it's not visible behind cubes
+    gsap.to(el, { opacity: 0, duration: 0.25, ease: 'power2.in' });
 
     const cardRect = el.getBoundingClientRect();
     const vw = window.innerWidth;
@@ -249,7 +254,8 @@ const FractureOverlay = ({ theme = 'red', onMidpoint, onComplete, children }) =>
         });
         renderer.dispose();
         isRunning.current = false;
-        onComplete?.();
+        // Pass debris info so the footer DebrisField can spawn pebbles
+        onComplete?.({ count: COLS * ROWS, cubeSize, theme: isBlue ? 'blue' : 'red' });
       },
     });
 

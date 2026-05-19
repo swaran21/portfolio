@@ -15,6 +15,7 @@ import AresIdentity from './components/ares/AresIdentity';
 import AresProjects from './components/ares/AresProjects';
 import AresStream from './components/ares/AresStream';
 import AresFooter from './components/ares/AresFooter';
+import DebrisField from './components/ares/DebrisField';
 
 import './App.css';
 
@@ -29,6 +30,7 @@ const App = () => {
   
   // Create a ref for the main container to scope GSAP animations
   const mainRef = useRef(null);
+  const debrisRef = useRef(null);
 
   React.useEffect(() => {
     if (theme === 'blue') {
@@ -160,7 +162,7 @@ const App = () => {
 
         {/* SECTION: PROJECTS */}
         <section id="projects" data-section="PROJECTS" className="ares-section-wrapper pt-32 pb-16">
-          <AresProjects setActiveTab={scrollToSection} theme={theme} />
+          <AresProjects setActiveTab={scrollToSection} theme={theme} debrisRef={debrisRef} />
         </section>
 
         {/* SECTION: STREAM / CONTACT */}
@@ -172,6 +174,9 @@ const App = () => {
 
       {/* ─── FOOTER ORCHESTRATION ─── */}
       <AresFooter setActiveTab={scrollToSection} />
+
+      {/* ─── PERSISTENT DEBRIS FIELD (footer cubes) ─── */}
+      <DebrisField ref={debrisRef} />
       
     </div>
   );

@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import useSound from '../../hooks/useSound';
 import FractureOverlay from './FractureOverlay';
 
-const AresProjects = ({ setActiveTab, theme = 'red' }) => {
+const AresProjects = ({ setActiveTab, theme = 'red', debrisRef }) => {
   const { playSound } = useSound();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -77,11 +77,19 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
     });
   }, []);
 
-  const handleShatterComplete = useCallback(() => {
+  const handleShatterComplete = useCallback((debrisData) => {
     setIsAnimating(false);
-  }, []);
+    // Send debris to the footer DebrisField
+    if (debrisRef?.current && debrisData) {
+      debrisRef.current.addDebris(debrisData);
+    }
+  }, [debrisRef]);
 
   const closeProject = useCallback(() => {
+    // Restore all card opacities
+    Object.values(cardRefs.current).forEach((el) => {
+      if (el) gsap.to(el, { opacity: 1, duration: 0.35, ease: 'power2.out' });
+    });
     if (modalRef.current) {
       gsap.to(modalRef.current, {
         y: 30, opacity: 0, scale: 0.97,
