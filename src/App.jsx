@@ -160,7 +160,7 @@ const App = () => {
 
         {/* SECTION: PROJECTS */}
         <section id="projects" data-section="PROJECTS" className="ares-section-wrapper pt-32 pb-16">
-          <AresProjects setActiveTab={scrollToSection} />
+          <AresProjects setActiveTab={scrollToSection} theme={theme} />
         </section>
 
         {/* SECTION: STREAM / CONTACT */}

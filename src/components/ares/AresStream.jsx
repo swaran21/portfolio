@@ -60,15 +60,15 @@ const AresStream = () => {
             </p>
           </div>
           <div className="space-y-4">
-            <a href="mailto:maramsaiswaran@gmail.com" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/30 bg-background hover:border-primary transition-colors group">
+            <a href="mailto:saiswaran212005@gmail.com" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/30 bg-background hover:border-primary transition-colors group">
               <span className="font-label-caps text-[9px] text-primary/80 font-bold block drop-shadow-md">DIRECT_LINE</span>
-              <span className="font-body text-sm text-on-surface font-bold group-hover:text-primary transition-colors drop-shadow-md">MARAMSAISWARAN@GMAIL.COM</span>
+              <span className="font-body text-sm text-on-surface font-bold group-hover:text-primary transition-colors drop-shadow-md">saiswaran212005@gmail.com</span>
             </a>
-            <a href="https://github.com/saiswaran1607" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/30 bg-background hover:border-primary transition-colors group">
+            <a href="https://github.com/swaran21" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/30 bg-background hover:border-primary transition-colors group">
               <span className="font-label-caps text-[9px] text-primary/80 font-bold block drop-shadow-md">GITHUB_CORE</span>
-              <span className="font-body text-sm text-on-surface font-bold group-hover:text-primary transition-colors drop-shadow-md">GITHUB.COM/SAISWARAN1607</span>
+              <span className="font-body text-sm text-on-surface font-bold group-hover:text-primary transition-colors drop-shadow-md">GITHUB.COM/SWARAN21</span>
             </a>
-            <a href="https://linkedin.com/in/maramsaiswaran" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/30 bg-background hover:border-primary transition-colors group">
+            <a href="https://www.linkedin.com/in/sai-swaran-maram-117870298/" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/30 bg-background hover:border-primary transition-colors group">
               <span className="font-label-caps text-[9px] text-primary/80 font-bold block drop-shadow-md">LINKED_NODE</span>
               <span className="font-body text-sm text-on-surface font-bold group-hover:text-primary transition-colors drop-shadow-md">LINKEDIN.COM/IN/MARAMSAISWARAN</span>
             </a>
@@ -170,7 +170,7 @@ const AresStream = () => {
       )}
 
       {/* Mainframe Metrics */}
-      <div className="mt-12 glass-panel p-6 border border-primary/30 bg-background/85 text-left">
+      {/* <div className="mt-12 glass-panel p-6 border border-primary/30 bg-background/85 text-left">
         <div className="flex items-center justify-between mb-4 border-b border-primary/20 pb-4">
           <span className="font-label-caps text-[10px] text-on-surface font-bold drop-shadow-md">ACTIVE_SESSIONS</span>
           <span className="flex items-center gap-2 font-body text-xs text-primary font-bold bg-background/50 px-2 py-1">
@@ -197,7 +197,7 @@ const AresStream = () => {
             <span className="font-body text-[10px] text-primary font-bold uppercase mt-1">ENCRYPTION</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

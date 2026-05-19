@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import { gsap } from 'gsap';
 import useSound from '../../hooks/useSound';
+import FractureOverlay from './FractureOverlay';
 
-const AresProjects = ({ setActiveTab }) => {
+const AresProjects = ({ setActiveTab, theme = 'red' }) => {
   const { playSound } = useSound();
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const modalRef = useRef(null);
+  const cardRefs = useRef({});
 
   const projects = [
     {
@@ -44,15 +50,55 @@ const AresProjects = ({ setActiveTab }) => {
     }
   ];
 
-  const openProject = (proj) => {
-    setSelectedProject(proj);
+  const openProject = useCallback((proj, triggerFracture) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     playSound('transform');
-  };
 
-  const closeProject = () => {
-    setSelectedProject(null);
-    playSound('tick');
-  };
+    // Get the card element to shatter
+    const cardEl = cardRefs.current[proj.serial];
+    if (cardEl && triggerFracture) {
+      triggerFracture(cardEl);
+    }
+  }, [isAnimating, playSound]);
+
+  // Called at 50% of the shatter animation
+  const handleMidpoint = useCallback((proj) => {
+    setSelectedProject(proj);
+    setModalVisible(true);
+    // Animate the modal content dropping in
+    requestAnimationFrame(() => {
+      if (modalRef.current) {
+        gsap.fromTo(modalRef.current,
+          { y: -60, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }
+        );
+      }
+    });
+  }, []);
+
+  const handleShatterComplete = useCallback(() => {
+    setIsAnimating(false);
+  }, []);
+
+  const closeProject = useCallback(() => {
+    if (modalRef.current) {
+      gsap.to(modalRef.current, {
+        y: 30, opacity: 0, scale: 0.97,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          setSelectedProject(null);
+          setModalVisible(false);
+          playSound('tick');
+        }
+      });
+    } else {
+      setSelectedProject(null);
+      setModalVisible(false);
+      playSound('tick');
+    }
+  }, [playSound]);
 
   return (
     <div className="w-full relative px-5 md:px-16 max-w-[1400px] mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
@@ -64,39 +110,57 @@ const AresProjects = ({ setActiveTab }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
         {projects.map((proj) => (
-          <div 
-            key={proj.serial} 
-            onClick={() => openProject(proj)}
-            onMouseEnter={() => playSound('hover')}
-            className="glass-panel p-6 md:p-8 border border-primary/30 bg-background/85 relative group hover:border-primary transition-all duration-300 hover:shadow-[0_0_20px_var(--color-primary)] cursor-pointer flex flex-col justify-between"
+          <FractureOverlay
+            key={proj.serial}
+            theme={theme}
+            onMidpoint={() => handleMidpoint(proj)}
+            onComplete={handleShatterComplete}
           >
-            <div className="absolute top-4 right-4 font-label-caps text-[10px] text-primary/60 font-bold drop-shadow-md">SERIAL: {proj.serial}</div>
-            
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className={`px-2 py-0.5 border text-[10px] font-label-caps font-bold bg-background/80 drop-shadow-md ${proj.status === 'ACTIVE' ? 'border-primary text-primary' : proj.status === 'DEPLOYED' ? 'border-primary/60 text-primary/80' : 'border-primary/40 text-on-surface/60'}`}>
-                  {proj.status}
-                </span>
-                <span className="font-body text-[11px] text-primary font-bold bg-background/50 px-2 py-0.5">{proj.date}</span>
+            {(triggerFracture) => (
+              <div 
+                ref={(el) => { cardRefs.current[proj.serial] = el; }}
+                onClick={() => openProject(proj, triggerFracture)}
+                onMouseEnter={() => playSound('hover')}
+                className="glass-panel p-6 md:p-8 border border-primary/30 bg-background/85 relative group hover:border-primary transition-all duration-300 hover:shadow-[0_0_20px_var(--color-primary)] cursor-pointer flex flex-col justify-between h-full"
+              >
+                <div className="absolute top-4 right-4 font-label-caps text-[10px] text-primary/60 font-bold drop-shadow-md">SERIAL: {proj.serial}</div>
+                
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className={`px-2 py-0.5 border text-[10px] font-label-caps font-bold bg-background/80 drop-shadow-md ${proj.status === 'ACTIVE' ? 'border-primary text-primary' : proj.status === 'DEPLOYED' ? 'border-primary/60 text-primary/80' : 'border-primary/40 text-on-surface/60'}`}>
+                      {proj.status}
+                    </span>
+                    <span className="font-body text-[11px] text-primary font-bold bg-background/50 px-2 py-0.5">{proj.date}</span>
+                  </div>
+                  
+                  <h3 className="font-display text-lg md:text-xl font-bold text-on-surface mb-2 uppercase tracking-wide group-hover:text-primary transition-colors drop-shadow-md">{proj.title}</h3>
+                  <p className="font-body text-xs text-on-surface mb-4 leading-relaxed line-clamp-3 font-semibold drop-shadow-[0_1px_1px_rgba(0,0,0,1)] opacity-90">{proj.desc}</p>
+                </div>
+                
+                <div className="border-t border-primary/30 pt-4 flex justify-between items-center font-body text-[10px] text-primary uppercase tracking-wider font-bold drop-shadow-md">
+                  <span>{proj.stack}</span>
+                  <span className="group-hover:text-on-surface transition-colors flex items-center gap-1 bg-background/80 px-2 py-1 border border-primary/20">DECODE <span className="material-symbols-outlined text-[12px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span></span>
+                </div>
               </div>
-              
-              <h3 className="font-display text-lg md:text-xl font-bold text-on-surface mb-2 uppercase tracking-wide group-hover:text-primary transition-colors drop-shadow-md">{proj.title}</h3>
-              <p className="font-body text-xs text-on-surface mb-4 leading-relaxed line-clamp-3 font-semibold drop-shadow-[0_1px_1px_rgba(0,0,0,1)] opacity-90">{proj.desc}</p>
-            </div>
-            
-            <div className="border-t border-primary/30 pt-4 flex justify-between items-center font-body text-[10px] text-primary uppercase tracking-wider font-bold drop-shadow-md">
-              <span>{proj.stack}</span>
-              <span className="group-hover:text-on-surface transition-colors flex items-center gap-1 bg-background/80 px-2 py-1 border border-primary/20">DECODE <span className="material-symbols-outlined text-[12px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span></span>
-            </div>
-          </div>
+            )}
+          </FractureOverlay>
         ))}
       </div>
 
+      {/* ─── DECODED PROJECT DOSSIER (with drop-in animation) ─── */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 bg-background/90 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="absolute inset-0 scanline pointer-events-none opacity-30"></div>
+          <div 
+            className="absolute inset-0 cursor-pointer" 
+            onClick={closeProject}
+          ></div>
           
-          <div className="w-full max-w-3xl glass-panel relative p-8 md:p-10 border border-primary bg-background/95 glow-sm overflow-y-auto max-h-[90vh]">
+          <div 
+            ref={modalRef}
+            className="w-full max-w-3xl glass-panel relative p-8 md:p-10 border border-primary bg-background/95 glow-sm overflow-y-auto max-h-[90vh]"
+            style={{ opacity: 0 }}
+          >
             <button onClick={closeProject} className="absolute top-4 right-4 text-primary hover:text-on-surface transition-colors cursor-pointer drop-shadow-md">
               <span className="material-symbols-outlined text-3xl">close</span>
             </button>
