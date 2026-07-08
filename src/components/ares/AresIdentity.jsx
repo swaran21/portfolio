@@ -69,16 +69,16 @@ const AresIdentity = ({ setActiveTab }) => {
         
         {/* Profile Card */}
         <div className="lg:col-span-5 space-y-8">
-          <div className="glass-panel relative p-8 group border border-primary/30 bg-background/85">
-            <div className="absolute top-4 right-4 font-label-caps text-[10px] text-primary/60 font-bold">
+          <div className="glass-panel relative p-8 group">
+            <div className="absolute top-4 right-4 font-body text-[10px] text-primary/60 font-bold">
               SN: 8842-MS-772
             </div>
             
             <div className="flex flex-col items-center text-center">
-              <div className="w-48 h-48 border-2 border-primary glow-sm p-2 mb-6 bg-background">
+              <div className="w-48 h-48 border-2 border-primary glow-sm p-2 mb-6 bg-background/20 rounded-sm">
                 <img 
                   alt="Maram Sai Swaran" 
-                  className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-500" 
+                  className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-500 rounded-sm" 
                   src="https://gemini.google.com/share/17dae5568938"
                 />
               </div>
@@ -92,23 +92,23 @@ const AresIdentity = ({ setActiveTab }) => {
               
               <div className="w-full border-t border-primary/30 pt-6 space-y-4 text-left">
                 <div className="flex justify-between items-center">
-                  <span className="font-label-caps text-[10px] text-on-surface/80 font-bold drop-shadow-md">Vardhaman College</span>
+                  <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">Vardhaman College</span>
                   <span className="font-body text-xs text-primary font-bold drop-shadow-md">2023 - 2027</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-label-caps text-[10px] text-on-surface/80 font-bold drop-shadow-md">B.Tech CSE</span>
+                  <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">B.Tech CSE</span>
                   <span className="font-body text-xs text-primary font-bold drop-shadow-md">CGPA: 8.73</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-label-caps text-[10px] text-on-surface/80 font-bold drop-shadow-md">CLEARANCE</span>
+                  <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">CLEARANCE</span>
                   <span className="font-body text-xs text-primary font-bold drop-shadow-md">LEVEL_09_RED</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="glass-panel p-8 border border-primary/30 bg-background/85">
-            <h3 className="font-label-caps text-xs text-primary tracking-widest uppercase mb-8 flex items-center gap-2 font-bold drop-shadow-md">
+          <div className="glass-panel p-8">
+            <h3 className="font-body text-xs text-primary tracking-widest uppercase mb-8 flex items-center gap-2 font-bold drop-shadow-md">
               <span className="material-symbols-outlined text-[18px]">terminal</span>
               Technical_Specs
             </h3>
@@ -116,8 +116,8 @@ const AresIdentity = ({ setActiveTab }) => {
               {[
                 { label: 'CORE_LOGIC', skills: 'Java, Python, Node.js', pct: '92%' },
                 { label: 'FRAMEWORKS', skills: 'Spring Boot, React', pct: '88%' },
-                { label: 'INFRASTRUCTURE', skills: 'AWS, GCP Certified', pct: '80%' },
-                { label: 'NEURAL_NETS', skills: 'RAG Pipelines, Gemini', pct: '75%' },
+                { label: 'INFRASTRUCTURE', skills: 'AWS, GCP Certified', pct: '85%' },
+                { label: 'NEURAL_NETS', skills: 'RAG Pipelines, Gemini', pct: '80%' },
               ].map((s) => {
                 const isHighlighted = highlightedSkills && highlightedSkills.includes(s.label);
                 return (
@@ -128,8 +128,8 @@ const AresIdentity = ({ setActiveTab }) => {
                       </span>
                       <span className={`font-body text-xs font-bold transition-colors duration-300 drop-shadow-md ${isHighlighted ? 'text-on-surface' : 'text-primary'}`}>{s.pct}</span>
                     </div>
-                    <div className="h-1 w-full bg-background border border-primary/20 relative overflow-visible">
-                      <div className={`absolute top-0 left-0 h-full transition-all duration-500 ${isHighlighted ? 'bg-on-surface shadow-[0_0_10px_#fff]' : 'bg-primary'}`} style={{ width: s.pct }}></div>
+                    <div className="h-1 w-full bg-background/20 border border-primary/20 relative overflow-visible rounded-full">
+                      <div className={`absolute top-0 left-0 h-full transition-all duration-500 rounded-full ${isHighlighted ? 'bg-on-surface shadow-[0_0_10px_#fff]' : 'bg-primary glow-sm'}`} style={{ width: s.pct }}></div>
                     </div>
                   </div>
                 );
@@ -140,11 +140,11 @@ const AresIdentity = ({ setActiveTab }) => {
 
         {/* Timeline */}
         <div className="lg:col-span-7 space-y-8 text-left">
-          <div className="glass-panel p-8 md:p-10 relative overflow-hidden h-full border border-primary/30 bg-background/85">
+          <div className="glass-panel p-8 md:p-10 relative overflow-hidden h-full">
             <div className="scanline"></div>
             
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-2 border border-primary/40 bg-background/80 drop-shadow-md">
+              <div className="p-2 border border-primary/40 bg-background/20 drop-shadow-md">
                 <span className="material-symbols-outlined text-primary">history_edu</span>
               </div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-on-surface tracking-tight uppercase drop-shadow-md">
@@ -202,16 +202,16 @@ const AresIdentity = ({ setActiveTab }) => {
                   <div 
                     key={i} 
                     onClick={() => handleExperienceClick(exp)}
-                    className={`border-l-2 pl-6 relative cursor-pointer transition-all duration-300 py-3 group ${isActive ? 'border-primary bg-primary/10' : 'border-primary/30 hover:bg-background/40'}`}
+                    className={`border-l-2 pl-6 relative cursor-pointer transition-all duration-300 py-3 group ${isActive ? 'border-primary bg-primary/10' : 'border-primary/30 hover:bg-background/20'}`}
                   >
                     <div className={`absolute -left-[7px] top-4 w-3 h-3 rounded-full transition-all duration-300 ${isActive ? 'bg-on-surface shadow-[0_0_10px_#fff] scale-125' : 'bg-primary group-hover:scale-110'}`}></div>
                     <div className="flex justify-between items-start mb-2 flex-wrap gap-2 drop-shadow-md">
                       <h3 className="font-display text-lg font-bold text-on-surface uppercase">{exp.role} <span className="text-primary">@ {exp.org}</span></h3>
-                      <span className="font-body text-[10px] text-primary font-bold bg-background/50 px-2 py-0.5 uppercase">{exp.period}</span>
+                      <span className="font-body text-[10px] text-primary font-bold bg-background/20 border border-primary/20 px-2 py-0.5 uppercase">{exp.period}</span>
                     </div>
-                    <p className="font-body text-xs text-on-surface font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)] opacity-90">{exp.log}</p>
+                    <p className="font-sans text-xs text-on-surface font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)] opacity-90">{exp.log}</p>
                   </div>
-                );
+               );
               })}
               
               <div className="pt-8 border-t border-primary/30 flex flex-col sm:flex-row gap-4">
@@ -219,19 +219,10 @@ const AresIdentity = ({ setActiveTab }) => {
                   onClick={handleDownload}
                   disabled={downloading}
                   onMouseEnter={() => playSound('hover')}
-                  className="flex-1 min-w-[200px] border border-primary bg-primary text-background px-8 py-4 font-label-caps text-xs font-bold hover:bg-background hover:text-primary transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="flex-1 min-w-[200px] border border-primary bg-primary/10 hover:bg-primary text-primary hover:text-background px-8 py-4 font-body text-xs font-bold transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 glass-panel"
                 >
                   <span className="material-symbols-outlined text-[18px]">download</span>
                   {downloading ? 'COMPILING...' : 'Download_Main_Manifest'}
-                </button>
-                
-                <button 
-                  onClick={() => { playSound('transform'); setActiveTab('STREAM'); }}
-                  onMouseEnter={() => playSound('hover')}
-                  className="flex-1 min-w-[200px] border border-primary/50 bg-background/80 px-8 py-4 font-label-caps text-xs font-bold hover:bg-primary/20 hover:border-primary transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer text-on-surface drop-shadow-md"
-                >
-                  <span className="material-symbols-outlined text-[18px] text-primary">mail</span>
-                  Establish_Uplink
                 </button>
               </div>
             </div>
@@ -239,37 +230,43 @@ const AresIdentity = ({ setActiveTab }) => {
         </div>
       </div>
 
-      {/* Accolades & Certifications Section */}
+      {/* Cloud & AI & Accolades Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-        {/* Achievements Log */}
-        <div className="glass-panel p-8 border border-primary/30 bg-background/85 text-left">
-          <h3 className="font-label-caps text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
-            <span className="material-symbols-outlined text-[18px]">military_tech</span>
-            Achievements_Log
+        {/* Cloud & GenAI Infrastructure Focus */}
+        <div className="glass-panel p-8 text-left">
+          <h3 className="font-body text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
+            <span className="material-symbols-outlined text-[18px]">cloud_sync</span>
+            Cloud_&_GenAI_Infrastructure
           </h3>
           <div className="space-y-6">
             <div className="border-l-2 border-primary/40 pl-4 relative group">
               <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
-              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Winner (15,000 INR) — Agentforce Salesforce Hackathon</h4>
-              <span className="font-body text-[10px] text-primary font-bold bg-background/50 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2026</span>
-              <p className="font-body text-xs text-on-surface/90 font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-                Led Team 5Z Devs to win 1st place by building an AI-powered preventive healthcare monitoring system using Salesforce Data Cloud and Groq (Llama 3.2 Vision) within an intense 24-hour sprint.
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Retrieval-Augmented Generation (RAG) Pipelines</h4>
+              <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                Expertise in building scalable RAG pipelines using custom vector embeddings, seamlessly integrating with the Google Gemini API for highly contextual and accurate AI analysis.
               </p>
             </div>
             <div className="border-l-2 border-primary/40 pl-4 relative group">
               <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
-              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Microsoft Recognition & Azure Subscription Grant</h4>
-              <span className="font-body text-[10px] text-primary font-bold bg-background/50 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2025</span>
-              <p className="font-body text-xs text-on-surface/90 font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-                Awarded for outstanding technical participation and innovation at the "Modernize Java Applications Using AI" Microsoft event.
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Certified Cloud Architecture</h4>
+              <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                Holding certificates in Google Cloud Career Launchpad and AWS Cloud Architecture from MassMutual India. Proven ability to deploy high-availability, zero-trust cloud microservices.
+              </p>
+            </div>
+            <div className="border-l-2 border-primary/40 pl-4 relative group">
+              <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Winner — Agentforce Salesforce Hackathon</h4>
+              <span className="font-body text-[10px] text-primary font-bold border border-primary/20 bg-background/20 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2026</span>
+              <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                Led Team 5Z Devs to win 1st place by building an AI-powered preventive healthcare monitoring system using Salesforce Data Cloud and Groq (Llama 3.2 Vision).
               </p>
             </div>
           </div>
         </div>
 
         {/* Certifications Registry */}
-        <div className="glass-panel p-8 border border-primary/30 bg-background/85 text-left">
-          <h3 className="font-label-caps text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
+        <div className="glass-panel p-8 text-left">
+          <h3 className="font-body text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
             <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
             Certification_Registry
           </h3>
@@ -277,12 +274,13 @@ const AresIdentity = ({ setActiveTab }) => {
             {[
               "Google Cloud Career Launchpad — Completion Certificate — Google Cloud Skills Boost",
               "Software Engineering Virtual Experience — JPMorgan Chase & Co. (Spring Boot, Apache Kafka, Spring Data JPA)",
+              "Microsoft Recognition & Azure Subscription Grant — Modernize Java Applications Using AI",
               "Java Spring Boot (Advanced) & Java Foundation — Infosys SpringBoard",
               "Certificate of Appreciation (AWS Cloud Architecture) — MassMutual India"
             ].map((cert, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 bg-background/40 border border-primary/10 hover:border-primary/40 transition-colors group">
+              <div key={i} className="flex items-start gap-3 p-3 bg-background/10 border border-primary/10 hover:border-primary/40 hover:bg-primary/5 transition-colors group rounded-sm">
                 <span className="material-symbols-outlined text-primary text-[16px] mt-0.5 group-hover:drop-shadow-[0_0_8px_var(--color-primary)] transition-all">verified</span>
-                <p className="font-body text-xs text-on-surface font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                <p className="font-sans text-xs text-on-surface font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
                   {cert}
                 </p>
               </div>
@@ -295,20 +293,20 @@ const AresIdentity = ({ setActiveTab }) => {
       {selectedExperience && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div 
-            className="absolute inset-0 bg-background/90 backdrop-blur-sm cursor-pointer" 
+            className="absolute inset-0 bg-background/60 backdrop-blur-md cursor-pointer" 
             onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
           ></div>
-          <div className="relative glass-panel bg-background/95 border border-primary p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in duration-300 glow-sm">
+          <div className="relative glass-panel p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in duration-300 glow-sm">
             <button 
               onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
-              className="absolute top-6 right-6 text-primary hover:text-on-surface transition-colors"
+              className="absolute top-6 right-6 text-primary hover:text-on-surface transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-3xl drop-shadow-md">close</span>
             </button>
             
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-primary"></span>
-              <span className="font-label-caps text-[10px] text-primary uppercase tracking-[0.3em] font-bold">DECRYPTED_LOG_ARCHIVE</span>
+              <span className="font-body text-[10px] text-primary uppercase tracking-[0.3em] font-bold">DECRYPTED_LOG_ARCHIVE</span>
             </div>
             
             <h2 className="font-display text-3xl md:text-4xl font-bold text-on-surface uppercase mb-2 drop-shadow-md">
@@ -318,7 +316,7 @@ const AresIdentity = ({ setActiveTab }) => {
               @ {selectedExperience.org} <span className="text-on-surface/60 text-sm ml-2 font-normal">// {selectedExperience.status}</span>
             </h3>
             
-            <div className="space-y-6 font-body text-sm md:text-base text-on-surface font-semibold leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+            <div className="space-y-6 font-sans text-sm md:text-base text-on-surface font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
               {selectedExperience.details.map((detail, idx) => (
                 <div key={idx} className="flex gap-4 items-start group">
                   <span className="text-primary font-bold mt-1">&gt;&gt;</span>
@@ -329,7 +327,7 @@ const AresIdentity = ({ setActiveTab }) => {
             
             <div className="mt-10 pt-6 border-t border-primary/30 flex flex-wrap gap-3">
               {selectedExperience.relatedSkills.map(skill => (
-                <span key={skill} className="px-4 py-2 bg-background border border-primary text-primary font-label-caps text-[10px] tracking-widest uppercase font-bold drop-shadow-md">
+                <span key={skill} className="px-4 py-2 glass-panel border border-primary/40 text-primary font-body text-[10px] tracking-widest uppercase font-bold drop-shadow-md rounded-sm">
                   {skill}
                 </span>
               ))}

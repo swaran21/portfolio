@@ -1,7 +1,9 @@
 import React from 'react';
 import useSound from '../../hooks/useSound';
+import Magnetic from './Magnetic';
+import DebrisField from './DebrisField';
 
-const AresFooter = ({ setActiveTab }) => {
+const AresFooter = ({ setActiveTab, debrisRef, theme = 'red' }) => {
   const { playSound } = useSound();
 
   const handleLinkClick = (tabId) => {
@@ -9,9 +11,24 @@ const AresFooter = ({ setActiveTab }) => {
     playSound('tick');
   };
 
+  const navLinks = [
+    { id: 'hero', label: 'GRID_HOME' },
+    { id: 'projects', label: 'PROJECT_ARCHIVE' },
+    { id: 'identity', label: 'OPERATOR_DOSSIER' },
+    { id: 'stream', label: 'ESTABLISH_UPLINK' },
+  ];
+
   return (
-    <footer className="mt-32 border-t border-primary/30 bg-background/95 backdrop-blur-md py-16 px-5 md:px-16 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] relative z-20">
-      <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+    <footer className="relative mt-32 border-t border-primary/30 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] overflow-hidden z-20">
+      {/* Layer 0 — dark frosted base */}
+      <div className="absolute inset-0 bg-background/95 backdrop-blur-md" style={{ zIndex: 0 }}></div>
+
+      {/* Layer 1 — debris field piles up BEHIND the text */}
+      <DebrisField ref={debrisRef} theme={theme} />
+
+      {/* Layer 10 — content is always the top-most, fully readable layer */}
+      <div className="relative py-16 px-5 md:px-16" style={{ zIndex: 10 }}>
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         
         {/* Left Side Logo & Version */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-2">
@@ -23,35 +40,18 @@ const AresFooter = ({ setActiveTab }) => {
           </p>
         </div>
 
-        {/* Navigation / Channel uplinks */}
+        {/* Navigation / Channel uplinks (magnetic pull toward cursor) */}
         <div className="flex flex-wrap justify-center gap-8 font-label-caps text-xs font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-          <button 
-            onClick={() => handleLinkClick('hero')}
-            className="text-on-surface hover:text-primary transition-all duration-300 cursor-pointer"
-          >
-            GRID_HOME
-          </button>
-          
-          <button 
-            onClick={() => handleLinkClick('projects')}
-            className="text-on-surface hover:text-primary transition-all duration-300 cursor-pointer"
-          >
-            PROJECT_ARCHIVE
-          </button>
-          
-          <button 
-            onClick={() => handleLinkClick('identity')}
-            className="text-on-surface hover:text-primary transition-all duration-300 cursor-pointer"
-          >
-            OPERATOR_DOSSIER
-          </button>
-          
-          <button 
-            onClick={() => handleLinkClick('stream')}
-            className="text-on-surface hover:text-primary transition-all duration-300 cursor-pointer"
-          >
-            ESTABLISH_UPLINK
-          </button>
+          {navLinks.map((link) => (
+            <Magnetic key={link.id} strength={0.3}>
+              <button
+                onClick={() => handleLinkClick(link.id)}
+                className="text-on-surface hover:text-primary hover:drop-shadow-[0_0_8px_var(--color-primary)] transition-colors duration-300 cursor-pointer"
+              >
+                {link.label}
+              </button>
+            </Magnetic>
+          ))}
         </div>
 
         {/* Right Side Sync info */}
@@ -65,6 +65,7 @@ const AresFooter = ({ setActiveTab }) => {
           </span>
         </div>
 
+        </div>
       </div>
     </footer>
   );

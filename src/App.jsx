@@ -15,7 +15,6 @@ import AresIdentity from './components/ares/AresIdentity';
 import AresProjects from './components/ares/AresProjects';
 import AresStream from './components/ares/AresStream';
 import AresFooter from './components/ares/AresFooter';
-// import DebrisField from './components/ares/DebrisField';
 
 import './App.css';
 
@@ -172,11 +171,8 @@ const App = () => {
 
       </main>
 
-      {/* ─── FOOTER ORCHESTRATION ─── */}
-      <AresFooter setActiveTab={scrollToSection} />
-
-      {/* ─── PERSISTENT DEBRIS FIELD (footer cubes) ─── */}
-      {/* <DebrisField ref={debrisRef} /> */}
+      {/* ─── FOOTER (debris piles up behind the text, layered inside) ─── */}
+      <AresFooter setActiveTab={scrollToSection} debrisRef={debrisRef} theme={theme} />
       
     </div>
   );

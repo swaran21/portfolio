@@ -36,6 +36,27 @@ const AresHero = ({ setActiveTab }) => {
       { y: 0, opacity: 1, scale: 1, duration: 1.5 },
       "-=0.5"
     );
+
+    // Mouse Parallax Effect
+    const parallaxElements = gsap.utils.toArray('.parallax-element');
+    const handleMouseMove = (e) => {
+      const { innerWidth, innerHeight } = window;
+      const xPos = (e.clientX / innerWidth - 0.5);
+      const yPos = (e.clientY / innerHeight - 0.5);
+
+      parallaxElements.forEach((el) => {
+        const speed = parseFloat(el.dataset.speed) || 0.05;
+        gsap.to(el, {
+          x: xPos * 100 * speed,
+          y: yPos * 100 * speed,
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, { scope: containerRef });
 
   return (
@@ -56,26 +77,26 @@ const AresHero = ({ setActiveTab }) => {
         {/* ─── ACTUAL HERO CONTENT ─── */}
         <section ref={heroContentRef} className="relative h-screen flex items-center justify-center overflow-hidden z-10 pt-12 opacity-0">
           {/* Faded dark box behind hero text to guarantee readability */}
-          <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] z-0 pointer-events-none mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)"></div>
+          <div className="absolute inset-0 bg-background/40 backdrop-blur-[4px] z-0 pointer-events-none mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)"></div>
           
           <div className="relative z-10 text-center px-5 max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-            <div className="mb-6 inline-block px-4 py-1 border border-primary/40 bg-background/80 font-mono text-xs text-primary uppercase tracking-[0.3em] font-bold">
+            <div className="mb-6 inline-block px-4 py-1 border border-primary/20 bg-background/60 glass-panel font-body text-xs text-primary uppercase tracking-[0.3em] font-bold shadow-lg shadow-primary/10">
               User: SAISW_ADMIN // Protocol: ACTIVE
             </div>
             
-            <h1 className="font-display text-5xl md:text-[80px] font-bold tracking-tighter mb-8 leading-tight text-on-surface uppercase">
-              MARAM <span className="text-primary drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">SAI</span> SWARAN
+            <h1 className="font-display text-5xl md:text-[80px] font-bold tracking-tighter mb-8 leading-tight text-on-surface uppercase parallax-element" data-speed="0.05">
+              MARAM <span className="text-primary drop-shadow-[0_0_15px_rgba(230,57,70,0.4)]">SAI</span> SWARAN
             </h1>
             
-            <p className="max-w-2xl mx-auto text-on-surface font-body text-base md:text-lg mb-12 leading-relaxed bg-background/40 p-4 rounded-lg border border-primary/10">
-              Welcome to the high-fidelity digital mainframe. I engineer premium backend infrastructures, low-latency API architectures, and scalable cloud deployments.
+            <p className="max-w-2xl mx-auto text-on-surface font-sans text-base md:text-lg mb-12 leading-relaxed bg-background/40 glass-panel p-6 rounded-lg border border-primary/10 parallax-element" data-speed="-0.02">
+              Welcome to the high-fidelity digital mainframe. I am a <strong>System Architect</strong> specializing in <strong>Distributed Systems</strong>, scalable cloud infrastructures, and high-performance backend engineering using <strong>Java</strong> and <strong>Spring Boot</strong>.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center parallax-element" data-speed="0.03">
               <button 
                 onClick={() => handleAction('PROJECTS')}
                 onMouseEnter={() => playSound('hover')}
-                className="w-full sm:w-auto px-12 py-5 border border-primary text-primary font-label-caps text-xs tracking-[0.2em] bg-background/80 hover:bg-primary hover:text-background hover:glow-primary transition-all duration-300 group cursor-pointer flex items-center justify-center gap-2 font-bold"
+                className="w-full sm:w-auto px-12 py-5 border border-primary text-primary font-label-caps text-xs tracking-[0.2em] glass-panel hover:bg-primary hover:text-background hover:glow-primary transition-all duration-300 group cursor-pointer flex items-center justify-center gap-2 font-bold"
               >
                 INITIALIZE_LOGS 
                 <span className="material-symbols-outlined text-[16px] align-middle">terminal</span>
@@ -84,7 +105,7 @@ const AresHero = ({ setActiveTab }) => {
               <button 
                 onClick={() => handleAction('IDENTITY')}
                 onMouseEnter={() => playSound('hover')}
-                className="w-full sm:w-auto px-12 py-5 border border-white/20 text-on-surface font-label-caps text-xs tracking-[0.2em] bg-background/60 hover:bg-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-bold"
+                className="w-full sm:w-auto px-12 py-5 border border-white/20 text-on-surface font-label-caps text-xs tracking-[0.2em] glass-panel hover:bg-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-bold"
               >
                 VIEW_DOSSIER
               </button>
@@ -95,35 +116,35 @@ const AresHero = ({ setActiveTab }) => {
       
       {/* ─── ACTIVE PROTOCOLS BENTO BOX ─── */}
       <div className="ares-section-wrapper px-5 md:px-16 max-w-[1400px] mx-auto mt-24 mb-16 grid grid-cols-1 md:grid-cols-12 gap-6 text-left">
-        <div className="md:col-span-8 glass-panel p-8 md:p-10 relative overflow-hidden group border border-primary/20 bg-background/85">
-          <div className="absolute top-4 right-4 font-label-caps text-[10px] text-primary/50 font-bold">S/N: 883-CORE</div>
+        <div className="md:col-span-8 glass-panel p-8 md:p-10 relative overflow-hidden group">
+          <div className="absolute top-4 right-4 font-body text-[10px] text-primary/50 font-bold">S/N: 883-CORE</div>
           <span className="material-symbols-outlined text-primary text-5xl mb-8 drop-shadow-md">dns</span>
           
           <h3 className="font-display text-2xl md:text-3xl text-on-surface mb-4 font-bold uppercase tracking-wide drop-shadow-md">SYSTEM_ARCHITECTURE</h3>
           
-          <p className="text-on-surface font-body text-sm md:text-base mb-8 max-w-xl leading-relaxed opacity-90 drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+          <p className="text-on-surface font-sans text-sm md:text-base mb-8 max-w-xl leading-relaxed opacity-90 drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
             Designing modular backend logic, distributed cloud infrastructures, and high-throughput zero-trust security pipelines for enterprise applications.
           </p>
           
           <div className="flex flex-wrap gap-3 drop-shadow-md">
-            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-label-caps text-[10px] font-bold">JAVA // SPRING_BOOT</span>
-            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-label-caps text-[10px] font-bold">CLOUD // AWS_GCP</span>
-            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-label-caps text-[10px] font-bold">API_GATEWAYS</span>
+            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">JAVA // SPRING_BOOT</span>
+            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">CLOUD // AWS_GCP</span>
+            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">API_GATEWAYS</span>
           </div>
         </div>
 
-        <div className="md:col-span-4 glass-panel p-8 md:p-10 flex flex-col justify-between border border-primary/20 bg-background/85">
-          <div className="font-label-caps text-xs text-primary/80 mb-8 font-bold drop-shadow-md">BACKEND_LATENCY_OPTIMIZATION</div>
+        <div className="md:col-span-4 glass-panel p-8 md:p-10 flex flex-col justify-between group">
+          <div className="font-body text-xs text-primary/80 mb-8 font-bold drop-shadow-md tracking-wider">BACKEND_LATENCY_OPTIMIZATION</div>
           <div className="drop-shadow-md">
             <div className="text-5xl md:text-6xl font-display font-bold text-primary leading-none mb-2">0.02ms</div>
-            <p className="text-on-surface font-body text-xs tracking-wider uppercase opacity-90 font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">OPTIMIZED_RESPONSE_TIME</p>
+            <p className="text-on-surface font-body text-[10px] tracking-wider uppercase opacity-90 font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">OPTIMIZED_RESPONSE_TIME</p>
           </div>
           
           <div className="mt-8 space-y-2">
-            <div className="h-1.5 bg-background border border-primary/30 w-full overflow-hidden">
+            <div className="h-1.5 bg-background border border-primary/30 w-full overflow-hidden rounded-full">
               <div className="h-full bg-primary w-4/5 glow-sm"></div>
             </div>
-            <div className="flex justify-between font-label-caps text-[10px] text-on-surface font-bold drop-shadow-md">
+            <div className="flex justify-between font-body text-[10px] text-on-surface font-bold drop-shadow-md">
               <span>BUFF_READY</span>
               <span>80%_LOAD</span>
             </div>

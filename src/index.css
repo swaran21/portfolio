@@ -2,17 +2,17 @@
 
 @theme {
   --color-outline-variant: #5e3f3c;
-  --color-on-primary: #690006;
+  --color-on-primary: #ffffff;
   --color-on-secondary-fixed: #002022;
-  --color-on-surface: #e5e2e1;
-  --color-background: #020202;
+  --color-on-surface: #f1f5f9;
+  --color-background: #02040a; /* Midnight black */
   --color-tertiary-container: #229dbc;
-  --color-surface-container: #0b0b0b;
-  --color-outline: #ff544b;
+  --color-surface-container: #0b0c10;
+  --color-outline: #e63946; /* Rich Crimson */
   --color-secondary: #ff3b30;
   --color-surface-tint: #ffb4ab;
   --color-inverse-surface: #e5e2e1;
-  --color-surface-variant: #1a1a1a;
+  --color-surface-variant: #111827;
   --color-error-container: #93000a;
   --color-tertiary-fixed-dim: #6ad4f4;
   --color-on-tertiary: #003642;
@@ -27,9 +27,9 @@
   --color-surface-container-high: #151515;
   --color-on-error: #690005;
   --color-secondary-fixed-dim: #00dbe9;
-  --color-surface-bright: #202020;
-  --color-primary: #ff544b;
-  --color-surface: #0a0a0a;
+  --color-surface-bright: #1f2937;
+  --color-primary: #e63946; /* Rich Crimson */
+  --color-surface: #0a0f18; /* Midnight tint */
   --color-inverse-on-surface: #1e1e1e;
   --color-on-error-container: #ffdad6;
   --color-surface-container-low: #0c0c0c;
@@ -49,25 +49,28 @@
   --color-on-tertiary-container: #002e3a;
   --color-on-secondary-fixed-variant: #004f54;
 
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
   --font-body: "JetBrains Mono", monospace;
-  --font-label: "Geist", sans-serif;
+  --font-label: "Geist", "Inter", sans-serif;
+  --font-sans: "Inter", "Geist", sans-serif;
 }
 
 @layer utilities {
   .glow-sm {
-    box-shadow: 0 0 15px rgba(255, 84, 75, 0.3);
+    box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
   }
   .glow-primary {
-    box-shadow: 0 0 20px rgba(255, 84, 75, 0.7);
+    box-shadow: 0 0 20px rgba(230, 57, 70, 0.6);
   }
   .glow-red {
-    box-shadow: 0 0 20px rgba(255, 84, 75, 0.2);
+    box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
   }
   .glass-panel {
-    background: rgba(5, 5, 5, 0.85);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 84, 75, 0.2);
+    background: rgba(10, 15, 24, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   }
   .circuit-grid {
     background-image: 
@@ -133,17 +136,23 @@
 
 /* Custom font styles matching tailwind settings */
 body {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter', sans-serif;
   overflow-x: hidden;
-  background-color: #020202;
+  background-color: #02040a;
 }
 h1, h2, h3, .font-display {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
 }
 .font-label-caps {
-  font-family: 'Geist', sans-serif;
+  font-family: 'Geist', 'Inter', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+}
+.font-body {
+  font-family: 'JetBrains Mono', monospace;
+}
+.font-sans {
+  font-family: 'Inter', 'Geist', sans-serif;
 }
 input:focus, textarea:focus, select:focus {
   outline: none;
@@ -176,7 +185,8 @@ body.theme-blue .glow-red {
   box-shadow: 0 0 20px rgba(0, 238, 252, 0.2);
 }
 body.theme-blue .glass-panel {
-  border: 1px solid rgba(0, 238, 252, 0.2);
+  background: rgba(5, 10, 15, 0.4);
+  border: 1px solid rgba(0, 238, 252, 0.15);
 }
 body.theme-blue .circuit-grid {
   background-image: 
