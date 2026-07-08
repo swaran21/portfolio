@@ -164,9 +164,7 @@ body.theme-blue .bg-primary { background-color: var(--color-primary); }
 body.theme-blue .bg-primary\/20 { background-color: rgba(0, 238, 252, 0.2); }
 body.theme-blue .bg-primary\/30 { background-color: rgba(0, 238, 252, 0.3); }
 
-/* This fixes the visibility issue on light backgrounds */
-body.theme-blue .text-on-surface { color: #050505; } 
-body.theme-blue .text-on-surface-variant { color: #333333; }
+/* This text visibility fix was causing dark text on dark backgrounds, removing it allows it to fall back to default light colors */
 
 body.theme-blue .glow-sm {
   box-shadow: 0 0 15px rgba(0, 238, 252, 0.3);
