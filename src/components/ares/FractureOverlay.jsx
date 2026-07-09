@@ -254,8 +254,7 @@ const FractureOverlay = ({ theme = 'red', onMidpoint, onComplete, children }) =>
         });
         renderer.dispose();
         isRunning.current = false;
-        // Pass debris info so the footer DebrisField can spawn pebbles
-        onComplete?.({ count: COLS * ROWS, cubeSize, theme: isBlue ? 'blue' : 'red' });
+        onComplete?.();
       },
     });
 

@@ -115,6 +115,19 @@
   }
 }
 
+/* Footer telemetry ticker — seamless loop (two copies, translate by -50%) */
+@keyframes telemetry {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.telemetry-track {
+  animation: telemetry 45s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .telemetry-track { animation: none; }
+}
+
 /* Custom styled scrollbars for high fidelity */
 ::-webkit-scrollbar {
   width: 8px;

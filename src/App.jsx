@@ -3,9 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
-// Asset Imports
-import tronBg from './assets/tron-background.png';
-
 // Component Imports
 import AresBootScreen from './components/ares/AresBootScreen';
 import TronGrid from './components/ares/TronGrid';
@@ -29,7 +26,6 @@ const App = () => {
   
   // Create a ref for the main container to scope GSAP animations
   const mainRef = useRef(null);
-  const debrisRef = useRef(null);
 
   React.useEffect(() => {
     if (theme === 'blue') {
@@ -116,14 +112,8 @@ const App = () => {
   return (
     <div className="min-h-screen bg-transparent text-on-background relative isolate font-body selection:bg-primary selection:text-background" ref={mainRef}>
       
-      {/* Fallback background image (Properly imported for Vite) */}
-      <div className="fixed inset-0 -z-50 pointer-events-none bg-[#020202]">
-        <img
-          alt="TRON: Ares red world environment"
-          className="w-full h-full object-cover opacity-50"
-          src={tronBg}
-        />
-      </div>
+      {/* Solid void fallback behind the live WebGL city (shows only if WebGL fails) */}
+      <div className="fixed inset-0 -z-50 pointer-events-none bg-[#02040a]"></div>
 
       {/* ─── 3D SUBSTRATE ─── */}
       <TronGrid scrollProgress={scrollProgress} theme={theme} />
@@ -161,7 +151,7 @@ const App = () => {
 
         {/* SECTION: PROJECTS */}
         <section id="projects" data-section="PROJECTS" className="ares-section-wrapper pt-32 pb-16">
-          <AresProjects setActiveTab={scrollToSection} theme={theme} debrisRef={debrisRef} />
+          <AresProjects setActiveTab={scrollToSection} theme={theme} />
         </section>
 
         {/* SECTION: STREAM / CONTACT */}
@@ -171,8 +161,8 @@ const App = () => {
 
       </main>
 
-      {/* ─── FOOTER (debris piles up behind the text, layered inside) ─── */}
-      <AresFooter setActiveTab={scrollToSection} debrisRef={debrisRef} theme={theme} />
+      {/* ─── FOOTER ─── */}
+      <AresFooter setActiveTab={scrollToSection} />
       
     </div>
   );

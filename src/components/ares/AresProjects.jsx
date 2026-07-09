@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import useSound from '../../hooks/useSound';
 import FractureOverlay from './FractureOverlay';
 
-const AresProjects = ({ setActiveTab, theme = 'red', debrisRef }) => {
+const AresProjects = ({ setActiveTab, theme = 'red' }) => {
   const { playSound } = useSound();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -81,13 +81,9 @@ const AresProjects = ({ setActiveTab, theme = 'red', debrisRef }) => {
     });
   }, []);
 
-  const handleShatterComplete = useCallback((debrisData) => {
+  const handleShatterComplete = useCallback(() => {
     setIsAnimating(false);
-    // Send debris to the footer DebrisField 
-    if (debrisRef?.current && debrisData) {
-       debrisRef.current.addDebris(debrisData);
-    }
-  }, [debrisRef]);
+  }, []);
 
   const closeProject = useCallback(() => {
     // Restore all card opacities

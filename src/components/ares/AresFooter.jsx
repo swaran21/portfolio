@@ -1,9 +1,12 @@
 import React from 'react';
 import useSound from '../../hooks/useSound';
 import Magnetic from './Magnetic';
-import DebrisField from './DebrisField';
 
-const AresFooter = ({ setActiveTab, debrisRef, theme = 'red' }) => {
+// Backend telemetry stream — cheap, ambient movement (no heavy geometry)
+const TELEMETRY =
+  '0x7FA3 :: NODE_SYNC OK   ::   LATENCY 0.02ms   ::   HEAP 62%   ::   THREADS 128   ::   0xBE41 UPLINK_STABLE   ::   REQ/S 14.2K   ::   AWS eu-central-1   ::   GC_PAUSE 3ms   ::   TLS 1.3   ::   0x00FF CACHE_HIT 99.4%   ::   SPRING_BOOT 3.2   ::   JVM_OK   ::   ';
+
+const AresFooter = ({ setActiveTab }) => {
   const { playSound } = useSound();
 
   const handleLinkClick = (tabId) => {
@@ -19,17 +22,18 @@ const AresFooter = ({ setActiveTab, debrisRef, theme = 'red' }) => {
   ];
 
   return (
-    <footer className="relative mt-32 border-t border-primary/30 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] overflow-hidden z-20">
-      {/* Layer 0 — dark frosted base */}
-      <div className="absolute inset-0 bg-background/95 backdrop-blur-md" style={{ zIndex: 0 }}></div>
+    <footer className="relative mt-32 border-t border-primary/30 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] overflow-hidden z-20 bg-background/95 backdrop-blur-md">
+      {/* ─── Telemetry data stream (slow horizontal ticker) ─── */}
+      <div className="relative border-b border-primary/15 overflow-hidden py-2.5 bg-background/40">
+        <div className="flex whitespace-nowrap telemetry-track font-body text-[10px] tracking-[0.25em] text-primary/45 select-none">
+          <span className="px-2">{TELEMETRY}</span>
+          <span className="px-2" aria-hidden="true">{TELEMETRY}</span>
+        </div>
+      </div>
 
-      {/* Layer 1 — debris field piles up BEHIND the text */}
-      <DebrisField ref={debrisRef} theme={theme} />
-
-      {/* Layer 10 — content is always the top-most, fully readable layer */}
-      <div className="relative py-16 px-5 md:px-16" style={{ zIndex: 10 }}>
+      <div className="py-14 px-5 md:px-16">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-        
+
         {/* Left Side Logo & Version */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-2">
           <div className="font-display text-lg text-primary font-bold tracking-widest drop-shadow-md">

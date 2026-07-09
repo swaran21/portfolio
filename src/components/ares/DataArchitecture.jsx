@@ -1,5 +1,6 @@
 import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { gsap } from 'gsap';
 import * as THREE from 'three';
 
 /**
@@ -34,12 +35,20 @@ const fragmentShader = /* glsl */ `
   uniform vec3  uColor;
   uniform vec2  uMouse;   // smoothed, -1..1
   uniform float uScroll;  // 0..1 page scroll
+  uniform float uIntro;   // 0 (high in the void) → 1 (landed in the corridor)
 
   #define STEPS 48
   #define MAXD  42.0
   #define SURF  0.012
 
   mat2 rot(float a){ float s = sin(a), c = cos(a); return mat2(c, -s, s, c); }
+
+  // Anti-aliased grid lines — screen-space width via fwidth, so lines stay a
+  // crisp ~1px at any distance instead of shimmering into noise.
+  float gridAA(vec2 c){
+    vec2 g = abs(fract(c - 0.5) - 0.5) / fwidth(c);
+    return 1.0 - clamp(min(g.x, g.y), 0.0, 1.0);
+  }
 
   float hash21(vec2 p){
     p = fract(p * vec2(123.34, 345.45));
@@ -89,15 +98,21 @@ const fragmentShader = /* glsl */ `
   void main(){
     vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution.xy) / uResolution.y;
     float t = uTime * 0.55;
+    float intro = clamp(uIntro, 0.0, 1.0);
 
-    // Camera creeps forward forever; scroll lifts it for a parallax reveal
-    vec3 ro = vec3(0.0, 1.7 + uScroll * 2.0, t * 2.4);
+    // ── Intro drop-in: start high in the pitch-black void looking straight
+    //    down, then plunge and level out into the corridor (driven by GSAP).
+    float camY = mix(34.0, 1.7, intro) + uScroll * 2.0;
+    vec3 ro = vec3(0.0, camY, t * 2.4);
     vec3 rd = normalize(vec3(uv.x, uv.y - 0.26, 1.0));
 
-    // Auto sway + cursor parallax
-    float sway = sin(t * 0.18) * 0.12 + uMouse.x * 0.22;
+    // Pitch the ray straight down at the start, ease level as we land
+    rd.yz *= rot(-(1.0 - intro) * 1.25);
+
+    // Auto sway + cursor parallax (only after we've landed)
+    float sway = sin(t * 0.18) * 0.12 + uMouse.x * 0.22 * intro;
     rd.xz *= rot(sway);
-    rd.yz *= rot(-uMouse.y * 0.10);
+    rd.yz *= rot(-uMouse.y * 0.10 * intro);
 
     // ── Raymarch ──
     float d = 0.0, cellRnd = 0.0, hitRnd = 0.0;
@@ -113,19 +128,19 @@ const fragmentShader = /* glsl */ `
     if (d < MAXD){
       vec3 p = ro + rd * d;
       vec3 n = getNormal(p);
+      vec3 an = abs(n);
 
-      // ── Circuitry: fine glowing grid across every face ──
-      float ex = abs(fract(p.x * 2.0) - 0.5);
-      float ey = abs(fract(p.y * 2.0) - 0.5);
-      float ez = abs(fract(p.z * 2.0) - 0.5);
-      float horiz = smoothstep(0.46, 0.5, max(ex, ez));
-      float vertL = smoothstep(0.45, 0.5, ey);
-      float lines = max(horiz, vertL * 0.7);
+      // ── Circuitry: crisp anti-aliased grid on every face (triplanar) ──
+      float gX = gridAA(p.yz * 2.0);   // faces pointing along X
+      float gY = gridAA(p.xz * 2.0);   // floor / horizontal faces
+      float gZ = gridAA(p.xy * 2.0);   // faces pointing along Z
+      float lines = gX * an.x + gY * an.y + gZ * an.z;
 
-      // ── Energy: pulses climbing the towers + data streaming forward ──
-      float flow   = smoothstep(0.2, 1.0, sin(p.y * 2.5 - uTime * 3.5 + hitRnd * 6.28));
-      float stream = smoothstep(0.9, 1.0, sin(p.z * 0.8 - uTime * 2.0) * 0.5 + 0.5);
-      float glow   = lines * (0.5 + flow * 1.5) + stream * lines * 1.2;
+      // ── Single descending laser scanline down each pillar ──
+      //    fract() loop = one clean line dropping top→bottom; per-pillar hash
+      //    offset so they fall out of unison; gated to vertical faces only.
+      float scan = smoothstep(0.05, 0.0, abs(fract(p.y * 0.3 + uTime * 0.5 + hitRnd * 3.0) - 0.5));
+      scan *= (1.0 - an.y);
 
       // Faint diffuse so the monoliths read as solid volumes
       float dif = clamp(dot(n, normalize(vec3(0.5, 1.0, 0.3))), 0.0, 1.0);
@@ -133,7 +148,7 @@ const fragmentShader = /* glsl */ `
 
       // Per-tower brightness variation for depth
       vec3 c = mix(uColor * 0.7, uColor * 1.25, hitRnd);
-      col = base + c * glow * 1.8;
+      col = base + c * lines * 1.2 + c * scan * 2.2;
     }
 
     // ── Atmospheric fog → the site's void colour (keeps distance clean) ──
@@ -170,6 +185,7 @@ const DataArchitecture = ({ theme = 'red', scrollProgress = 0 }) => {
     uColor: { value: (THEME_COLOR[theme] || THEME_COLOR.red).clone() },
     uMouse: { value: new THREE.Vector2(0, 0) },
     uScroll: { value: 0 },
+    uIntro: { value: 0 },
   }), []); // built once — values mutate in useFrame, never recreate
 
   useEffect(() => {
@@ -187,6 +203,21 @@ const DataArchitecture = ({ theme = 'red', scrollProgress = 0 }) => {
       matRef.current.uniforms.uColor.value.copy(THEME_COLOR[theme] || THEME_COLOR.red);
     }
   }, [theme]);
+
+  // "Through the clouds" drop-in: plunge from the void into the corridor once,
+  // right as the site reveals (this component mounts when the boot finishes).
+  useEffect(() => {
+    const mat = matRef.current;
+    if (!mat) return;
+    mat.uniforms.uIntro.value = 0;
+    const tween = gsap.to(mat.uniforms.uIntro, {
+      value: 1,
+      duration: 3.4,
+      ease: 'power2.inOut',
+      delay: 0.2,
+    });
+    return () => tween.kill();
+  }, []);
 
   useFrame((state) => {
     const u = matRef.current?.uniforms;
