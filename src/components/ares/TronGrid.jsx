@@ -1,71 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-
-/* ─── Infinite Red Grid Floor ─── */
-const GridFloor = ({ theme }) => {
-  const gridRef = useRef();
-
-  useFrame(({ clock }) => {
-    if (gridRef.current) {
-      gridRef.current.position.z = (clock.getElapsedTime() * 2) % 2;
-    }
-  });
-
-  const gridMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        uColor: { value: new THREE.Color(theme === 'blue' ? '#00eefc' : '#ff3322') },
-        uTime: { value: 0 },
-        uOpacity: { value: 0.4 },
-      },
-      vertexShader: `
-        varying vec3 vWorldPos;
-        void main() {
-          vec4 worldPos = modelMatrix * vec4(position, 1.0);
-          vWorldPos = worldPos.xyz;
-          gl_Position = projectionMatrix * viewMatrix * worldPos;
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 uColor;
-        uniform float uTime;
-        uniform float uOpacity;
-        varying vec3 vWorldPos;
-
-        float grid(vec2 st, float res) {
-          vec2 grid = abs(fract(st * res) - 0.5) / fwidth(st * res);
-          float line = min(grid.x, grid.y);
-          return 1.0 - min(line, 1.0);
-        }
-
-        void main() {
-          float d = length(vWorldPos.xz) * 0.02;
-          float fade = exp(-d * 0.8);
-
-          float g1 = grid(vWorldPos.xz, 0.5) * 0.6;
-          float g2 = grid(vWorldPos.xz, 0.1) * 0.3;
-
-          float totalGrid = (g1 + g2) * fade;
-          vec3 color = uColor * totalGrid;
-
-          gl_FragColor = vec4(color, totalGrid * uOpacity * fade);
-        }
-      `,
-      transparent: true,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    });
-  }, [theme]);
-
-  return (
-    <group ref={gridRef}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} material={gridMaterial}>
-        <planeGeometry args={[200, 200, 1, 1]} />
-      </mesh>
-    </group>
-  );
-};
+import DataArchitecture from './DataArchitecture';
 
 
 
@@ -238,7 +174,7 @@ const TronGrid = ({ scrollProgress = 0, theme = 'red' }) => {
         <pointLight position={[-15, 3, -30]} intensity={0.8} color={theme === 'blue' ? '#00eefc' : '#ff0000'} distance={30} decay={2} />
 
         <CameraController scrollProgress={scrollProgress} />
-        <GridFloor theme={theme} />
+        <DataArchitecture theme={theme} scrollProgress={scrollProgress} />
         <Particles theme={theme} />
         <CursorObject theme={theme} />
       </Canvas>
