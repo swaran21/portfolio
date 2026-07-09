@@ -91,13 +91,13 @@ const AresStream = () => {
                 <span className="font-sans text-sm text-on-surface font-bold group-hover/link:text-primary transition-colors drop-shadow-md">SWARAN21</span>
               </a>
               <a href="https://www.linkedin.com/in/sai-swaran-maram-117870298/" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="block p-4 border border-primary/20 bg-background/40 hover:border-primary transition-colors group/link">
-                <span className="font-body text-[9px] text-primary/80 font-bold block drop-shadow-md tracking-widest uppercase">LINKED_NODE</span>
+                <span className="font-body text-[9px] text-primary/80 font-bold block drop-shadow-md tracking-widest uppercase">LINKEDIN_NODE</span>
                 <span className="font-sans text-sm text-on-surface font-bold group-hover/link:text-primary transition-colors drop-shadow-md">SAI SWARAN</span>
               </a>
-              <a href="https://leetcode.com/u/user9732R/" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="col-span-2 block p-4 border border-primary/20 bg-background/40 hover:border-primary transition-colors group/link">
+              <a href="https://leetcode.com/swaran21" target="_blank" rel="noreferrer" onMouseEnter={() => playSound('hover')} className="col-span-2 block p-4 border border-primary/20 bg-background/40 hover:border-primary transition-colors group/link">
                 <span className="font-body text-[9px] text-primary/80 font-bold block drop-shadow-md tracking-widest uppercase">LEETCODE_STATS</span>
                 <span className="font-sans text-sm text-on-surface font-bold group-hover/link:text-primary transition-colors drop-shadow-md flex justify-between">
-                  <span>USER9732R</span>
+                  <span>SWARAN21</span>
                   <span className="text-xs opacity-60 font-body">View Matrix Optimizations</span>
                 </span>
               </a>

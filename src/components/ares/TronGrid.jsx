@@ -22,11 +22,11 @@ const Particles = ({ theme }) => {
 
   useFrame(({ clock }) => {
     if (particlesRef.current) {
-      const arr = particlesRef.current.geometry.attributes.position.array;
-      for (let i = 0; i < count; i++) {
-        arr[i * 3 + 1] += Math.sin(clock.getElapsedTime() * 0.5 + i) * 0.003;
-      }
-      particlesRef.current.geometry.attributes.position.needsUpdate = true;
+      // Instead of mutating the vertex buffer array and forcing a heavy GPU upload every frame
+      // (which completely tanks Chrome), we just softly rotate and bob the whole particle system
+      const t = clock.getElapsedTime() * 0.1;
+      particlesRef.current.rotation.y = t;
+      particlesRef.current.position.y = Math.sin(t * 5.0) * 0.5;
     }
   });
 
@@ -162,8 +162,8 @@ const TronGrid = ({ scrollProgress = 0, theme = 'red' }) => {
   return (
     <div className="fixed inset-0 -z-40 pointer-events-none">
       <Canvas
-        dpr={[1, 1.5]} // Restricts max pixel ratio to 1.5x
-  gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        dpr={1} // Force 1x pixel ratio for consistent performance across all browsers
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 6, 15], fov: 60, near: 0.1, far: 200 }}
         style={{ background: 'transparent' }}
       >

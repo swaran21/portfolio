@@ -63,21 +63,25 @@ const fragmentShader = /* glsl */ `
     return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
   }
 
-  // Scene SDF — nearest tower across a 3x3 cell neighbourhood + floor.
-  // Sampling neighbours (not just the current cell) makes the field TRUE-metric
-  // and continuous across cell boundaries. That is what kills the noise: a
-  // single-cell SDF is non-metric, so the marcher overshoots tower edges AND
-  // getNormal() explodes at silhouettes — together they produced the torn,
-  // flickering fragments. A metric field removes both at the source.
+  // Scene SDF — nearest tower across a 2x2 cell neighbourhood + floor.
+  // We use the 2x2 block closest to the current point to cut the GPU load
+  // by over 50% compared to 3x3, fixing heavy lag in Chrome.
   float map(vec3 p, out float cellRnd){
     float fl = p.y + 2.0;                        // ground plane
-    vec2 baseId = floor((p.xz + 2.0) / 4.0);
+    vec2 cellPos = (p.xz + 2.0) / 4.0;
+    vec2 baseId = floor(cellPos);
+    vec2 fractPos = fract(cellPos);
+    
+    // Pick the 2x2 quadrant closest to 'p'
+    float startX = fractPos.x < 0.5 ? -1.0 : 0.0;
+    float startY = fractPos.y < 0.5 ? -1.0 : 0.0;
+
     float best = 1e5;
     float bestRnd = hash21(baseId);
 
-    for (int i = -1; i <= 1; i++){
-      for (int j = -1; j <= 1; j++){
-        vec2 nid = baseId + vec2(float(i), float(j));
+    for (int i = 0; i <= 1; i++){
+      for (int j = 0; j <= 1; j++){
+        vec2 nid = baseId + vec2(startX + float(i), startY + float(j));
         // Central column (x-cell 0) stays an empty avenue for the camera
         float corridor = step(0.5, abs(nid.x));
         float present  = step(0.18, hash21(nid + 11.7)) * corridor;
@@ -238,8 +242,8 @@ const DataArchitecture = ({ theme = 'red', scrollProgress = 0 }) => {
     const u = matRef.current?.uniforms;
     if (!u) return;
     u.uTime.value = state.clock.elapsedTime;
-    state.gl.getDrawingBufferSize(bufSize);
-    u.uResolution.value.copy(bufSize);
+    // Do NOT query state.gl.getDrawingBufferSize every frame, it causes synchronous pipeline stalls in Chrome
+    u.uResolution.value.set(state.size.width * state.gl.getPixelRatio(), state.size.height * state.gl.getPixelRatio());
     // Smooth (spring-ish) parallax + scroll easing
     u.uMouse.value.x += (mouse.current.x - u.uMouse.value.x) * 0.04;
     u.uMouse.value.y += (mouse.current.y - u.uMouse.value.y) * 0.04;

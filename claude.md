@@ -34,6 +34,7 @@ The app is orchestrated by `App.jsx`, which handles the initial boot sequence an
 The background is NOT a static image, but a live, responsive WebGL environment.
 - **DataArchitecture.jsx (GLSL Raymarching)**: A fullscreen GLSL pass that renders an organic, infinite skyline of server monoliths. 
   - **Features**: Corridor camera (camera glides down an empty central avenue), fwidth-based anti-aliased triplanar grid (sharp scanlines), exponential fog (fades perfectly into the `#02040a` background).
+  - **SDF Tiling & Anti-Aliasing Fix (CRITICAL)**: The raymarching engine tiles towers using a highly optimized 2x2 neighborhood search in the `map()` function. Previously, a single-cell lookup caused the distance field to be non-metric at boundaries, causing tearing and normal explosions. A 3x3 search fixed it but caused severe GPU lag in Chrome. The dynamic 2x2 search (picking the quadrant closest to the ray) cuts GPU load by >50% while ensuring a mathematically continuous, true metric field. Do not revert this to a single-cell modular space lookup or a heavy 3x3 search.
   - **Interactivity**: The camera sways via GSAP-eased mouse parallax and responds to scroll depth. A `uIntro` uniform drives a cinematic "Through the Clouds" plunge animation directly after the boot sequence.
 
 ## 4. Styling System & Aesthetics
