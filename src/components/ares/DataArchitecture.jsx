@@ -39,14 +39,16 @@ const fragmentShader = /* glsl */ `
 
   #define STEPS 48
   #define MAXD  42.0
-  #define SURF  0.012
+  #define SURF  0.02
 
   mat2 rot(float a){ float s = sin(a), c = cos(a); return mat2(c, -s, s, c); }
 
   // Anti-aliased grid lines — screen-space width via fwidth, so lines stay a
   // crisp ~1px at any distance instead of shimmering into noise.
+  // Floor on fwidth prevents division-by-near-zero at oblique raymarch angles.
   float gridAA(vec2 c){
-    vec2 g = abs(fract(c - 0.5) - 0.5) / fwidth(c);
+    vec2 fw = max(fwidth(c), vec2(0.03));
+    vec2 g = abs(fract(c - 0.5) - 0.5) / fw;
     return 1.0 - clamp(min(g.x, g.y), 0.0, 1.0);
   }
 
@@ -61,28 +63,35 @@ const fragmentShader = /* glsl */ `
     return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
   }
 
-  // Scene SDF. Writes the current cell's random seed through cellRnd.
+  // Scene SDF — nearest tower across a 3x3 cell neighbourhood + floor.
+  // Sampling neighbours (not just the current cell) makes the field TRUE-metric
+  // and continuous across cell boundaries. That is what kills the noise: a
+  // single-cell SDF is non-metric, so the marcher overshoots tower edges AND
+  // getNormal() explodes at silhouettes — together they produced the torn,
+  // flickering fragments. A metric field removes both at the source.
   float map(vec3 p, out float cellRnd){
-    float fl = p.y + 2.0;                       // ground plane
+    float fl = p.y + 2.0;                        // ground plane
+    vec2 baseId = floor((p.xz + 2.0) / 4.0);
+    float best = 1e5;
+    float bestRnd = hash21(baseId);
 
-    vec2 id  = floor((p.xz + 2.0) / 4.0);       // 4x4 cell id
-    float rnd = hash21(id);
-    cellRnd = rnd;
-
-    vec3 q = p;
-    q.xz = mod(p.xz + 2.0, 4.0) - 2.0;          // fold space into one cell
-
-    // Keep the camera's central column (id.x == 0) always clear → it flies
-    // down an avenue with monoliths rising on either side, never through one.
-    float corridor = step(0.5, abs(id.x));
-    float present = step(0.18, hash21(id + 11.7)) * corridor;
-    float height  = mix(0.5, 4.5, rnd);
-    float w       = mix(0.55, 0.9, hash21(id + 3.1));
-
-    float box = sdBox(q - vec3(0.0, height - 2.0, 0.0), vec3(w, height, w));
-    box = present > 0.5 ? box : MAXD * 2.0;     // remove absent monoliths
-
-    return min(box, fl);
+    for (int i = -1; i <= 1; i++){
+      for (int j = -1; j <= 1; j++){
+        vec2 nid = baseId + vec2(float(i), float(j));
+        // Central column (x-cell 0) stays an empty avenue for the camera
+        float corridor = step(0.5, abs(nid.x));
+        float present  = step(0.18, hash21(nid + 11.7)) * corridor;
+        if (present < 0.5) continue;
+        float rnd    = hash21(nid);
+        float height = mix(0.5, 4.5, rnd);
+        float w      = mix(0.55, 0.9, fract(rnd * 31.7));
+        vec2 local   = p.xz - 4.0 * nid;         // this cell's tower center is at 4*nid
+        float box = sdBox(vec3(local.x, p.y - (height - 2.0), local.y), vec3(w, height, w));
+        if (box < best){ best = box; bestRnd = rnd; }
+      }
+    }
+    cellRnd = bestRnd;
+    return min(best, fl);
   }
 
   float mapD(vec3 p){ float r; return map(p, r); }
@@ -114,13 +123,14 @@ const fragmentShader = /* glsl */ `
     rd.xz *= rot(sway);
     rd.yz *= rot(-uMouse.y * 0.10 * intro);
 
-    // ── Raymarch ──
+    // ── Raymarch — the SDF is now truly metric (3x3 neighbourhood), so a plain
+    //    sphere-trace is exact and cannot overshoot a tower edge. ──
     float d = 0.0, cellRnd = 0.0, hitRnd = 0.0;
     for (int i = 0; i < STEPS; i++){
       vec3 p = ro + rd * d;
       float ds = map(p, cellRnd);
       if (ds < SURF){ hitRnd = cellRnd; break; }
-      d += ds * 0.85;                            // slight under-step (repeated domain safety)
+      d += ds;
       if (d > MAXD) break;
     }
 
@@ -130,17 +140,22 @@ const fragmentShader = /* glsl */ `
       vec3 n = getNormal(p);
       vec3 an = abs(n);
 
+      // ── Distance fade: kill high-frequency detail before it goes sub-pixel ──
+      float detailFade = 1.0 - smoothstep(8.0, MAXD * 0.7, d);
+
       // ── Circuitry: crisp anti-aliased grid on every face (triplanar) ──
       float gX = gridAA(p.yz * 2.0);   // faces pointing along X
       float gY = gridAA(p.xz * 2.0);   // floor / horizontal faces
       float gZ = gridAA(p.xy * 2.0);   // faces pointing along Z
-      float lines = gX * an.x + gY * an.y + gZ * an.z;
+      float lines = (gX * an.x + gY * an.y + gZ * an.z) * detailFade;
 
       // ── Single descending laser scanline down each pillar ──
       //    fract() loop = one clean line dropping top→bottom; per-pillar hash
       //    offset so they fall out of unison; gated to vertical faces only.
-      float scan = smoothstep(0.05, 0.0, abs(fract(p.y * 0.3 + uTime * 0.5 + hitRnd * 3.0) - 0.5));
-      scan *= (1.0 - an.y);
+      //    Threshold widens with distance so it never goes sub-pixel.
+      float scanW = 0.05 + d * 0.0015;
+      float scan = smoothstep(scanW, 0.0, abs(fract(p.y * 0.3 + uTime * 0.5 + hitRnd * 3.0) - 0.5));
+      scan *= (1.0 - an.y) * detailFade;
 
       // Faint diffuse so the monoliths read as solid volumes
       float dif = clamp(dot(n, normalize(vec3(0.5, 1.0, 0.3))), 0.0, 1.0);
