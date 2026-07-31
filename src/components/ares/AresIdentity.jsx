@@ -7,6 +7,7 @@ const AresIdentity = ({ setActiveTab }) => {
   const [downloading, setDownloading] = useState(false);
   const [highlightedSkills, setHighlightedSkills] = useState(null);
   const [selectedExperience, setSelectedExperience] = useState(null);
+  const [showAllExp, setShowAllExp] = useState(false);
 
   const handleExperienceClick = (exp) => {
     playSound('tick');
@@ -32,16 +33,20 @@ const AresIdentity = ({ setActiveTab }) => {
         `=========================================\n\n`,
         `[IDENTITY]\n`,
         `- Operator ID: MARAM_SAI_SWARAN\n`,
-        `- Role: Principal System Architect // SWE Intern\n`,
+        `- Role: Software Engineer // Full Stack Developer\n`,
         `- Education: B.Tech CSE @ Vardhaman College of Engineering\n`,
         `- Academic Metric: 8.38 CGPA\n`,
         `- Timeline: 2023 - 2027\n`,
         `- Experience: 1+ Years\n\n`,
         `[TECHNICAL_SPECIFICATIONS]\n`,
-        `- Core Logic (Java, Python, Node.js): 92%\n`,
-        `- Frameworks (Spring Boot, React, Next.js): 88%\n`,
-        `- Infrastructure (AWS, GCP Certified): 80%\n`,
-        `- Neural Networks (RAG Pipelines, Gemini API): 75%\n\n`,
+        `- Languages (Java, Python, C, JavaScript)\n`,
+        `- Frameworks (Spring Boot, Spring Security, Spring Data JPA, Hibernate, React.js, Node.js, Tailwind CSS)\n`,
+        `- Backend (REST APIs, Microservices, Spring Cloud, OpenFeign, Spring Cloud Gateway, Resilience4j, OpenAPI/Swagger)\n`,
+        `- DevOps/Cloud (AWS, Google Cloud Platform, Apache Kafka, Docker, Kubernetes, Jenkins, CI/CD, Grafana)\n`,
+        `- Databases (PostgreSQL, MySQL, MongoDB, Redis)\n`,
+        `- Testing (JUnit, Mockito)\n`,
+        `- Developer Tools (Git, GitHub, Maven, Gradle, IntelliJ IDEA, Eclipse, VS Code, Postman)\n`,
+        `- Core Concepts (System Design, Distributed Systems, Event-Driven Architecture)\n\n`,
         `[DIRECTIVES]\n`,
         `1. Optimize system response latency to <0.02ms.\n`,
         `2. Build production-grade high-performance backend systems.\n`,
@@ -88,7 +93,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 SAI_SWARAN
               </h1>
               <p className="font-body text-xs text-on-surface tracking-[0.2em] uppercase mb-6 font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-                Principal System Architect
+                Software Engineer // Full Stack Developer
               </p>
 
               <div className="w-full border-t border-primary/30 pt-6 space-y-4 text-left">
@@ -101,8 +106,8 @@ const AresIdentity = ({ setActiveTab }) => {
                   <span className="font-body text-xs text-primary font-bold drop-shadow-md">CGPA: 8.38</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">CLEARANCE</span>
-                  <span className="font-body text-xs text-primary font-bold drop-shadow-md">LEVEL_09_RED</span>
+                  <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">EXPERIENCE</span>
+                  <span className="font-body text-xs text-primary font-bold drop-shadow-md">2+ Years</span>
                 </div>
               </div>
             </div>
@@ -115,10 +120,13 @@ const AresIdentity = ({ setActiveTab }) => {
             </h3>
             <div className="space-y-6">
               {[
-                { label: 'CORE_LOGIC', skills: 'Java, Python, Node.js', pct: '92%' },
-                { label: 'FRAMEWORKS', skills: 'Spring Boot, React', pct: '88%' },
-                { label: 'INFRASTRUCTURE', skills: 'AWS, GCP Certified', pct: '85%' },
-                { label: 'NEURAL_NETS', skills: 'RAG Pipelines, Gemini', pct: '80%' },
+                { label: 'Languages', skills: 'Java, Python, C, JavaScript', pct: '95%' },
+                { label: 'Frameworks', skills: 'Spring Boot, React.js, Node.js, Tailwind CSS', pct: '90%' },
+                { label: 'Backend', skills: 'REST APIs, Microservices, Spring Cloud', pct: '92%' },
+                { label: 'DevOps/Cloud', skills: 'AWS, GCP, Kafka, Docker, Kubernetes', pct: '88%' },
+                { label: 'Databases', skills: 'PostgreSQL, MySQL, MongoDB, Redis', pct: '85%' },
+                { label: 'Tools', skills: 'Git, Maven, Gradle, Postman', pct: '90%' },
+                { label: 'Core Concepts', skills: 'System Design, Event-Driven Arch', pct: '90%' }
               ].map((s) => {
                 const isHighlighted = highlightedSkills && highlightedSkills.includes(s.label);
                 return (
@@ -149,7 +157,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 <span className="material-symbols-outlined text-primary">history_edu</span>
               </div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-on-surface tracking-tight uppercase drop-shadow-md">
-                ACTIVE_PROTOCOLS_TIMELINE
+                EXPERIENCE
               </h2>
             </div>
 
@@ -161,7 +169,7 @@ const AresIdentity = ({ setActiveTab }) => {
                   period: 'JAN 2026 — APR 2026',
                   status: 'COMPLETED',
                   log: 'Engineered an Agentic RAG architecture using Qdrant for semantic search and containerized microservices on K8s.',
-                  relatedSkills: ['CORE_LOGIC', 'FRAMEWORKS', 'INFRASTRUCTURE', 'NEURAL_NETS'],
+                  relatedSkills: ['React', 'Node.js', 'Kubernetes', 'Qdrant', 'RAG'],
                   details: [
                     'Engineered an Agentic Retrieval-Augmented Generation (RAG) architecture that dynamically routes healthcare queries using Qdrant for semantic search and hybrid re-ranking.',
                     'Developed the core application with a React frontend and Node.js/Express backend to handle authentication, validations, and complex prompt engineering.',
@@ -175,7 +183,7 @@ const AresIdentity = ({ setActiveTab }) => {
                   period: 'SEP 2025 — JAN 2026',
                   status: 'COMPLETED',
                   log: 'Directed intensive training sessions in Advanced Data Structures & Algorithms using Java.',
-                  relatedSkills: ['CORE_LOGIC'],
+                  relatedSkills: ['Java', 'Data Structures', 'Algorithms', 'Mentorship'],
                   details: [
                     'Directed and led batch-wise intensive training sessions in Advanced Data Structures & Algorithms using Java.',
                     'Mentored students in core problem-solving strategies and system logic.',
@@ -189,7 +197,7 @@ const AresIdentity = ({ setActiveTab }) => {
                   period: 'AUG 2025 — OCT 2025',
                   status: 'COMPLETED',
                   log: 'Completed comprehensive AWS cloud architecture case study with hands-on core AWS services experience.',
-                  relatedSkills: ['INFRASTRUCTURE'],
+                  relatedSkills: ['AWS', 'Cloud Architecture', 'EC2', 'S3'],
                   details: [
                     'Successfully completed a comprehensive AWS cloud architecture case study.',
                     'Gained hands-on experience with core AWS services and scalable cloud infrastructure.',
@@ -201,9 +209,9 @@ const AresIdentity = ({ setActiveTab }) => {
                   role: 'Backend Developer Intern',
                   org: 'PearlThoughts',
                   period: 'JUL 2025 — AUG 2025',
-                  status: 'ARCHIVED',
+                  status: 'COMPLETED',
                   log: 'Designed secure RESTful APIs for a real-time doctor-patient appointment platform utilized by multiple clinics.',
-                  relatedSkills: ['CORE_LOGIC', 'FRAMEWORKS', 'INFRASTRUCTURE'],
+                  relatedSkills: ['RESTful APIs', 'Database Optimization', 'Agile SDLC', 'Java'],
                   details: [
                     'Designed and integrated secure RESTful APIs supporting a real-time doctor–patient appointment platform.',
                     'Actively contributed to the Agile SDLC by managing database optimization and tracking daily sprint goals.',
@@ -215,9 +223,9 @@ const AresIdentity = ({ setActiveTab }) => {
                   role: 'AI & ML Intern',
                   org: 'NIELIT',
                   period: 'AUG 2024 — OCT 2024',
-                  status: 'ARCHIVED',
+                  status: 'COMPLETED',
                   log: 'Developed predictive Machine Learning models and Deep Learning neural networks using Python and LSTMs.',
-                  relatedSkills: ['CORE_LOGIC', 'NEURAL_NETS'],
+                  relatedSkills: ['Python', 'Machine Learning', 'LSTM', 'Deep Learning'],
                   details: [
                     'Developed and trained comprehensive Machine Learning models (Linear Regression, Random Forest) for predictive data analysis.',
                     'Designed and implemented Deep Learning neural networks using Python.',
@@ -225,7 +233,7 @@ const AresIdentity = ({ setActiveTab }) => {
                     'Focused on enhancing data prediction accuracy over complex datasets.'
                   ]
                 }
-              ].map((exp, i) => {
+              ].slice(0, showAllExp ? 5 : 3).map((exp, i) => {
                 const isActive = highlightedSkills === exp.relatedSkills;
                 return (
                   <div
@@ -251,7 +259,18 @@ const AresIdentity = ({ setActiveTab }) => {
                   className="flex-1 min-w-[200px] border border-primary bg-primary/10 hover:bg-primary text-primary hover:text-background px-8 py-4 font-body text-xs font-bold transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 glass-panel"
                 >
                   <span className="material-symbols-outlined text-[18px]">download</span>
-                  {downloading ? 'COMPILING...' : 'Download_Main_Manifest'}
+                  {downloading ? 'COMPILING...' : 'DOWNLOAD RESUME'}
+                </button>
+                {/* Load More Button */}
+                <button
+                  onClick={() => setShowAllExp(!showAllExp)}
+                  onMouseEnter={() => playSound('hover')}
+                  className="flex-1 min-w-[200px] border border-primary/40 bg-background/20 hover:border-primary text-on-surface hover:text-primary px-8 py-4 font-body text-xs font-bold transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer glass-panel"
+                >
+                  <span className="material-symbols-outlined text-[18px]">
+                    {showAllExp ? 'expand_less' : 'expand_more'}
+                  </span>
+                  {showAllExp ? 'SHOW LESS' : 'LOAD MORE'}
                 </button>
               </div>
             </div>
@@ -261,25 +280,18 @@ const AresIdentity = ({ setActiveTab }) => {
 
       {/* Cloud & AI & Accolades Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-        {/* Cloud & GenAI Infrastructure Focus */}
+        {/* Achievements Focus */}
         <div className="glass-panel p-8 text-left">
           <h3 className="font-body text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
-            <span className="material-symbols-outlined text-[18px]">cloud_sync</span>
-            Cloud_&_GenAI_Infrastructure
+            <span className="material-symbols-outlined text-[18px]">emoji_events</span>
+            ACHIEVEMENTS
           </h3>
           <div className="space-y-6">
             <div className="border-l-2 border-primary/40 pl-4 relative group">
               <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
-              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Retrieval-Augmented Generation (RAG) Pipelines</h4>
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Competitive Programming</h4>
               <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-                Expertise in building scalable RAG pipelines using custom vector embeddings, seamlessly integrating with the Google Gemini API for highly contextual and accurate AI analysis.
-              </p>
-            </div>
-            <div className="border-l-2 border-primary/40 pl-4 relative group">
-              <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
-              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Certified Cloud Architecture</h4>
-              <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-                Holding certificates in Google Cloud Career Launchpad and AWS Cloud Architecture from MassMutual India. Proven ability to deploy high-availability, zero-trust cloud microservices.
+                Achieved a LeetCode Rating of 1937 (Global Rank: 31,199), demonstrating advanced algorithmic problem-solving; active on Codeforces (1283) and CodeChef (1330).
               </p>
             </div>
             <div className="border-l-2 border-primary/40 pl-4 relative group">
@@ -287,7 +299,15 @@ const AresIdentity = ({ setActiveTab }) => {
               <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Winner — Agentforce Salesforce Hackathon</h4>
               <span className="font-body text-[10px] text-primary font-bold border border-primary/20 bg-background/20 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2026</span>
               <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
-                Led Team 5Z Devs to win 1st place by building an AI-powered preventive healthcare monitoring system using Salesforce Data Cloud and Groq (Llama 3.2 Vision).
+                Led the development of an AI Preventive Healthcare Detection & Monitoring System.
+              </p>
+            </div>
+            <div className="border-l-2 border-primary/40 pl-4 relative group">
+              <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-all duration-300"></div>
+              <h4 className="font-display text-sm md:text-base font-bold text-on-surface uppercase mb-1 drop-shadow-md">Microsoft Recognition & Azure Subscription Grant</h4>
+              <span className="font-body text-[10px] text-primary font-bold border border-primary/20 bg-background/20 px-2 py-0.5 uppercase mb-2 inline-block">MAR 2025</span>
+              <p className="font-sans text-xs text-on-surface/90 font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
+                Awarded a month of free Azure Subscription for outstanding technical participation and passion for new technologies.
               </p>
             </div>
           </div>
@@ -297,7 +317,7 @@ const AresIdentity = ({ setActiveTab }) => {
         <div className="glass-panel p-8 text-left">
           <h3 className="font-body text-xs text-primary tracking-widest uppercase mb-6 flex items-center gap-2 font-bold drop-shadow-md">
             <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
-            Certification_Registry
+            CERTIFICATIONS
           </h3>
           <div className="space-y-4">
             {[
@@ -325,7 +345,7 @@ const AresIdentity = ({ setActiveTab }) => {
             className="absolute inset-0 bg-background/60 backdrop-blur-md cursor-pointer"
             onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
           ></div>
-          <div className="relative glass-panel p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in duration-300 glow-sm">
+          <div className="relative glass-panel p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto glow-sm [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-background/20 [&::-webkit-scrollbar-thumb]:bg-primary">
             <button
               onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
               className="absolute top-6 right-6 text-primary hover:text-on-surface transition-colors cursor-pointer"
