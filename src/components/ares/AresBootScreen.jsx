@@ -1,156 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useSound from '../../hooks/useSound';
-import firstPageBgRed from '../../assets/tron-first-page.png';
-import firstPageBgBlue from '../../assets/tron-blue.png';
 
-const AresBootScreen = ({ onComplete, theme, toggleTheme }) => {
+const AresBootScreen = ({ onComplete }) => {
   const { playSound } = useSound();
   const [isInitializing, setIsInitializing] = useState(false);
   const [isTerminating, setIsTerminating] = useState(false);
+  const [stars, setStars] = useState([]);
 
-  // Dynamic Theme Variables for the Glow Effects
-  const isBlue = theme === 'blue';
-  const glowSm = isBlue ? 'drop-shadow-[0_0_15px_rgba(0,255,255,0.8)]' : 'drop-shadow-[0_0_15px_rgba(255,84,75,0.8)]';
-  const glowLg = isBlue ? 'drop-shadow-[0_0_20px_rgba(0,255,255,0.8)]' : 'drop-shadow-[0_0_20px_rgba(255,84,75,0.8)]';
-  const protocolText = isBlue ? 'CYAN_GRID_PROTOCOL' : 'ARES_RED_PROTOCOL';
+  useEffect(() => {
+    // Generate static stars for the hyperspace effect
+    const newStars = Array.from({ length: 200 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100, // %
+      y: Math.random() * 100, // %
+      size: Math.random() * 2 + 1,
+    }));
+    setStars(newStars);
+  }, []);
 
-  const handleStart = (target = 'hero') => {
+  const handleStart = () => {
     if (isInitializing || isTerminating) return;
     setIsInitializing(true);
-    playSound('transform');
+    playSound('transform'); // Initial sound
+    
+    // Start hyperspace jump
     setTimeout(() => {
-      onComplete(target);
-    }, 1200);
+      setIsTerminating(true);
+      playSound('hover'); // Whoosh sound
+      
+      // Wait for the hyperspace warp to finish before entering the mainframe
+      setTimeout(() => {
+        onComplete('hero');
+      }, 1500); 
+    }, 400); // Small delay before warp starts
   };
-
-  const handleConfig = () => {
-    if (isInitializing || isTerminating) return;
-    playSound('tick');
-    toggleTheme();
-  };
-
-  const firstPageBg = isBlue ? firstPageBgBlue : firstPageBgRed;
 
   return (
-    <div className={`fixed inset-0 z-50 font-body text-on-surface relative h-screen w-screen bg-background overflow-hidden transition-all duration-1000 ${isTerminating ? 'opacity-0 scale-105 blur-xl' : 'opacity-100 scale-100 blur-0'} ${isBlue ? 'theme-blue' : ''}`}>
+    <div 
+      className={`fixed inset-0 z-50 font-body flex items-center justify-center bg-background overflow-hidden cursor-pointer transition-opacity duration-[1500ms] ${isTerminating ? 'opacity-0' : 'opacity-100'}`}
+      onClick={handleStart}
+    >
+      {/* Hyperspace Starfield Container */}
+      <div 
+        className="absolute inset-0 z-[0] w-full h-full pointer-events-none origin-center transition-transform duration-[1500ms] ease-in"
+        style={{ transform: isTerminating ? 'scale(15)' : 'scale(1)' }}
+      >
+        {stars.map((star) => {
+          // Calculate angle from center (50%, 50%)
+          const dx = star.x - 50;
+          const dy = star.y - 50;
+          const angle = Math.atan2(dy, dx) + Math.PI / 2; // Add 90deg because we stretch height
 
-      {/* Fixed Background */}
-      <div className="absolute inset-0 z-[0] w-full h-full pointer-events-none">
-        <img alt="Ares Grid Background" className="w-full h-full object-cover transition-opacity duration-700" src={firstPageBg} />
-        {/* Gradient overlay to darken the left side for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/60 to-transparent"></div>
-        {/* Subtle Circuit Grid Overlay */}
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `linear-gradient(${isBlue ? 'rgba(0, 255, 255, 0.05)' : 'rgba(255, 84, 75, 0.05)'} 1px, transparent 1px), linear-gradient(90deg, ${isBlue ? 'rgba(0, 255, 255, 0.05)' : 'rgba(255, 84, 75, 0.05)'} 1px, transparent 1px)`,
-            backgroundSize: '40px 40px'
-          }}
-        ></div>
+          return (
+            <div
+              key={star.id}
+              className={`absolute bg-cyan-300 transition-all duration-[1500ms] ease-in`}
+              style={{
+                left: `${star.x}%`,
+                top: `${star.y}%`,
+                width: `${star.size}px`,
+                height: isTerminating ? `${star.size * 50}px` : `${star.size}px`, // Stretch drastically
+                borderRadius: isTerminating ? '0px' : '50%',
+                opacity: isTerminating ? 0.8 : 0.3,
+                boxShadow: isTerminating ? '0 0 15px rgba(0,255,255,1)' : '0 0 2px rgba(0,255,255,0.3)',
+                transform: `rotate(${angle}rad)`,
+                transformOrigin: 'top center'
+              }}
+            />
+          );
+        })}
       </div>
 
-      <div className="relative z-10 w-full h-full flex flex-col justify-between p-8 md:p-12 lg:p-16">
-
-        {/* HUD Top */}
-        <div className="flex justify-between items-start w-full pointer-events-none">
-          {/* Branding Top Left */}
-          <div className={`font-display text-3xl md:text-4xl text-primary tracking-widest font-bold transition-all duration-500 ${glowSm}`}>
-            SWARAN_OS
-            <div className="font-label-caps text-[10px] text-primary/60 tracking-[0.3em] mt-2 font-normal">PORTFOLIO_BUILD.2026 // STATUS: OPTIMAL</div>
-          </div>
-
-          {/* Status Top Right */}
-          <div className="text-right font-body text-[10px] text-on-surface/70 tracking-[0.2em] flex flex-col items-end gap-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span className={`w-2 h-2 rounded-full animate-pulse ${isBlue ? 'bg-cyan-400' : 'bg-primary'}`}></span>
-              <span className={`font-label-caps font-bold ${isBlue ? 'text-cyan-400' : 'text-primary'}`}>SERVER_SYNC: ONLINE</span>
-            </div>
-            
-            {/* Add a subtle dark text-shadow so it's readable on light backgrounds */}
-            <div className="text-on-surface drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
-              <div>COORD: 17.3850 N // 78.4867 E</div> 
-              <div>RUNTIME: JAVA // SPRING_BOOT</div>
-              <div>INFRA: GCP // AWS_ACTIVE</div>
-            </div>
-          </div>
+      {/* Projection UI */}
+      <div className={`relative z-10 flex flex-col items-center gap-6 pointer-events-auto transition-all duration-700 ${isInitializing ? 'scale-150 opacity-0 blur-md' : 'scale-100 opacity-100 blur-0'}`}>
+        
+        {/* Holographic scanning effect */}
+        <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full animate-pulse -z-10"></div>
+        
+        <div className="font-label-caps text-[10px] text-cyan-400 tracking-[0.4em] animate-pulse drop-shadow-md">
+          UPLINK_READY // AWAITING_COMMAND
         </div>
-
-        {/* Main Menu Bottom Left */}
-        <div className="w-full flex justify-between items-end">
-          <div className="flex flex-col gap-6 pointer-events-auto max-w-xl">
-            <div>
-              {/* Dynamic Protocol Text */}
-              <div className="font-label-caps text-[10px] text-primary/70 tracking-[0.4em] mb-2 animate-pulse">
-                UPLINK_ESTABLISHED // {protocolText}
-              </div>
-              <h1 className="font-display text-5xl md:text-7xl text-on-surface tracking-tighter leading-none drop-shadow-lg uppercase font-bold">
-                MARAM SAI <span className={`text-primary transition-all duration-500 ${glowLg}`}>SWARAN</span>
-              </h1>
-              <div className="font-body text-sm mt-3 text-on-surface/80 tracking-widest uppercase border-l-2 border-primary pl-3 transition-colors duration-500">
-                System Architect // Software Engineer
-              </div>
-            </div>
-
-            <nav className="flex flex-col gap-2 mt-4">
-              <button
-                onClick={() => handleStart('hero')}
-                onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-primary text-primary font-label-caps tracking-[0.2em] bg-gradient-to-r from-primary/20 to-transparent hover:bg-primary/30 transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 glow-sm cursor-pointer"
-              >
-                <span className="opacity-70 text-[10px]">01</span>
-                {isInitializing ? 'INITIALIZING...' : '[ENTER_MAINFRAME]'}
-              </button>
-
-              <button
-                onClick={() => handleStart('projects')}
-                onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 cursor-pointer"
-              >
-                <span className="opacity-50 text-[10px]">02</span>
-                [PROJECT_ARCHIVE]
-              </button>
-
-              <button
-                onClick={handleConfig}
-                onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 cursor-pointer"
-              >
-                <span className="opacity-50 text-[10px]">03</span>
-                {isBlue ? '[PROTOCOL: CYAN_SYNC]' : '[PROTOCOL: RED_SYNC]'}
-              </button>
-
-              {/* FIXED: Now uses standard primary hover colors, and points to the stream section! */}
-              <button
-                onClick={() => handleStart('stream')}
-                onMouseEnter={() => playSound('hover')}
-                className="text-left px-6 py-4 border-l-4 border-white/20 text-on-surface/80 font-label-caps tracking-[0.2em] hover:border-primary hover:text-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-transparent transition-all duration-300 group flex items-center gap-4 w-72 md:w-96 mt-4 cursor-pointer"
-              >
-                <span className="opacity-50 text-[10px]">04</span>
-                [ESTABLISH_UPLINK]
-              </button>
-            </nav>
-          </div>
-
-          {/* HUD Bottom Right */}
-          <div className="pointer-events-none opacity-50 flex flex-col items-end hidden sm:flex">
-            <div className="flex gap-2 mb-3">
-              <div className="w-8 h-px bg-primary"></div>
-              <div className="w-16 h-px bg-primary"></div>
-              <div className="w-4 h-px bg-primary"></div>
-            </div>
-            <div className="flex gap-2 mb-4 items-end">
-              <div className="w-1 h-4 bg-primary/40"></div>
-              <div className="w-1 h-6 bg-primary/80"></div>
-              <div className="w-1 h-8 bg-primary"></div>
-              <div className="w-1 h-3 bg-primary/20"></div>
-              <div className="w-1 h-5 bg-primary/60"></div>
-            </div>
-            <span className="font-label-caps text-[10px] text-primary tracking-[0.4em]">NODE_SECURED: HYDERABAD_IN</span>
-          </div>
+        
+        <button
+          onClick={(e) => { e.stopPropagation(); handleStart(); }}
+          onMouseEnter={() => playSound('hover')}
+          className="px-6 py-6 sm:px-10 border border-cyan-400 text-cyan-400 bg-background/60 backdrop-blur-md font-display text-xl sm:text-3xl md:text-4xl tracking-[0.2em] uppercase font-bold hover:bg-cyan-400 hover:text-background hover:shadow-[0_0_30px_rgba(0,255,255,0.8)] transition-all duration-300 cursor-pointer"
+          style={{ textShadow: isInitializing ? 'none' : '0 0 10px rgba(0,255,255,0.5)' }}
+        >
+          {isInitializing ? 'INITIATING_WARP_DRIVE...' : 'ENTER SWARAN TRON WORLD'}
+        </button>
+        
+        <div className="font-body text-[9px] sm:text-[10px] text-cyan-400/60 tracking-[0.3em] uppercase drop-shadow-md">
+          [CLICK_ANYWHERE_TO_INITIALIZE_SEQUENCE]
         </div>
       </div>
 
-      <div className="scanline"></div>
+      <div className="scanline pointer-events-none opacity-20"></div>
     </div>
   );
 };

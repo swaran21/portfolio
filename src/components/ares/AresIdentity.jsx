@@ -33,7 +33,7 @@ const AresIdentity = ({ setActiveTab }) => {
         `- Operator ID: MARAM_SAI_SWARAN\n`,
         `- Role: Principal System Architect // SWE Intern\n`,
         `- Education: B.Tech CSE @ Vardhaman College of Engineering\n`,
-        `- Academic Metric: 8.73 CGPA\n`,
+        `- Academic Metric: 8.38 CGPA\n`,
         `- Timeline: 2023 - 2027\n`,
         `- Clearance: LEVEL_09_RED\n\n`,
         `[TECHNICAL_SPECIFICATIONS]\n`,
@@ -97,7 +97,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">B.Tech CSE</span>
-                  <span className="font-body text-xs text-primary font-bold drop-shadow-md">CGPA: 8.73</span>
+                  <span className="font-body text-xs text-primary font-bold drop-shadow-md">CGPA: 8.38</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">CLEARANCE</span>
@@ -155,31 +155,45 @@ const AresIdentity = ({ setActiveTab }) => {
             <div className="space-y-8">
               {[
                 {
-                  role: 'Software Engineer Intern',
-                  org: 'DevAI',
-                  period: 'JAN 2026 — PRESENT',
-                  status: 'ACTIVE',
-                  log: 'Developing healthcare-related RAG pipelines and AI integrations. Architecting Spring Boot components to sync custom vector embeddings with secure Gemini API pipelines.',
-                  relatedSkills: ['NEURAL_NETS', 'FRAMEWORKS', 'CORE_LOGIC'],
+                  role: 'Full Stack Developer Intern',
+                  org: 'RavenDOS',
+                  period: 'JAN 2026 — APR 2026',
+                  status: 'COMPLETED',
+                  log: 'Engineered an Agentic RAG architecture using Qdrant for semantic search and containerized microservices on K8s.',
+                  relatedSkills: ['CORE_LOGIC', 'FRAMEWORKS', 'INFRASTRUCTURE', 'NEURAL_NETS'],
                   details: [
-                    'Architecting a highly scalable Retrieval-Augmented Generation (RAG) pipeline for healthcare analytics.',
-                    'Synchronizing custom vector embeddings with the Gemini API to improve AI contextual accuracy.',
-                    'Engineering critical Spring Boot backend microservices to ensure strict healthcare data compliance.',
-                    'Optimizing database matrix operations, reducing overall query latency by up to 45%.'
+                    'Engineered an Agentic Retrieval-Augmented Generation (RAG) architecture that dynamically routes healthcare queries using Qdrant for semantic search and hybrid re-ranking.',
+                    'Developed the core application with a React frontend and Node.js/Express backend to handle authentication, validations, and complex prompt engineering.',
+                    'Integrated Apache Kafka for asynchronous event streaming, utilizing worker nodes to synchronize state between MySQL and Qdrant.',
+                    'Containerized services with Docker and orchestrated highly resilient deployments using Kubernetes (K8s) and Jenkins CI/CD pipelines.'
                   ]
                 },
                 {
-                  role: 'DSA Mentor',
-                  org: 'MentiBy',
-                  period: 'JAN 2026',
+                  role: 'DSA Mentor Intern',
+                  org: 'MentiBY',
+                  period: 'SEP 2025 — JAN 2026',
                   status: 'COMPLETED',
-                  log: 'Mentoring student batches in complex Data Structures and Algorithms. Conducting high-throughput live problem-solving sessions and matrix optimizations.',
+                  log: 'Directed intensive training sessions in Advanced Data Structures & Algorithms using Java.',
                   relatedSkills: ['CORE_LOGIC'],
                   details: [
-                    'Mentoring student batches in advanced Data Structures, Algorithms, and System Design concepts.',
-                    'Conducting high-throughput live problem-solving sessions focusing on time and space complexity.',
-                    'Developing comprehensive lesson plans around dynamic programming, graph theory, and matrix optimizations.',
-                    'Providing 1-on-1 code reviews and architectural guidance for over 50+ aspiring software engineers.'
+                    'Directed and led batch-wise intensive training sessions in Advanced Data Structures & Algorithms using Java.',
+                    'Mentored students in core problem-solving strategies and system logic.',
+                    'Conducted rigorous code reviews and interactive doubt-solving sessions.',
+                    'Focused on optimizing algorithm efficiency and reducing time/space complexity.'
+                  ]
+                },
+                {
+                  role: 'AWS Trainee',
+                  org: 'MassMutual India',
+                  period: 'AUG 2025 — OCT 2025',
+                  status: 'COMPLETED',
+                  log: 'Completed comprehensive AWS cloud architecture case study with hands-on core AWS services experience.',
+                  relatedSkills: ['INFRASTRUCTURE'],
+                  details: [
+                    'Successfully completed a comprehensive AWS cloud architecture case study.',
+                    'Gained hands-on experience with core AWS services and scalable cloud infrastructure.',
+                    'Received a Certificate of Appreciation for demonstrating a strong understanding of cloud-native concepts.',
+                    'Applied best practices to practical real-world scenarios.'
                   ]
                 },
                 {
@@ -187,15 +201,29 @@ const AresIdentity = ({ setActiveTab }) => {
                   org: 'PearlThoughts',
                   period: 'JUL 2025 — AUG 2025',
                   status: 'ARCHIVED',
-                  log: 'Architecting high-availability backend infrastructures. Streamlining database execution cycles and establishing microservices connections.',
+                  log: 'Designed secure RESTful APIs for a real-time doctor-patient appointment platform utilized by multiple clinics.',
                   relatedSkills: ['CORE_LOGIC', 'FRAMEWORKS', 'INFRASTRUCTURE'],
                   details: [
-                    'Architected high-availability backend infrastructures using Spring Boot and Node.js.',
-                    'Streamlined database execution cycles and reduced redundant queries through efficient indexing and caching strategies.',
-                    'Established secure and robust microservices connections over REST and gRPC protocols.',
-                    'Automated cloud deployment pipelines to ensure 99.9% uptime during the internship tenure.'
+                    'Designed and integrated secure RESTful APIs supporting a real-time doctor–patient appointment platform.',
+                    'Actively contributed to the Agile SDLC by managing database optimization and tracking daily sprint goals.',
+                    'Conceptualized comprehensive ER diagrams for robust relational data structuring.',
+                    'Collaborated closely with DevOps to support seamless server-side deployments and manage pull requests.'
                   ]
                 },
+                {
+                  role: 'AI & ML Intern',
+                  org: 'NIELIT',
+                  period: 'AUG 2024 — OCT 2024',
+                  status: 'ARCHIVED',
+                  log: 'Developed predictive Machine Learning models and Deep Learning neural networks using Python and LSTMs.',
+                  relatedSkills: ['CORE_LOGIC', 'NEURAL_NETS'],
+                  details: [
+                    'Developed and trained comprehensive Machine Learning models (Linear Regression, Random Forest) for predictive data analysis.',
+                    'Designed and implemented Deep Learning neural networks using Python.',
+                    'Specifically utilized Long Short-Term Memory (LSTM) networks to process sequential data.',
+                    'Focused on enhancing data prediction accuracy over complex datasets.'
+                  ]
+                }
               ].map((exp, i) => {
                 const isActive = highlightedSkills === exp.relatedSkills;
                 return (
@@ -272,11 +300,11 @@ const AresIdentity = ({ setActiveTab }) => {
           </h3>
           <div className="space-y-4">
             {[
-              "Google Cloud Career Launchpad — Completion Certificate — Google Cloud Skills Boost",
-              "Software Engineering Virtual Experience — JPMorgan Chase & Co. (Spring Boot, Apache Kafka, Spring Data JPA)",
-              "Microsoft Recognition & Azure Subscription Grant — Modernize Java Applications Using AI",
+              "Claude 101 & Intro to Model Context Protocol (MCP) — Anthropic",
+              "Google Cloud Career Launchpad — Google Cloud Skills Boost",
+              "Software Engineering Virtual Experience — JPMorgan Chase & Co.",
               "Java Spring Boot (Advanced) & Java Foundation — Infosys SpringBoard",
-              "Certificate of Appreciation (AWS Cloud Architecture) — MassMutual India"
+              "Career Essentials in Generative AI by Microsoft and LinkedIn — Microsoft"
             ].map((cert, i) => (
               <div key={i} className="flex items-start gap-3 p-3 bg-background/10 border border-primary/10 hover:border-primary/40 hover:bg-primary/5 transition-colors group rounded-sm">
                 <span className="material-symbols-outlined text-primary text-[16px] mt-0.5 group-hover:drop-shadow-[0_0_8px_var(--color-primary)] transition-all">verified</span>

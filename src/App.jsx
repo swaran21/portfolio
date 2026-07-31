@@ -22,7 +22,7 @@ const App = () => {
   const [isBooted, setIsBooted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('HERO');
-  const [theme, setTheme] = useState('red');
+  const [theme, setTheme] = useState('blue');
   
   // Create a ref for the main container to scope GSAP animations
   const mainRef = useRef(null);
@@ -94,8 +94,6 @@ const App = () => {
   if (!isBooted) {
     return (
       <AresBootScreen 
-        theme={theme}
-        toggleTheme={toggleTheme}
         onComplete={(target = 'hero') => {
           setIsBooted(true);
           if (target !== 'hero') {
@@ -130,6 +128,8 @@ const App = () => {
       <AresHeader
         activeTab={activeSection}
         setActiveTab={scrollToSection}
+        theme={theme}
+        toggleTheme={toggleTheme}
         onReboot={() => {
           window.scrollTo(0, 0);
           setIsBooted(false);

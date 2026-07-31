@@ -1,7 +1,7 @@
 import React from 'react';
 import useSound from '../../hooks/useSound';
 
-const AresHeader = ({ activeTab, setActiveTab, onReboot }) => {
+const AresHeader = ({ activeTab, setActiveTab, onReboot, theme, toggleTheme }) => {
   const { playSound } = useSound();
 
   const navItems = [
@@ -47,17 +47,30 @@ const AresHeader = ({ activeTab, setActiveTab, onReboot }) => {
         })}
       </nav>
 
-      {/* Initialize / Reboot Mainframe Trigger */}
-      <button 
-        onClick={() => {
-          playSound('transform');
-          onReboot();
-        }}
-        onMouseEnter={() => playSound('hover')}
-        className="border border-primary text-primary px-6 py-2 font-label-caps text-xs tracking-[0.25em] font-bold hover:bg-primary hover:text-background transition-all duration-200 active:scale-95 cursor-pointer glow-sm bg-background/50"
-      >
-        REBOOT_LINK
-      </button>
+      {/* Initialize / Reboot Mainframe Trigger & Theme Toggle */}
+      <div className="flex gap-4 items-center">
+        <button 
+          onClick={() => {
+            playSound('tick');
+            toggleTheme();
+          }}
+          onMouseEnter={() => playSound('hover')}
+          className="hidden sm:flex border border-primary text-primary px-4 py-2 font-label-caps text-[10px] tracking-[0.25em] font-bold hover:bg-primary hover:text-background transition-all duration-200 active:scale-95 cursor-pointer bg-background/50 items-center gap-2"
+        >
+          <span className="material-symbols-outlined text-[14px]">palette</span>
+          {theme === 'blue' ? 'CYAN_SYNC' : 'RED_SYNC'}
+        </button>
+        <button 
+          onClick={() => {
+            playSound('transform');
+            onReboot();
+          }}
+          onMouseEnter={() => playSound('hover')}
+          className="border border-primary text-primary px-6 py-2 font-label-caps text-xs tracking-[0.25em] font-bold hover:bg-primary hover:text-background transition-all duration-200 active:scale-95 cursor-pointer glow-sm bg-background/50"
+        >
+          REBOOT_LINK
+        </button>
+      </div>
     </header>
   );
 };

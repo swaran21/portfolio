@@ -98,7 +98,7 @@ const AresStream = () => {
                 <span className="font-body text-[9px] text-primary/80 font-bold block drop-shadow-md tracking-widest uppercase">LEETCODE_STATS</span>
                 <span className="font-sans text-sm text-on-surface font-bold group-hover/link:text-primary transition-colors drop-shadow-md flex justify-between">
                   <span>SWARAN21</span>
-                  <span className="text-xs opacity-60 font-body">View Matrix Optimizations</span>
+                  <span className="text-xs opacity-60 font-body">Rating 1937 // Global Rank 31,199</span>
                 </span>
               </a>
             </div>

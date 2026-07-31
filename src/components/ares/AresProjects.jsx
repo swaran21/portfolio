@@ -14,43 +14,48 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
   const projects = [
     {
       serial: '001-ALPHA',
-      title: 'SECURE_CLOUD_DATA_HUB',
-      stack: 'NODE.JS / PYTHON / AWS',
-      date: 'OCT 2025',
+      title: 'RECRUITX_PLATFORM',
+      stack: 'NEXT.JS / FASTIFY / AWS',
+      date: '2026',
       status: 'DEPLOYED',
-      desc: 'Cloud-native secure data platform with end-to-end encryption, automated backup pipelines, and multi-region availability zones designed for secure remote ledger processing.',
-      caseStudy: 'Architected a highly resilient cloud data hub designed to handle massive throughput while ensuring zero-trust security. By implementing AES-256 encryption at rest and in transit, and deploying across multiple AWS availability zones, the system achieves 99.99% uptime. The Python telemetry worker actively monitors ledger anomalies in real-time, reducing incident response latency by 60%.',
-      features: ['AES-256 Cloud Encryption', 'Multi-Region Backup Automation', 'Python Telemetry Worker', 'AWS Identity & Access Controller']
+      desc: 'Verification-first campus hiring platform serving students, colleges, and recruiters, built as a modular monolith in Fastify/TypeScript.',
+      caseStudy: 'Building asynchronous job processing with BullMQ on Redis, sandboxed code execution via self-hosted Judge0, and a FastAPI certificate-verification microservice (QR / URL / credential-ID resolution with issuer domain allow-listing), deployed on AWS (EC2, RDS, S3) with a Next.js frontend on Vercel.',
+      features: ['Fastify/TypeScript Modular Monolith', 'BullMQ & Redis Async Processing', 'Self-hosted Judge0 Sandbox', 'FastAPI Certificate Verification', 'AWS (EC2, RDS, S3) Deployment'],
+      liveUrl: 'https://www.recruitx.live/',
+      githubUrl: 'https://github.com/g-aniketh'
     },
     {
       serial: '002-BETA',
-      title: 'FITNESS_AI_MICROSERVICES',
-      stack: 'SPRING BOOT / MICROSERVICES',
-      date: 'JUL 2025',
-      status: 'ARCHIVED',
-      desc: 'Cloud-native microservices platform for AI-powered fitness tracking with personalized workout generation, performance indexes, and nutritional analysis.',
-      caseStudy: 'Engineered a decoupled microservices architecture using Spring Boot to handle heavy computational loads for AI-driven fitness analytics. By utilizing a Retrieval-Augmented Generation (RAG) nutrition assistant and an optimized NoSQL schema, the system rapidly queries complex meal combinations. Optimized database indexing reduced query latency from 150ms down to 0.04ms under peak load.',
-      features: ['Spring Boot Microservices Architecture', 'RAG Nutrition Assistant', 'Personalized Gym Planner Engine', 'Optimized NoSQL Database Schema']
+      title: 'NUTRICHEF_AI',
+      stack: 'SPRING BOOT / REACT / PYTHON',
+      date: 'MAR 2026',
+      status: 'DEPLOYED',
+      desc: 'Full-stack health platform generating personalized weekly meal plans for patients with specific medical conditions and dietary constraints.',
+      caseStudy: 'Architected a distributed 3-tier architecture utilizing a React frontend, Java Spring Boot backend, and Python AI microservice. Integrated OCR and NLP to extract dietary requirements from medical prescriptions and built a dashboard for calorie, BMI, and BMR tracking.',
+      features: ['Distributed 3-tier Architecture', 'Python AI Microservice', 'OCR & NLP Prescription Extraction', 'Calorie & BMI Tracking Dashboard'],
+      githubUrl: 'https://github.com/swaran21/MiniProject'
     },
     {
       serial: '003-GAMMA',
-      title: 'AI_POWERED_CHAT_NETWORK',
-      stack: 'SPRING BOOT / WEBSOCKETS',
-      date: 'JUN 2025',
-      status: 'ACTIVE',
-      desc: 'Real-time messaging application with AI-powered response suggestions, WebSocket-based low-latency communication networks, and secure encrypted message logs.',
-      caseStudy: 'Built a high-throughput, real-time messaging layer utilizing Spring Boot and WebSockets. Integrated the Gemini AI API to provide intelligent, context-aware response suggestions on the fly. To solve high-concurrency bottlenecks, an encrypted cache buffer was implemented, dropping average message delivery latency to an astonishing 0.02ms. The system includes a live telemetry monitor for node health.',
-      features: ['Low-Latency WebSockets (0.02ms)', 'Gemini AI API Uplink Integration', 'Encrypted Cache Buffer System', 'Real-time Telemetry Monitor']
+      title: 'FITNESS_AI_PLATFORM',
+      stack: 'SPRING CLOUD / KAFKA / GEMINI',
+      date: 'JUL 2025',
+      status: 'ARCHIVED',
+      desc: 'Cloud-native microservices ecosystem using Spring Cloud Gateway, Eureka, and Kafka to generate personalized fitness and nutritional recommendations.',
+      caseStudy: 'Engineered a cloud-native microservices ecosystem using Spring Cloud Gateway, Eureka Service Discovery, Config Server, OpenFeign for inter-service communication, and Resilience4j Circuit Breaker to improve fault tolerance. Implemented event-driven communication using Apache Kafka while enabling synchronous service-to-service communication through OpenFeign clients. Integrated the Google Gemini API to analyze user-specific health metrics.',
+      features: ['Spring Cloud Gateway & Eureka', 'Kafka Event-Driven Architecture', 'Gemini API Personalization', 'Zero-Trust Keycloak IAM (OAuth 2.0)'],
+      githubUrl: 'https://github.com/swaran21/fitness_AI_backend'
     },
     {
       serial: '004-DELTA',
-      title: 'TRON_ARES_PORTFOLIO',
-      stack: 'REACT / THREE.JS / GSAP',
-      date: 'MAY 2026',
-      status: 'ACTIVE',
-      desc: 'This immersive cyber-brutalist digital portfolio — featuring a 3D WebGL environment grid, zero-g scrolling camera dynamics, and sleek glassmorphic interfaces.',
-      caseStudy: 'Designed as a high-fidelity "digital mainframe", this portfolio leverages GSAP ScrollTrigger for hardware-accelerated anti-gravity animations and parallax effects. Custom WebGL shaders and complex React component lifecycles were orchestrated to ensure 60fps performance without sacrificing the deep, atmospheric "Ares OS" aesthetic. It serves as both a resume and a technical demonstration.',
-      features: ['Three.js Grid Shader Implementation', 'GSAP ScrollTrigger Physics Engine', 'Modular React Shell Architecture', 'Zero-G Inertia Layout & Glassmorphism']
+      title: 'AI_POWERED_CHAT_NETWORK',
+      stack: 'WEBSOCKETS / SECURITY / MONGODB',
+      date: 'JUN 2025',
+      status: 'ARCHIVED',
+      desc: 'Low-latency, real-time messaging platform utilizing WebSockets (STOMP) and robust cross-origin session authentication via Spring Security.',
+      caseStudy: 'Engineered a scalable dual-database architecture, leveraging PostgreSQL for secure relational user data management and MongoDB for flexible, high-volume chat history storage. Integrated the Google Gemini API to embed an intelligent "always-on" AI companion for every user, capable of automating responses and enhancing user engagement.',
+      features: ['Low-Latency WebSockets (STOMP)', 'Dual-DB (PostgreSQL & MongoDB)', 'Gemini API Always-On Companion', 'Spring Security Cross-Origin Auth'],
+      githubUrl: 'https://github.com/swaran21/ChatApp'
     }
   ];
 
@@ -205,11 +210,23 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 border-t border-primary/30 pt-6 items-center">
+            <div className="flex flex-col sm:flex-row gap-4 border-t border-primary/30 pt-6 items-center flex-wrap">
               <span className="font-body text-xs text-primary font-bold uppercase drop-shadow-md bg-background/50 px-2 py-1">COMPILED_ON: {selectedProject.date}</span>
-              <button onClick={closeProject} className="sm:ml-auto w-full sm:w-auto px-8 py-3 border border-primary text-primary hover:bg-primary hover:text-background font-label-caps text-xs tracking-wider transition-all duration-300 cursor-pointer font-bold drop-shadow-md">
-                RETURN_TO_ARCHIVE
-              </button>
+              <div className="sm:ml-auto flex gap-4 w-full sm:w-auto flex-col sm:flex-row">
+                {selectedProject.liveUrl && (
+                  <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="w-full sm:w-auto px-6 py-3 border border-primary bg-primary/10 text-primary hover:bg-primary hover:text-background font-label-caps text-xs tracking-wider transition-all duration-300 cursor-pointer font-bold drop-shadow-md text-center flex justify-center items-center gap-2">
+                    LIVE_SYSTEM <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                  </a>
+                )}
+                {selectedProject.githubUrl && (
+                  <a href={selectedProject.githubUrl} target="_blank" rel="noreferrer" className="w-full sm:w-auto px-6 py-3 border border-primary/40 bg-background/50 text-on-surface hover:border-primary hover:text-primary font-label-caps text-xs tracking-wider transition-all duration-300 cursor-pointer font-bold drop-shadow-md text-center flex justify-center items-center gap-2">
+                    SOURCE_CODE <span className="material-symbols-outlined text-[16px]">code</span>
+                  </a>
+                )}
+                <button onClick={closeProject} className="w-full sm:w-auto px-6 py-3 border border-primary text-primary hover:bg-primary hover:text-background font-label-caps text-xs tracking-wider transition-all duration-300 cursor-pointer font-bold drop-shadow-md">
+                  CLOSE
+                </button>
+              </div>
             </div>
           </div>
         </div>
