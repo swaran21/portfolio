@@ -7,7 +7,7 @@ const AresIdentity = ({ setActiveTab }) => {
   const [downloading, setDownloading] = useState(false);
   const [highlightedSkills, setHighlightedSkills] = useState(null);
   const [selectedExperience, setSelectedExperience] = useState(null);
-  const [showAllExp, setShowAllExp] = useState(false);
+  const [showAllSpecs, setShowAllSpecs] = useState(false);
 
   const handleExperienceClick = (exp) => {
     playSound('tick');
@@ -127,7 +127,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 { label: 'Databases', skills: 'PostgreSQL, MySQL, MongoDB, Redis', pct: '85%' },
                 { label: 'Tools', skills: 'Git, Maven, Gradle, Postman', pct: '90%' },
                 { label: 'Core Concepts', skills: 'System Design, Event-Driven Arch', pct: '90%' }
-              ].map((s) => {
+              ].slice(0, showAllSpecs ? 7 : 5).map((s) => {
                 const isHighlighted = highlightedSkills && highlightedSkills.includes(s.label);
                 return (
                   <div key={s.label} className="transition-all duration-300">
@@ -143,6 +143,17 @@ const AresIdentity = ({ setActiveTab }) => {
                   </div>
                 );
               })}
+              
+              <button
+                onClick={() => setShowAllSpecs(!showAllSpecs)}
+                onMouseEnter={() => playSound('hover')}
+                className="w-full mt-4 border border-primary/40 bg-background/20 hover:border-primary text-on-surface hover:text-primary px-4 py-3 font-body text-xs font-bold transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer glass-panel"
+              >
+                <span className="material-symbols-outlined text-[16px]">
+                  {showAllSpecs ? 'expand_less' : 'expand_more'}
+                </span>
+                {showAllSpecs ? 'SHOW LESS' : 'LOAD MORE'}
+              </button>
             </div>
           </div>
         </div>
@@ -233,7 +244,7 @@ const AresIdentity = ({ setActiveTab }) => {
                     'Focused on enhancing data prediction accuracy over complex datasets.'
                   ]
                 }
-              ].slice(0, showAllExp ? 5 : 4).map((exp, i) => {
+              ].map((exp, i) => {
                 const isActive = highlightedSkills === exp.relatedSkills;
                 return (
                   <div
@@ -260,17 +271,6 @@ const AresIdentity = ({ setActiveTab }) => {
                 >
                   <span className="material-symbols-outlined text-[18px]">download</span>
                   {downloading ? 'COMPILING...' : 'DOWNLOAD RESUME'}
-                </button>
-                {/* Load More Button */}
-                <button
-                  onClick={() => setShowAllExp(!showAllExp)}
-                  onMouseEnter={() => playSound('hover')}
-                  className="flex-1 min-w-[200px] border border-primary/40 bg-background/20 hover:border-primary text-on-surface hover:text-primary px-8 py-4 font-body text-xs font-bold transition-all duration-300 uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer glass-panel"
-                >
-                  <span className="material-symbols-outlined text-[18px]">
-                    {showAllExp ? 'expand_less' : 'expand_more'}
-                  </span>
-                  {showAllExp ? 'SHOW LESS' : 'LOAD MORE'}
                 </button>
               </div>
             </div>

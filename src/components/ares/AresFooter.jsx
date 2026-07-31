@@ -2,9 +2,9 @@ import React from 'react';
 import useSound from '../../hooks/useSound';
 import Magnetic from './Magnetic';
 
-// Backend telemetry stream — cheap, ambient movement (no heavy geometry)
+// Backend telemetry stream — highlighting user achievements
 const TELEMETRY =
-  '0x7FA3 :: NODE_SYNC OK   ::   LATENCY 0.02ms   ::   HEAP 62%   ::   THREADS 128   ::   0xBE41 UPLINK_STABLE   ::   REQ/S 14.2K   ::   AWS eu-central-1   ::   GC_PAUSE 3ms   ::   TLS 1.3   ::   0x00FF CACHE_HIT 99.4%   ::   SPRING_BOOT 3.2   ::   JVM_OK   ::   ';
+  '0x7FA3 :: MARAM_SAI_SWARAN   ::   ROLE: SOFTWARE ENGINEER   ::   LEETCODE RATING: 1937   ::   SALESFORCE HACKATHON WINNER   ::   MICROSOFT RECOGNIZED   ::   AWS & GCP CERTIFIED   ::   EXPERIENCE: 2+ YEARS   ::   SYSTEMS ONLINE   ::   ';
 
 const AresFooter = ({ setActiveTab }) => {
   const { playSound } = useSound();

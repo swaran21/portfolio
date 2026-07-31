@@ -68,7 +68,7 @@ const AresStream = () => {
         <div className="glass-panel p-8 md:p-10 flex flex-col justify-between group">
           <div>
             <p className="font-sans text-sm text-on-surface font-normal leading-relaxed mb-8 drop-shadow-[0_1px_1px_rgba(0,0,0,1)] opacity-90">
-              READY TO INTEGRATE WITH THE SYSTEM PROTOCOL? UPLINK TRANSMISSIONS ARE OPEN FOR SECURE SYSTEM ARCHITECT COLLABORATIONS, PRODUCTION-GRADE FRAMEWORK DEPLOYMENTS, OR DIRECT DATA QUERIES. BYPASS STANDARD NETWORKS AND DISPATCH DIRECTLY.
+              OPEN TO PROFESSIONAL COLLABORATIONS, SOFTWARE ENGINEERING ROLES, AND SYSTEM ARCHITECTURE DISCUSSIONS. FEEL FREE TO REACH OUT TO DISCUSS SCALABLE SOLUTIONS AND FULL-STACK DEVELOPMENT OPPORTUNITIES.
             </p>
           </div>
           <div className="space-y-4">

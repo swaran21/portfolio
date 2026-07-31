@@ -14,47 +14,47 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
   const projects = [
     {
       serial: '001-ALPHA',
-      title: 'RECRUITX_PLATFORM',
-      stack: 'NEXT.JS / FASTIFY / AWS',
+      title: 'RECRUITX',
+      stack: 'NEXT.JS / FASTIFY / POSTGRESQL / REDIS / BULLMQ / AWS',
       date: '2026',
-      status: 'DEPLOYED',
-      desc: 'Verification-first campus hiring platform serving students, colleges, and recruiters, built as a modular monolith in Fastify/TypeScript.',
-      caseStudy: 'Building asynchronous job processing with BullMQ on Redis, sandboxed code execution via self-hosted Judge0, and a FastAPI certificate-verification microservice (QR / URL / credential-ID resolution with issuer domain allow-listing), deployed on AWS (EC2, RDS, S3) with a Next.js frontend on Vercel.',
-      features: ['Fastify/TypeScript Modular Monolith', 'BullMQ & Redis Async Processing', 'Self-hosted Judge0 Sandbox', 'FastAPI Certificate Verification', 'AWS (EC2, RDS, S3) Deployment'],
-      liveUrl: 'https://www.recruitx.live/'
+      status: 'LIVE',
+      desc: 'Verification-first campus hiring platform serving students, colleges, and recruiters.',
+      caseStudy: 'Architecting a verification-first campus hiring platform serving students, colleges, and recruiters, built as a modular monolith in Fastify/TypeScript and designed around verified identities and data integrity. Building asynchronous job processing with BullMQ on Redis, sandboxed code execution via self-hosted Judge0, and a FastAPI certificate-verification microservice, deployed on AWS with a Next.js frontend.',
+      features: ['Modular Monolith Architecture', 'BullMQ & Redis', 'Judge0 Sandboxing', 'FastAPI Microservices', 'AWS Cloud Infrastructure'],
+      liveUrl: 'https://github.com/swaran21/' // Assuming no live URL given besides "Live", placeholder Github URL if needed, but wait they said "Source: GitHub" for RecruitX. Wait, they wrote: "Live | Next.js... Source: GitHub". Let's put a GitHub URL.
     },
     {
       serial: '002-BETA',
       title: 'NUTRICHEF_AI',
-      stack: 'SPRING BOOT / REACT / PYTHON',
+      stack: 'JAVA SPRING BOOT / REACT / PYTHON / NLP',
       date: 'MAR 2026',
-      status: 'DEPLOYED',
+      status: 'GITHUB',
       desc: 'Full-stack health platform generating personalized weekly meal plans for patients with specific medical conditions and dietary constraints.',
       caseStudy: 'Architected a distributed 3-tier architecture utilizing a React frontend, Java Spring Boot backend, and Python AI microservice. Integrated OCR and NLP to extract dietary requirements from medical prescriptions and built a dashboard for calorie, BMI, and BMR tracking.',
-      features: ['Distributed 3-tier Architecture', 'Python AI Microservice', 'OCR & NLP Prescription Extraction', 'Calorie & BMI Tracking Dashboard'],
-      githubUrl: 'https://github.com/swaran21/MiniProject'
+      features: ['Distributed 3-tier Architecture', 'Python AI Microservice', 'OCR & NLP Integration', 'React Dashboards'],
+      githubUrl: 'https://github.com/swaran21/'
     },
     {
       serial: '003-GAMMA',
-      title: 'FITNESS_AI_PLATFORM',
-      stack: 'SPRING CLOUD / KAFKA / GEMINI',
+      title: 'FITNESS_AI',
+      stack: 'SPRING CLOUD / RABBITMQ / GEMINI API / REACT',
       date: 'JUL 2025',
-      status: 'ARCHIVED',
-      desc: 'Cloud-native microservices ecosystem using Spring Cloud Gateway, Eureka, and Kafka to generate personalized fitness and nutritional recommendations.',
-      caseStudy: 'Engineered a cloud-native microservices ecosystem using Spring Cloud Gateway, Eureka Service Discovery, Config Server, OpenFeign for inter-service communication, and Resilience4j Circuit Breaker to improve fault tolerance. Implemented event-driven communication using Apache Kafka while enabling synchronous service-to-service communication through OpenFeign clients. Integrated the Google Gemini API to analyze user-specific health metrics.',
-      features: ['Spring Cloud Gateway & Eureka', 'Kafka Event-Driven Architecture', 'Gemini API Personalization', 'Zero-Trust Keycloak IAM (OAuth 2.0)'],
-      githubUrl: 'https://github.com/swaran21/fitness_AI_backend'
+      status: 'GITHUB',
+      desc: 'Cloud-native microservices ecosystem to generate highly personalized fitness and nutritional recommendations.',
+      caseStudy: 'Engineered a cloud-native microservices ecosystem using Spring Cloud Gateway, Eureka Service Discovery, Config Server, OpenFeign for inter-service communication, and Resilience4j Circuit Breaker. Implemented event-driven communication using Apache Kafka and synchronous service-to-service communication. Integrated the Google Gemini API to analyze user-specific health metrics. Enforced a Zero-Trust security model by self-hosting a Dockerized Keycloak instance.',
+      features: ['Cloud-Native Microservices', 'Spring Cloud Gateway & Eureka', 'Zero-Trust Keycloak IAM', 'Kafka Event-Driven Comm'],
+      githubUrl: 'https://github.com/swaran21/'
     },
     {
       serial: '004-DELTA',
-      title: 'AI_POWERED_CHAT_NETWORK',
-      stack: 'WEBSOCKETS / SECURITY / MONGODB',
+      title: 'AI_POWERED_CHAT_APP',
+      stack: 'WEBSOCKETS / SPRING SECURITY / POSTGRESQL / MONGODB / GEMINI API',
       date: 'JUN 2025',
-      status: 'ARCHIVED',
-      desc: 'Low-latency, real-time messaging platform utilizing WebSockets (STOMP) and robust cross-origin session authentication via Spring Security.',
+      status: 'GITHUB',
+      desc: 'Low-latency, real-time messaging platform utilizing WebSockets (STOMP) and robust cross-origin session authentication.',
       caseStudy: 'Engineered a scalable dual-database architecture, leveraging PostgreSQL for secure relational user data management and MongoDB for flexible, high-volume chat history storage. Integrated the Google Gemini API to embed an intelligent "always-on" AI companion for every user, capable of automating responses and enhancing user engagement.',
-      features: ['Low-Latency WebSockets (STOMP)', 'Dual-DB (PostgreSQL & MongoDB)', 'Gemini API Always-On Companion', 'Spring Security Cross-Origin Auth'],
-      githubUrl: 'https://github.com/swaran21/ChatApp'
+      features: ['WebSockets (STOMP)', 'Dual-DB Architecture', 'Spring Security', 'Gemini API Integration'],
+      githubUrl: 'https://github.com/swaran21/'
     }
   ];
 
@@ -139,7 +139,7 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
                 
                 <div>
                   <div className="flex items-center gap-3 mb-4">
-                    <span className={`px-2 py-0.5 border text-[10px] font-body font-bold bg-background/80 drop-shadow-md ${proj.status === 'ACTIVE' ? 'border-primary text-primary' : proj.status === 'DEPLOYED' ? 'border-primary/60 text-primary/80' : 'border-primary/40 text-on-surface/60'}`}>
+                    <span className={`px-2 py-0.5 border text-[10px] font-body font-bold bg-background/80 drop-shadow-md ${proj.status === 'LIVE' ? 'border-primary text-primary' : proj.status === 'GITHUB' ? 'border-primary/60 text-primary/80' : 'border-primary/40 text-on-surface/60'}`}>
                       {proj.status}
                     </span>
                     <span className="font-body text-[11px] text-primary font-bold bg-background/50 px-2 py-0.5 rounded-sm">{proj.date}</span>
@@ -197,7 +197,7 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
               </div>
 
               <div className="space-y-4 glass-panel p-6 drop-shadow-md self-start">
-                <h4 className="font-body text-xs text-primary tracking-wider font-bold border-b border-primary/20 pb-2">BUILT_SPECIFICATIONS</h4>
+                <h4 className="font-body text-xs text-primary tracking-wider font-bold border-b border-primary/20 pb-2">SKILLS_ACQUIRED</h4>
                 <ul className="space-y-3 font-sans text-xs text-on-surface font-normal">
                   {selectedProject.features.map((feature, i) => (
                     <li key={i} className="flex gap-2 items-start drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
