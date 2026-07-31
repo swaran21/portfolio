@@ -219,6 +219,9 @@ body.theme-blue .scanline {
 body.theme-blue .scanline-static {
   background: linear-gradient(to bottom, transparent 50%, rgba(0, 238, 252, 0.02) 50%);
 }
+body.theme-blue ::-webkit-scrollbar-thumb {
+  background: #005f66;
+}
 body.theme-blue ::-webkit-scrollbar-thumb:hover {
   background: #00eefc;
 }

@@ -107,7 +107,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">EXPERIENCE</span>
-                  <span className="font-body text-xs text-primary font-bold drop-shadow-md">2+ Years</span>
+                  <span className="font-body text-xs text-primary font-bold drop-shadow-md">1+ Years</span>
                 </div>
               </div>
             </div>
@@ -233,7 +233,7 @@ const AresIdentity = ({ setActiveTab }) => {
                     'Focused on enhancing data prediction accuracy over complex datasets.'
                   ]
                 }
-              ].slice(0, showAllExp ? 5 : 3).map((exp, i) => {
+              ].slice(0, showAllExp ? 5 : 4).map((exp, i) => {
                 const isActive = highlightedSkills === exp.relatedSkills;
                 return (
                   <div
