@@ -66,10 +66,10 @@ const AresHero = ({ setActiveTab }) => {
         {/* ─── CINEMATIC INTRO ─── */}
         <div ref={welcomeRef} className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none h-screen drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
           <h1 className="font-display text-4xl md:text-6xl font-bold tracking-[0.3em] uppercase text-on-surface drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-            Welcome to this <span className="text-primary italic drop-shadow-md">World</span>
+            Welcome to my <span className="text-primary italic drop-shadow-md">World</span>
           </h1>
           <div className="mt-12 flex flex-col items-center opacity-80 animate-pulse">
-            <span className="font-label-caps text-[10px] text-primary mb-2 tracking-[0.3em] font-bold bg-background/50 px-2 py-1 rounded">INITIALIZE_SCROLL</span>
+            <span className="font-label-caps text-[10px] text-primary mb-2 tracking-[0.3em] font-bold bg-background/50 px-2 py-1 rounded">SCROLL_TO_EXPLORE</span>
             <div className="w-px h-20 bg-gradient-to-b from-primary to-transparent"></div>
           </div>
         </div>
@@ -85,11 +85,11 @@ const AresHero = ({ setActiveTab }) => {
             </div>
             
             <h1 className="font-display text-5xl md:text-[80px] font-bold tracking-tighter mb-8 leading-tight text-on-surface uppercase parallax-element" data-speed="0.05">
-              MARAM <span className="text-primary drop-shadow-[0_0_15px_rgba(230,57,70,0.4)]">SAI</span> SWARAN
+              MARAM <span className="text-primary">SAI</span> SWARAN
             </h1>
             
             <p className="max-w-2xl mx-auto text-on-surface font-sans text-base md:text-lg mb-12 leading-relaxed bg-background/40 glass-panel p-6 rounded-lg border border-primary/10 parallax-element" data-speed="-0.02">
-              Welcome to my portfolio. I am a <strong>System Architect</strong> specializing in <strong>Distributed Systems</strong>, scalable cloud infrastructures, and high-performance backend engineering using <strong>Java</strong> and <strong>Spring Boot</strong>.
+              Welcome to my portfolio. I am a <strong>Software Engineer</strong> specializing in <strong>Distributed Systems, System Designing, Backend Development</strong>, scalable cloud infrastructures, and high-performance backend engineering using <strong>Java</strong>, <strong>Spring Boot</strong> and <strong>Microservices</strong>.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center parallax-element" data-speed="0.03">
@@ -120,7 +120,7 @@ const AresHero = ({ setActiveTab }) => {
           <div className="absolute top-4 right-4 font-body text-[10px] text-primary/50 font-bold">S/N: 883-CORE</div>
           <span className="material-symbols-outlined text-primary text-5xl mb-8 drop-shadow-md">dns</span>
           
-          <h3 className="font-display text-2xl md:text-3xl text-on-surface mb-4 font-bold uppercase tracking-wide drop-shadow-md">SYSTEM_ARCHITECTURE</h3>
+          <h3 className="font-display text-2xl md:text-3xl text-on-surface mb-4 font-bold uppercase tracking-wide drop-shadow-md">SOFTWARE ENGINEER</h3>
           
           <p className="text-on-surface font-sans text-sm md:text-base mb-8 max-w-xl leading-relaxed opacity-90 drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
             Designing modular backend logic, distributed cloud infrastructures, and high-throughput zero-trust security pipelines for enterprise applications.
@@ -128,25 +128,25 @@ const AresHero = ({ setActiveTab }) => {
           
           <div className="flex flex-wrap gap-3 drop-shadow-md">
             <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">JAVA // SPRING_BOOT</span>
-            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">CLOUD // AWS_GCP</span>
-            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">API_GATEWAYS</span>
+            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">CLOUD // AWS,GCP</span>
+            <span className="px-3 py-1 border border-primary/40 bg-primary/10 text-primary font-body text-[10px] font-bold rounded-sm">MICROSERVICES</span>
           </div>
         </div>
 
         <div className="md:col-span-4 glass-panel p-8 md:p-10 flex flex-col justify-between group">
           <div className="font-body text-xs text-primary/80 mb-8 font-bold drop-shadow-md tracking-wider">BACKEND_LATENCY_OPTIMIZATION</div>
           <div className="drop-shadow-md">
-            <div className="text-5xl md:text-6xl font-display font-bold text-primary leading-none mb-2">0.02ms</div>
-            <p className="text-on-surface font-body text-[10px] tracking-wider uppercase opacity-90 font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">OPTIMIZED_RESPONSE_TIME</p>
+            <div className="text-5xl md:text-6xl font-display font-bold text-primary leading-none mb-2">99.9%</div>
+            <p className="text-on-surface font-body text-[10px] tracking-wider uppercase opacity-90 font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">SERVICE UPTIME & RELIABILITY</p>
           </div>
           
           <div className="mt-8 space-y-2">
             <div className="h-1.5 bg-background border border-primary/30 w-full overflow-hidden rounded-full">
-              <div className="h-full bg-primary w-4/5 glow-sm"></div>
+              <div className="h-full bg-primary w-11/12 glow-sm"></div>
             </div>
             <div className="flex justify-between font-body text-[10px] text-on-surface font-bold drop-shadow-md">
-              <span>BUFF_READY</span>
-              <span>80%_LOAD</span>
+              <span>MONITORED</span>
+              <span>OPTIMIZED</span>
             </div>
           </div>
         </div>
