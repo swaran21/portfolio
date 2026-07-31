@@ -21,8 +21,7 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
       desc: 'Verification-first campus hiring platform serving students, colleges, and recruiters, built as a modular monolith in Fastify/TypeScript.',
       caseStudy: 'Building asynchronous job processing with BullMQ on Redis, sandboxed code execution via self-hosted Judge0, and a FastAPI certificate-verification microservice (QR / URL / credential-ID resolution with issuer domain allow-listing), deployed on AWS (EC2, RDS, S3) with a Next.js frontend on Vercel.',
       features: ['Fastify/TypeScript Modular Monolith', 'BullMQ & Redis Async Processing', 'Self-hosted Judge0 Sandbox', 'FastAPI Certificate Verification', 'AWS (EC2, RDS, S3) Deployment'],
-      liveUrl: 'https://www.recruitx.live/',
-      githubUrl: 'https://github.com/g-aniketh'
+      liveUrl: 'https://www.recruitx.live/'
     },
     {
       serial: '002-BETA',
