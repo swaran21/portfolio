@@ -23,7 +23,7 @@ const AresHeader = ({ activeTab, setActiveTab, onReboot, theme, toggleTheme }) =
         onClick={onReboot}
         className="font-display text-2xl text-primary drop-shadow-md cursor-pointer tracking-tighter select-none hover:opacity-85 transition-opacity font-bold"
       >
-        SWARAN_OS
+        SAI_SWARAN
       </div>
 
       {/* Navigation Shell */}
@@ -58,7 +58,7 @@ const AresHeader = ({ activeTab, setActiveTab, onReboot, theme, toggleTheme }) =
           className="hidden sm:flex border border-primary text-primary px-4 py-2 font-label-caps text-[10px] tracking-[0.25em] font-bold hover:bg-primary hover:text-background transition-all duration-200 active:scale-95 cursor-pointer bg-background/50 items-center gap-2"
         >
           <span className="material-symbols-outlined text-[14px]">palette</span>
-          {theme === 'blue' ? 'CYAN_SYNC' : 'RED_SYNC'}
+          {theme === 'blue' ? 'CYAN_THEME' : 'RED_THEME'}
         </button>
         <button 
           onClick={() => {
@@ -68,7 +68,7 @@ const AresHeader = ({ activeTab, setActiveTab, onReboot, theme, toggleTheme }) =
           onMouseEnter={() => playSound('hover')}
           className="border border-primary text-primary px-6 py-2 font-label-caps text-xs tracking-[0.25em] font-bold hover:bg-primary hover:text-background transition-all duration-200 active:scale-95 cursor-pointer glow-sm bg-background/50"
         >
-          REBOOT_LINK
+          RETURN_HOME
         </button>
       </div>
     </header>

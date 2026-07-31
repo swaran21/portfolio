@@ -89,7 +89,7 @@ const AresHero = ({ setActiveTab }) => {
             </h1>
             
             <p className="max-w-2xl mx-auto text-on-surface font-sans text-base md:text-lg mb-12 leading-relaxed bg-background/40 glass-panel p-6 rounded-lg border border-primary/10 parallax-element" data-speed="-0.02">
-              Welcome to the high-fidelity digital mainframe. I am a <strong>System Architect</strong> specializing in <strong>Distributed Systems</strong>, scalable cloud infrastructures, and high-performance backend engineering using <strong>Java</strong> and <strong>Spring Boot</strong>.
+              Welcome to my portfolio. I am a <strong>System Architect</strong> specializing in <strong>Distributed Systems</strong>, scalable cloud infrastructures, and high-performance backend engineering using <strong>Java</strong> and <strong>Spring Boot</strong>.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center parallax-element" data-speed="0.03">
@@ -98,7 +98,7 @@ const AresHero = ({ setActiveTab }) => {
                 onMouseEnter={() => playSound('hover')}
                 className="w-full sm:w-auto px-12 py-5 border border-primary text-primary font-label-caps text-xs tracking-[0.2em] glass-panel hover:bg-primary hover:text-background hover:glow-primary transition-all duration-300 group cursor-pointer flex items-center justify-center gap-2 font-bold"
               >
-                INITIALIZE_LOGS 
+                VIEW PROJECTS 
                 <span className="material-symbols-outlined text-[16px] align-middle">terminal</span>
               </button>
               
@@ -107,7 +107,7 @@ const AresHero = ({ setActiveTab }) => {
                 onMouseEnter={() => playSound('hover')}
                 className="w-full sm:w-auto px-12 py-5 border border-white/20 text-on-surface font-label-caps text-xs tracking-[0.2em] glass-panel hover:bg-white/10 hover:border-white/50 transition-all duration-300 cursor-pointer font-bold"
               >
-                VIEW_DOSSIER
+                ABOUT ME
               </button>
             </div>
           </div>

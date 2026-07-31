@@ -117,9 +117,9 @@ const AresProjects = ({ setActiveTab, theme = 'red' }) => {
     <div className="w-full relative px-5 md:px-16 max-w-[1400px] mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
       <div className="flex items-center gap-3 mb-3">
         <span className="w-10 h-px bg-primary"></span>
-        <span className="font-body text-[11px] text-primary uppercase tracking-[0.4em] font-bold bg-background/50 px-2 py-0.5">SECTION_003 // PROJECT_ARCHIVE</span>
+        <span className="font-body text-[11px] text-primary uppercase tracking-[0.4em] font-bold bg-background/50 px-2 py-0.5">SECTION_003 // PROJECTS</span>
       </div>
-      <h2 className="font-display text-4xl md:text-6xl font-bold text-on-surface uppercase tracking-tighter mb-16 drop-shadow-md">PROJECT_ARCHIVE</h2>
+      <h2 className="font-display text-4xl md:text-6xl font-bold text-on-surface uppercase tracking-tighter mb-16 drop-shadow-md">PROJECTS</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
         {projects.map((proj) => (

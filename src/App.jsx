@@ -12,6 +12,7 @@ import AresIdentity from './components/ares/AresIdentity';
 import AresProjects from './components/ares/AresProjects';
 import AresStream from './components/ares/AresStream';
 import AresFooter from './components/ares/AresFooter';
+import CursorOverlay from './components/ares/CursorOverlay';
 
 import './App.css';
 
@@ -110,6 +111,8 @@ const App = () => {
   return (
     <div className="min-h-screen bg-transparent text-on-background relative isolate font-body selection:bg-primary selection:text-background" ref={mainRef}>
       
+      <CursorOverlay theme={theme} />
+
       {/* Solid void fallback behind the live WebGL city (shows only if WebGL fails) */}
       <div className="fixed inset-0 -z-50 pointer-events-none bg-[#02040a]"></div>
 

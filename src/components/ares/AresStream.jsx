@@ -30,11 +30,11 @@ const AresStream = () => {
       return;
     }
 
-    setStatus('TRANSMITTING_ENCRYPTED_PACKETS...');
+    setStatus('SENDING_MESSAGE...');
     playSound('transform');
 
     setTimeout(() => {
-      setStatus('TRANSMISSION_EXECUTED // SECURE_SHELL_DISPATCHED');
+      setStatus('MESSAGE_SENT');
       playSound('hover');
       setSentMessages(prev => [
         {
@@ -56,10 +56,10 @@ const AresStream = () => {
     <div className="w-full px-5 md:px-16 max-w-[1400px] mx-auto text-left drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
       <div className="flex items-center gap-3 mb-3">
         <span className="w-10 h-px bg-primary"></span>
-        <span className="font-body text-[11px] text-primary uppercase tracking-[0.4em] font-bold bg-background/50 px-2 py-0.5">SECTION_004 // ESTABLISH_UPLINK</span>
+        <span className="font-body text-[11px] text-primary uppercase tracking-[0.4em] font-bold bg-background/50 px-2 py-0.5">SECTION_004 // CONTACT_ME</span>
       </div>
       <h2 className="font-display text-4xl md:text-6xl font-bold text-on-surface uppercase tracking-tighter mb-16 drop-shadow-md">
-        JOIN_THE <span className="text-primary drop-shadow-[0_0_15px_var(--color-primary)]">FLUX</span>
+        CONTACT ME <span className="text-primary drop-shadow-[0_0_15px_var(--color-primary)]">FLUX</span>
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

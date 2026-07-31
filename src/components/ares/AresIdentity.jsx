@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useSound from '../../hooks/useSound';
+import profileImg from '../../assets/profile-portfolio.png';
 
 const AresIdentity = ({ setActiveTab }) => {
   const { playSound } = useSound();
@@ -27,7 +28,7 @@ const AresIdentity = ({ setActiveTab }) => {
       const element = document.createElement("a");
       const file = new Blob([
         `=========================================\n`,
-        `ARES_SYSTEM // OPERATOR_MARAM_SAI_SWARAN\n`,
+        `PORTFOLIO // MARAM_SAI_SWARAN\n`,
         `=========================================\n\n`,
         `[IDENTITY]\n`,
         `- Operator ID: MARAM_SAI_SWARAN\n`,
@@ -35,7 +36,7 @@ const AresIdentity = ({ setActiveTab }) => {
         `- Education: B.Tech CSE @ Vardhaman College of Engineering\n`,
         `- Academic Metric: 8.38 CGPA\n`,
         `- Timeline: 2023 - 2027\n`,
-        `- Clearance: LEVEL_09_RED\n\n`,
+        `- Experience: 1+ Years\n\n`,
         `[TECHNICAL_SPECIFICATIONS]\n`,
         `- Core Logic (Java, Python, Node.js): 92%\n`,
         `- Frameworks (Spring Boot, React, Next.js): 88%\n`,
@@ -50,7 +51,7 @@ const AresIdentity = ({ setActiveTab }) => {
         `=========================================\n`
       ], { type: 'text/plain' });
       element.href = URL.createObjectURL(file);
-      element.download = "MARAM_SAI_SWARAN_MANIFESTO.txt";
+      element.download = "MARAM_SAI_SWARAN_RESUME.txt";
       document.body.appendChild(element);
       element.click();
       document.body.removeChild(element);
@@ -61,35 +62,35 @@ const AresIdentity = ({ setActiveTab }) => {
     <div className="w-full px-5 md:px-16 max-w-[1400px] mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
       <div className="flex items-center gap-3 mb-3">
         <span className="w-10 h-px bg-primary"></span>
-        <span className="font-body text-[11px] text-primary uppercase tracking-[0.4em] font-bold bg-background/50 px-2 py-0.5">SECTION_002 // OPERATOR_IDENTITY</span>
+        <span className="font-body text-[11px] text-primary uppercase tracking-[0.4em] font-bold bg-background/50 px-2 py-0.5">SECTION_002 // ABOUT_ME</span>
       </div>
-      <h2 className="font-display text-4xl md:text-6xl font-bold text-on-surface uppercase tracking-tighter mb-16 drop-shadow-md">THE_ARCHITECT</h2>
+      <h2 className="font-display text-4xl md:text-6xl font-bold text-on-surface uppercase tracking-tighter mb-16 drop-shadow-md">ABOUT_ME</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
+
         {/* Profile Card */}
         <div className="lg:col-span-5 space-y-8">
           <div className="glass-panel relative p-8 group">
             <div className="absolute top-4 right-4 font-body text-[10px] text-primary/60 font-bold">
               SN: 8842-MS-772
             </div>
-            
+
             <div className="flex flex-col items-center text-center">
               <div className="w-48 h-48 border-2 border-primary glow-sm p-2 mb-6 bg-background/20 rounded-sm">
-                <img 
-                  alt="Maram Sai Swaran" 
-                  className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-500 rounded-sm" 
-                  src="https://gemini.google.com/share/17dae5568938"
+                <img
+                  alt="Maram Sai Swaran"
+                  className="w-full h-full object-cover transition-all duration-500 rounded-sm"
+                  src={profileImg}
                 />
               </div>
-              
+
               <h1 className="font-display text-2xl font-bold text-primary tracking-tighter uppercase mb-2 drop-shadow-md">
                 SAI_SWARAN
               </h1>
               <p className="font-body text-xs text-on-surface tracking-[0.2em] uppercase mb-6 font-bold drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
                 Principal System Architect
               </p>
-              
+
               <div className="w-full border-t border-primary/30 pt-6 space-y-4 text-left">
                 <div className="flex justify-between items-center">
                   <span className="font-body text-[10px] text-on-surface/80 font-bold drop-shadow-md">Vardhaman College</span>
@@ -142,7 +143,7 @@ const AresIdentity = ({ setActiveTab }) => {
         <div className="lg:col-span-7 space-y-8 text-left">
           <div className="glass-panel p-8 md:p-10 relative overflow-hidden h-full">
             <div className="scanline"></div>
-            
+
             <div className="flex items-center gap-4 mb-8">
               <div className="p-2 border border-primary/40 bg-background/20 drop-shadow-md">
                 <span className="material-symbols-outlined text-primary">history_edu</span>
@@ -151,7 +152,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 ACTIVE_PROTOCOLS_TIMELINE
               </h2>
             </div>
-            
+
             <div className="space-y-8">
               {[
                 {
@@ -227,8 +228,8 @@ const AresIdentity = ({ setActiveTab }) => {
               ].map((exp, i) => {
                 const isActive = highlightedSkills === exp.relatedSkills;
                 return (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     onClick={() => handleExperienceClick(exp)}
                     className={`border-l-2 pl-6 relative cursor-pointer transition-all duration-300 py-3 group ${isActive ? 'border-primary bg-primary/10' : 'border-primary/30 hover:bg-background/20'}`}
                   >
@@ -239,11 +240,11 @@ const AresIdentity = ({ setActiveTab }) => {
                     </div>
                     <p className="font-sans text-xs text-on-surface font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)] opacity-90">{exp.log}</p>
                   </div>
-               );
+                );
               })}
-              
+
               <div className="pt-8 border-t border-primary/30 flex flex-col sm:flex-row gap-4">
-                <button 
+                <button
                   onClick={handleDownload}
                   disabled={downloading}
                   onMouseEnter={() => playSound('hover')}
@@ -320,30 +321,30 @@ const AresIdentity = ({ setActiveTab }) => {
       {/* Experience Details Holographic Modal */}
       {selectedExperience && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div 
-            className="absolute inset-0 bg-background/60 backdrop-blur-md cursor-pointer" 
+          <div
+            className="absolute inset-0 bg-background/60 backdrop-blur-md cursor-pointer"
             onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
           ></div>
           <div className="relative glass-panel p-8 md:p-12 max-w-3xl w-full max-h-[85vh] overflow-y-auto animate-in fade-in zoom-in duration-300 glow-sm">
-            <button 
+            <button
               onClick={() => { setSelectedExperience(null); setHighlightedSkills(null); playSound('tick'); }}
               className="absolute top-6 right-6 text-primary hover:text-on-surface transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-3xl drop-shadow-md">close</span>
             </button>
-            
+
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-primary"></span>
               <span className="font-body text-[10px] text-primary uppercase tracking-[0.3em] font-bold">DECRYPTED_LOG_ARCHIVE</span>
             </div>
-            
+
             <h2 className="font-display text-3xl md:text-4xl font-bold text-on-surface uppercase mb-2 drop-shadow-md">
               {selectedExperience.role}
             </h2>
             <h3 className="font-display text-xl md:text-2xl text-primary uppercase mb-8 font-bold drop-shadow-md">
               @ {selectedExperience.org} <span className="text-on-surface/60 text-sm ml-2 font-normal">// {selectedExperience.status}</span>
             </h3>
-            
+
             <div className="space-y-6 font-sans text-sm md:text-base text-on-surface font-normal leading-relaxed drop-shadow-[0_1px_1px_rgba(0,0,0,1)]">
               {selectedExperience.details.map((detail, idx) => (
                 <div key={idx} className="flex gap-4 items-start group">
@@ -352,7 +353,7 @@ const AresIdentity = ({ setActiveTab }) => {
                 </div>
               ))}
             </div>
-            
+
             <div className="mt-10 pt-6 border-t border-primary/30 flex flex-wrap gap-3">
               {selectedExperience.relatedSkills.map(skill => (
                 <span key={skill} className="px-4 py-2 glass-panel border border-primary/40 text-primary font-body text-[10px] tracking-widest uppercase font-bold drop-shadow-md rounded-sm">

@@ -78,7 +78,7 @@ const AresBootScreen = ({ onComplete }) => {
         <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full animate-pulse -z-10"></div>
         
         <div className="font-label-caps text-[10px] text-cyan-400 tracking-[0.4em] animate-pulse drop-shadow-md">
-          UPLINK_READY // AWAITING_COMMAND
+          SYSTEM_READY // AWAITING_INPUT
         </div>
         
         <button
@@ -87,7 +87,7 @@ const AresBootScreen = ({ onComplete }) => {
           className="px-6 py-6 sm:px-10 border border-cyan-400 text-cyan-400 bg-background/60 backdrop-blur-md font-display text-xl sm:text-3xl md:text-4xl tracking-[0.2em] uppercase font-bold hover:bg-cyan-400 hover:text-background hover:shadow-[0_0_30px_rgba(0,255,255,0.8)] transition-all duration-300 cursor-pointer"
           style={{ textShadow: isInitializing ? 'none' : '0 0 10px rgba(0,255,255,0.5)' }}
         >
-          {isInitializing ? 'INITIATING_WARP_DRIVE...' : 'ENTER SWARAN TRON WORLD'}
+          {isInitializing ? 'INITIALIZING_SYSTEM...' : 'ENTER PORTFOLIO'}
         </button>
         
         <div className="font-body text-[9px] sm:text-[10px] text-cyan-400/60 tracking-[0.3em] uppercase drop-shadow-md">

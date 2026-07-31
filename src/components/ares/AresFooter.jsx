@@ -15,10 +15,10 @@ const AresFooter = ({ setActiveTab }) => {
   };
 
   const navLinks = [
-    { id: 'hero', label: 'GRID_HOME' },
-    { id: 'projects', label: 'PROJECT_ARCHIVE' },
-    { id: 'identity', label: 'OPERATOR_DOSSIER' },
-    { id: 'stream', label: 'ESTABLISH_UPLINK' },
+    { id: 'hero', label: 'HOME' },
+    { id: 'projects', label: 'PROJECTS' },
+    { id: 'identity', label: 'ABOUT_ME' },
+    { id: 'stream', label: 'CONTACT_ME' },
   ];
 
   return (
@@ -37,10 +37,10 @@ const AresFooter = ({ setActiveTab }) => {
         {/* Left Side Logo & Version */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-2">
           <div className="font-display text-lg text-primary font-bold tracking-widest drop-shadow-md">
-            SWARAN_OS // MAINFRAME
+            SAI_SWARAN // PORTFOLIO
           </div>
           <p className="font-body text-[10px] text-on-surface/60 uppercase tracking-widest font-bold">
-            © 2026 MARAM SAI SWARAN // PROTOCOL: SECURE_UPLINK
+            © 2026 MARAM SAI SWARAN // ALL RIGHTS RESERVED
           </p>
         </div>
 
